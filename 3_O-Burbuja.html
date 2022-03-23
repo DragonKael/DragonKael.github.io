@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble code</title>
+    <style type="text/css" media="screen">
+        A:link {color: black;  font-family: arial; text-decoration: none }
+        A:hover {color: rgb(12, 151, 175);  font-family: arial; text-decoration: none }
+        A:visited { font-family: arial; text-decoration: none }
+    </style>
+    <script type="text/javascript">
+        function bubble_sort() {
+            var numeros = document.getElementById('numeros').value;
+            let vector = numeros.replace(/, +/g, ",").split(",").map(Number);
+            document.getElementById("Ini").innerHTML = "El arreglo es: " + vector ;
+
+            var iter, perm;
+            perm = true;
+            iter = 0;
+            while (perm === true) {
+                perm = false;
+                iter = iter + 1;
+                for (var a = 0, _pj_a = vector.length - iter; a < _pj_a; a += 1) {
+                    if (vector[a] > vector[a + 1]) {
+                        perm = true;
+                        [vector[a], vector[a + 1]] = [vector[a + 1], vector[a]];
+                    }
+                }
+            }
+            document.getElementById("Res").innerHTML = "El orden es: " + vector ;
+            formulario.reset()
+        }
+    </script>
+</head>
+<body>
+    <body>
+        <!--Formularios en HTML que son procesadas por JS-->
+        <center>
+        <h1>Algoritmo de Ordenamiento de Burbujas</h1>
+        <h2>
+        <form action="javascript:bubble_sort()" id="formulario">
+            <p>Ingrese los números </p><input id="numeros" type="text" placeholder="(ejm: 16,15,20,1)">
+            <input name="Submit" type="submit" value="Ordenar">
+        </form>
+        <p id="Ini"></p>
+        <p id = "Res"></p>
+    </h2>
+    <h1>
+        <a href="./Index.html">Menu</a>
+    </h1>
+        </center>
+    </body>
+</body> 
+</html> 

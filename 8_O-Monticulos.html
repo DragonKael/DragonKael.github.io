@@ -1,0 +1,78 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordenamiento Monticulos</title>
+    <style type="text/css" media="screen">
+      A:link {color: black;  font-family: arial; text-decoration: none }
+      A:hover {color: rgb(12, 151, 175);  font-family: arial; text-decoration: none }
+      A:visited { font-family: arial; text-decoration: none }
+    </style>
+    <script type="text/javascript">
+      var n;
+      function heapAuxiliar(datos, i) {
+          let izquierda = 2 * i + 1;
+          let derecha = 2 * i + 2;
+          let maximo = i;
+
+          if (izquierda < n && datos[izquierda] > datos[maximo]) {
+              maximo = izquierda;
+          }
+
+          if (derecha < n && datos[derecha] > datos[maximo]) {
+              maximo = derecha;
+          }
+
+          if (maximo != i) {
+              [datos[i], datos[maximo]] = [datos[maximo], datos[i]];
+              heapAuxiliar(datos, maximo);
+          }
+      }
+
+      function heapSort(datos) {
+          n = datos.length;
+
+          for (let i = Math.floor(n / 2); i >= 0; --i) {
+              heapAuxiliar(datos, i);
+          }
+
+          for (let i = datos.length - 1; i > 0; --i) {
+              [datos[0], datos[i]] = [datos[i], datos[0]];
+              --n;
+
+              heapAuxiliar(datos, 0);
+          }
+      }
+      function main(){
+        var numeros = document.getElementById('numeros').value;
+        let vector = numeros.replace(/, +/g, ",").split(",").map(Number);
+        document.getElementById("Ini").innerHTML = "El arreglo es: " + vector ;
+
+        heapSort(vector);
+        formulario.reset();   
+
+        document.getElementById("Res").innerHTML = "El orden es: " + vector ;
+      }
+    </script>
+  </head>
+  <body>
+    <!-- formulario en html -->
+    <center>
+      <h1>Ordenamiento por Monticulos</h1>
+      <h2>
+      <form action="javascript:main()" id="formulario">
+        <p>Ingrese los números </p><input id="numeros" type="text" placeholder="(ejm: 16,15,20,1)">
+        <input name="Submit" type="submit" value="Ordenar">
+      </form>
+      <p id="Ini"></p>
+      <p id = "Res"></p>
+  
+      </h2>
+      <h1>
+          <a href="./Index.html">Menu</a>
+      </h1>
+      </center>
+  </body>
+  </html>

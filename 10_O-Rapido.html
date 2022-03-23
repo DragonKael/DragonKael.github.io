@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ordenamiento Rapido</title>
+  <style type="text/css" media="screen">
+    A:link {color: black;  font-family: arial; text-decoration: none }
+    A:hover {color: rgb(12, 151, 175);  font-family: arial; text-decoration: none }
+    A:visited { font-family: arial; text-decoration: none }
+  </style>
+  <script type="text/javascript">
+    // Ejercicio 1428: Implementar el algoritmo de ordenamiento quicksort en una función.
+
+    function quicksort(datos) {
+
+      if (datos.length <= 1) {
+          return datos;
+      }
+
+      let izquierdo = [];
+      let derecha = [];
+      let auxiliar = [];
+      let pivote = datos.pop();
+      let n = datos.length;
+
+      for (let i = 0; i < n; i++) {
+          if (datos[i] <= pivote) {
+              izquierdo.push(datos[i]);
+          } else {
+              derecha.push(datos[i]);
+          }
+      }
+
+      return auxiliar.concat(quicksort(izquierdo), pivote, quicksort(derecha));
+    }
+
+    function main(){
+      var numeros = document.getElementById('numeros').value;
+      let vector = numeros.replace(/, +/g, ",").split(",").map(Number);
+      document.getElementById("Ini").innerHTML = "El arreglo es: " + vector ;
+      let resultado=quicksort(vector);
+      formulario.reset();
+      document.getElementById("Res").innerHTML = "En orden es: " + resultado ;
+    }
+  </script>
+</head>
+<body>
+  <!-- formulario en html -->
+  <center>
+    <h1>Ordenamiento Rapido</h1>
+    <h2>
+      <form action="javascript:main()" id="formulario">
+        <p>Ingrese los números </p><input id="numeros" type="text" placeholder="(ejm: 16,15,20,1)">
+        <input name="Submit" type="submit" value="Ordenar">
+      </form>
+      <p id="Ini"></p>
+      <p id = "Res"></p>
+
+    </h2>
+    <h1>
+      <a href="./Index.html">Menu</a>
+    </h1>
+</center>
+  
+</body>
+</html>
