@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insercion Code</title>
+    <style type="text/css" media="screen">
+        A:link {color: black;  font-family: arial; text-decoration: none }
+        A:hover {color: rgb(12, 151, 175);  font-family: arial; text-decoration: none }
+        A:visited { font-family: arial; text-decoration: none }
+      </style>
+    <script type="text/javascript">
+        function bubbleSort(items) {
+        var length = items.length;  
+        for (var i = 0; i < length; i++) { 
+            for (var j = 0; j < (length - i - 1); j++) { 
+                    if(items[j] > items[j+1]) {
+                            var tmp = items[j]; 
+                    items[j] = items[j+1]; 
+                    items[j+1] = tmp; 
+                    }
+                }        
+            }
+        }
+        function ordenar()
+        {
+            var numeros = document.getElementById('numeros').value;
+            let arr = numeros.replace(/, +/g, ",").split(",").map(Number);
+            document.getElementById("Ini").innerHTML = "El arreglo es: " + arr;
+
+            bubbleSort(arr);
+            console.log(arr);
+            formulario.reset();
+            document.getElementById("Res").innerHTML = "El orden es: " + arr;
+        }   
+    </script>
+</head>
+<body>
+    <center>
+        <!--Formularios en HTML que son procesadas por JS-->
+        <h1>Algoritmo de Ordenamiento por Burbujas Bidireccionales</h1> 
+        <h2>
+        <form action="javascript:ordenar()" id="formulario">
+            <p>Ingrese los números </p><input id="numeros" type="text" placeholder="(ejm: 16,15,20,1)">
+            <input name="Submit" type="submit" value="Ordenar">
+        </form>
+        <p id="Ini"></p>
+        <p id = "Res"></p>
+    
+        </h2>
+        <h1>
+            <a href="./Index.html">Menu</a>
+        </h1>
+    </center>
+</body>
+</html>
