@@ -48,6 +48,7 @@
             font-size: 3rem;
             font-weight: 800;
             background: linear-gradient(135deg, #667eea, #764ba2);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
@@ -184,6 +185,347 @@
             margin-top: 0.3rem;
         }
 
+        /* Equations Section */
+        .equation-section {
+            background: linear-gradient(135deg, #f8f9ff, #e8f0ff);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border: 1px solid rgba(103, 126, 234, 0.2);
+        }
+
+        .equation-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .equation-content {
+            font-family: 'Courier New', monospace;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .equation-main {
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 0.5rem;
+        }
+
+        .equation-details {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        /* Mathematical Symbols */
+        .math-symbol {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Equations Summary Section */
+        .equations-summary {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .equations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .equation-card {
+            background: linear-gradient(135deg, #f8f9ff, #e8f0ff);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(103, 126, 234, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .equation-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .equation-card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Tabs System */
+        .tabs-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tabs-header {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            background: rgba(240, 242, 255, 0.8);
+            border-radius: 16px;
+            padding: 0.5rem;
+            gap: 0.5rem;
+        }
+
+        .tab-button {
+            flex: 1;
+            max-width: 300px;
+            padding: 1rem 1.5rem;
+            border: none;
+            background: transparent;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .tab-button:hover {
+            background: rgba(103, 126, 234, 0.1);
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 8px 20px rgba(103, 126, 234, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-model-card {
+            background: linear-gradient(135deg, #f8f9ff, #e8f0ff);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid rgba(103, 126, 234, 0.2);
+        }
+
+        .tab-model-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .tab-model-icon {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tab-dataset-info {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .tab-dataset-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .tab-metrics-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .tab-equation-large {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .tab-equation-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .tab-equation-formula {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .tab-equation-interpretation {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* Code Section */
+        .code-section {
+            background: #1e1e1e;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border: 1px solid #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .code-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .code-title {
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            overflow-x: auto;
+            border-left: 3px solid #667eea;
+        }
+
+        .code-python {
+            color: #ffffff;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-keyword {
+            color: #569cd6;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        .code-number {
+            color: #b5cea8;
+        }
+
+        .code-function {
+            color: #dcdcaa;
+        }
+
+        .code-description {
+            color: #cccccc;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+
+        .code-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .code-tab {
+            background: #333;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 8px 8px 0 0;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .code-tab.active {
+            background: #667eea;
+        }
+
+        .code-content {
+            display: none;
+        }
+
+        .code-content.active {
+            display: block;
+        }
+
+        .highlight-line {
+            background: rgba(103, 126, 234, 0.1);
+            border-left: 3px solid #667eea;
+            padding-left: 0.5rem;
+            margin: 0.2rem 0;
+        }
+
         /* Comparison Section */
         .comparison-section {
             background: rgba(255, 255, 255, 0.95);
@@ -292,6 +634,64 @@
             .model-card {
                 padding: 1.5rem;
             }
+
+            .tabs-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .tab-button {
+                max-width: none;
+                font-size: 0.9rem;
+                padding: 0.8rem 1rem;
+            }
+
+            .tab-model-title {
+                font-size: 2rem;
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .tab-model-icon {
+                font-size: 2.5rem;
+            }
+
+            .tab-metrics-section {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .tab-equation-formula {
+                font-size: 0.95rem;
+            }
+
+            .tabs-container {
+                padding: 1rem;
+            }
+
+            .code-section {
+                padding: 1rem;
+            }
+
+            .code-tabs {
+                flex-direction: column;
+                gap: 0.3rem;
+            }
+
+            .code-tab {
+                padding: 0.7rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .code-block {
+                font-size: 0.8rem;
+                padding: 0.8rem;
+            }
+
+            .code-title {
+                font-size: 1rem;
+            }
         }
 
         /* Animations */
@@ -347,92 +747,494 @@
     </header>
 
     <main class="container">
-        <!-- Models Grid -->
-        <section class="models-grid">
-            <!-- Linear Regression -->
-            <div class="model-card linear">
-                <h2 class="model-title">
-                    <div class="model-icon">📈</div>
-                    Regresión Lineal
-                </h2>
-                <div class="dataset-info">
-                    <div class="dataset-name">Dataset: Insurance (Medical Cost Personal)</div>
-                    <p>Predicción de costos médicos basada en características demográficas y de estilo de vida.</p>
-                </div>
-                <p><strong>Variables:</strong> Edad, IMC, hijos, sexo, hábito de fumar, región</p>
-                <p><strong>Target:</strong> Costos médicos (charges)</p>
-                <div class="metrics-grid">
-                    <div class="metric-item">
-                        <div class="metric-value">0.7836</div>
-                        <div class="metric-label">R²</div>
+        <!-- Tabs System for Models -->
+        <section class="tabs-container">
+            <div class="tabs-header">
+                <button class="tab-button active" onclick="openTab(event, 'linear-tab')">
+                    📈 Regresión Lineal
+                </button>
+                <button class="tab-button" onclick="openTab(event, 'polynomial-tab')">
+                    📊 Regresión Polinomial
+                </button>
+                <button class="tab-button" onclick="openTab(event, 'logistic-tab')">
+                    🎯 Regresión Logística
+                </button>
+            </div>
+
+            <!-- Linear Regression Tab -->
+            <div id="linear-tab" class="tab-content active">
+                <div class="tab-model-card">
+                    <h2 class="tab-model-title">
+                        <div class="tab-model-icon">📈</div>
+                        Regresión Lineal
+                    </h2>
+                    
+                    <div class="tab-dataset-info">
+                        <div class="tab-dataset-name">Dataset: Insurance (Medical Cost Personal)</div>
+                        <p>Predicción de costos médicos basada en características demográficas y de estilo de vida. Este modelo utiliza regresión lineal múltiple para establecer relaciones directas entre las variables predictoras y el costo de seguros médicos.</p>
+                        <p><strong>Variables:</strong> Edad, IMC, número de hijos, sexo, hábito de fumar, región</p>
+                        <p><strong>Target:</strong> Costos médicos (charges)</p>
                     </div>
-                    <div class="metric-item">
-                        <div class="metric-value">5,796</div>
-                        <div class="metric-label">RMSE</div>
+
+                    <div class="tab-metrics-section">
+                        <div class="metrics-grid">
+                            <div class="metric-item">
+                                <div class="metric-value">0.7836</div>
+                                <div class="metric-label">R²</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">5,796</div>
+                                <div class="metric-label">RMSE</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">33.6M</div>
+                                <div class="metric-label">MSE</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">78.36%</div>
+                                <div class="metric-label">Varianza Explicada</div>
+                            </div>
+                        </div>
+
+                        <div class="tab-equation-large">
+                            <div class="tab-equation-title">📐 Ecuación del Modelo</div>
+                            <div class="tab-equation-formula">
+                                charges = -6,118 + 221×edad + 332×IMC + 563×hijos<br>
+                                + efectos categóricos (sexo, fumador, región)
+                            </div>
+                            <div class="tab-equation-interpretation">
+                                <strong>Interpretación:</strong><br>
+                                • Por cada año adicional de edad: +$221<br>
+                                • Por cada punto de IMC: +$332<br>
+                                • Por cada hijo adicional: +$563<br>
+                                • Los fumadores tienen costos significativamente mayores
+                            </div>
+                        </div>
                     </div>
-                    <div class="metric-item">
-                        <div class="metric-value">33.6M</div>
-                        <div class="metric-label">MSE</div>
+
+                    <div class="code-section">
+                        <div class="code-title">
+                            💻 Código Principal - Regresión Lineal
+                        </div>
+                        
+                        <div class="code-tabs">
+                            <div class="code-tab active" onclick="showCodeTab(event, 'linear-imports')">Imports & Data</div>
+                            <div class="code-tab" onclick="showCodeTab(event, 'linear-preprocessing')">Preprocessing</div>
+                            <div class="code-tab" onclick="showCodeTab(event, 'linear-model')">Modelo & Métricas</div>
+                        </div>
+
+                        <div id="linear-imports" class="code-content active">
+                            <div class="code-block">
+                                <div class="code-python">
+<span class="code-comment"># Imports principales</span>
+<span class="code-keyword">import</span> pandas <span class="code-keyword">as</span> pd
+<span class="code-keyword">from</span> sklearn.model_selection <span class="code-keyword">import</span> train_test_split
+<span class="code-keyword">from</span> sklearn.linear_model <span class="code-keyword">import</span> <span class="code-function">LinearRegression</span>
+<span class="code-keyword">from</span> sklearn.preprocessing <span class="code-keyword">import</span> <span class="code-function">StandardScaler</span>, <span class="code-function">OneHotEncoder</span>
+<span class="code-keyword">from</span> sklearn.compose <span class="code-keyword">import</span> <span class="code-function">ColumnTransformer</span>
+<span class="code-keyword">from</span> sklearn.metrics <span class="code-keyword">import</span> mean_squared_error, r2_score
+
+<span class="code-comment"># Cargar datos</span>
+df = pd.<span class="code-function">read_csv</span>(<span class="code-string">"Data/insurance.csv"</span>)
+y = df[<span class="code-string">"charges"</span>]
+X = df.<span class="code-function">drop</span>(columns=[<span class="code-string">"charges"</span>])
+                                </div>
+                                <div class="code-description">
+                                    Configuración inicial: importación de librerías y carga del dataset de seguros médicos.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="linear-preprocessing" class="code-content">
+                            <div class="code-block">
+                                <div class="code-python">
+<span class="code-comment"># Definir columnas</span>
+num_cols = [<span class="code-string">"age"</span>, <span class="code-string">"bmi"</span>, <span class="code-string">"children"</span>]
+cat_cols = [<span class="code-string">"sex"</span>, <span class="code-string">"smoker"</span>, <span class="code-string">"region"</span>]
+
+<span class="code-comment"># Pipeline de preprocesamiento</span>
+<div class="highlight-line">preprocessor = <span class="code-function">ColumnTransformer</span>([
+    (<span class="code-string">"num"</span>, <span class="code-function">StandardScaler</span>(), num_cols),
+    (<span class="code-string">"cat"</span>, <span class="code-function">OneHotEncoder</span>(drop=<span class="code-string">"first"</span>), cat_cols)
+])</div>
+
+<span class="code-comment"># División de datos</span>
+X_train, X_test, y_train, y_test = <span class="code-function">train_test_split</span>(
+    X, y, test_size=<span class="code-number">0.2</span>, random_state=<span class="code-number">42</span>
+)
+                                </div>
+                                <div class="code-description">
+                                    Preprocesamiento de datos: escalado de variables numéricas y codificación one-hot de categóricas.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="linear-model" class="code-content">
+                            <div class="code-block">
+                                <div class="code-python">
+<span class="code-comment"># Crear y entrenar modelo</span>
+<div class="highlight-line">model = <span class="code-function">Pipeline</span>([
+    (<span class="code-string">"preprocessor"</span>, preprocessor),
+    (<span class="code-string">"regressor"</span>, <span class="code-function">LinearRegression</span>())
+])</div>
+
+model.<span class="code-function">fit</span>(X_train, y_train)
+
+<span class="code-comment"># Predicciones y evaluación</span>
+y_pred = model.<span class="code-function">predict</span>(X_test)
+<div class="highlight-line">r2 = <span class="code-function">r2_score</span>(y_test, y_pred)  <span class="code-comment"># 0.7836</span>
+rmse = np.<span class="code-function">sqrt</span>(<span class="code-function">mean_squared_error</span>(y_test, y_pred))</div>
+
+<span class="code-function">print</span>(<span class="code-string">f"R² Score: {r2:.4f}"</span>)
+<span class="code-function">print</span>(<span class="code-string">f"RMSE: {rmse:.2f}"</span>)
+                                </div>
+                                <div class="code-description">
+                                    Entrenamiento del modelo de regresión lineal y evaluación de métricas de rendimiento.
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Polynomial Regression -->
-            <div class="model-card polynomial">
-                <h2 class="model-title">
-                    <div class="model-icon">📊</div>
-                    Regresión Polinomial
-                </h2>
-                <div class="dataset-info">
-                    <div class="dataset-name">Dataset: Students Performance in Exams</div>
-                    <p>Predicción de puntuación en matemáticas usando características polinomiales de grado 3.</p>
-                </div>
-                <p><strong>Variables:</strong> Puntuaciones en lectura y escritura, variables socioeconómicas</p>
-                <p><strong>Target:</strong> Puntuación en matemáticas (math_score)</p>
-                <div class="metrics-grid">
-                    <div class="metric-item">
-                        <div class="metric-value">0.8815</div>
-                        <div class="metric-label">R²</div>
+            <!-- Polynomial Regression Tab -->
+            <div id="polynomial-tab" class="tab-content">
+                <div class="tab-model-card">
+                    <h2 class="tab-model-title">
+                        <div class="tab-model-icon">📊</div>
+                        Regresión Polinomial
+                    </h2>
+                    
+                    <div class="tab-dataset-info">
+                        <div class="tab-dataset-name">Dataset: Students Performance in Exams</div>
+                        <p>Predicción de puntuación en matemáticas usando características polinomiales de grado 3. Este modelo captura relaciones no lineales complejas entre las puntuaciones de diferentes materias y factores socioeconómicos.</p>
+                        <p><strong>Variables:</strong> Puntuaciones en lectura y escritura, nivel educativo de padres, almuerzo, curso de preparación</p>
+                        <p><strong>Target:</strong> Puntuación en matemáticas (math_score)</p>
                     </div>
-                    <div class="metric-item">
-                        <div class="metric-value">5.37</div>
-                        <div class="metric-label">RMSE</div>
+
+                    <div class="tab-metrics-section">
+                        <div class="metrics-grid">
+                            <div class="metric-item">
+                                <div class="metric-value">0.8815</div>
+                                <div class="metric-label">R²</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">5.37</div>
+                                <div class="metric-label">RMSE</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">28.84</div>
+                                <div class="metric-label">MSE</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">88.15%</div>
+                                <div class="metric-label">Varianza Explicada</div>
+                            </div>
+                        </div>
+
+                        <div class="tab-equation-large">
+                            <div class="tab-equation-title">📊 Ecuación Polinomial (Grado 3)</div>
+                            <div class="tab-equation-formula">
+                                math_score = 8.9 + 0.90×escritura - 0.07×lectura<br>
+                                + 0.010×lectura² - 0.010×lectura×escritura<br>
+                                + 0.001×escritura² + términos cúbicos
+                            </div>
+                            <div class="tab-equation-interpretation">
+                                <strong>Características:</strong><br>
+                                • Captura relaciones no lineales complejas<br>
+                                • Interacciones entre variables académicas<br>
+                                • Términos cuadráticos y cúbicos<br>
+                                • El mejor rendimiento de los tres modelos
+                            </div>
+                        </div>
                     </div>
-                    <div class="metric-item">
-                        <div class="metric-value">28.84</div>
-                        <div class="metric-label">MSE</div>
+
+                    <div class="code-section">
+                        <div class="code-title">
+                            💻 Código Principal - Regresión Polinomial
+                        </div>
+                        
+                        <div class="code-tabs">
+                            <div class="code-tab active" onclick="showCodeTab(event, 'poly-imports')">Imports & Data</div>
+                            <div class="code-tab" onclick="showCodeTab(event, 'poly-features')">Características Polinomiales</div>
+                            <div class="code-tab" onclick="showCodeTab(event, 'poly-model')">Modelo & Resultados</div>
+                        </div>
+
+                        <div id="poly-imports" class="code-content active">
+                            <div class="code-block">
+                                <div class="code-python">
+<span class="code-comment"># Imports para regresión polinomial</span>
+<span class="code-keyword">import</span> pandas <span class="code-keyword">as</span> pd
+<span class="code-keyword">from</span> sklearn.preprocessing <span class="code-keyword">import</span> <span class="code-function">PolynomialFeatures</span>
+<span class="code-keyword">from</span> sklearn.linear_model <span class="code-keyword">import</span> <span class="code-function">LinearRegression</span>
+<span class="code-keyword">from</span> sklearn.pipeline <span class="code-keyword">import</span> <span class="code-function">Pipeline</span>
+
+<span class="code-comment"># Cargar datos de estudiantes</span>
+df = pd.<span class="code-function">read_csv</span>(<span class="code-string">"Data/StudentsPerformance.csv"</span>)
+df.columns = [c.strip().lower().replace(<span class="code-string">" "</span>, <span class="code-string">"_"</span>) <span class="code-keyword">for</span> c <span class="code-keyword">in</span> df.columns]
+
+<span class="code-comment"># Variables objetivo</span>
+y = df[<span class="code-string">"math_score"</span>]
+X = df.<span class="code-function">drop</span>(columns=[<span class="code-string">"math_score"</span>])
+                                </div>
+                                <div class="code-description">
+                                    Configuración para regresión polinomial con el dataset de rendimiento estudiantil.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="poly-features" class="code-content">
+                            <div class="code-block">
+                                <div class="code-python">
+<span class="code-comment"># Características polinomiales de grado 3</span>
+<div class="highlight-line">poly_features = <span class="code-function">PolynomialFeatures</span>(
+    degree=<span class="code-number">3</span>, 
+    include_bias=<span class="code-keyword">False</span>
+)</div>
+
+<span class="code-comment"># Pipeline de preprocesamiento</span>
+numeric_pipe = <span class="code-function">Pipeline</span>([
+    (<span class="code-string">"scaler"</span>, <span class="code-function">StandardScaler</span>()),
+    (<span class="code-string">"poly"</span>, poly_features)
+])
+
+<span class="code-comment"># Separar variables numéricas y categóricas</span>
+num_cols = [c <span class="code-keyword">for</span> c <span class="code-keyword">in</span> X.columns <span class="code-keyword">if</span> <span class="code-string">"score"</span> <span class="code-keyword">in</span> c]
+cat_cols = [c <span class="code-keyword">for</span> c <span class="code-keyword">in</span> X.columns <span class="code-keyword">if</span> c <span class="code-keyword">not in</span> num_cols]
+                                </div>
+                                <div class="code-description">
+                                    Creación de características polinomiales de grado 3 para capturar relaciones no lineales.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="poly-model" class="code-content">
+                            <div class="code-block">
+                                <div class="code-python">
+<span class="code-comment"># Modelo completo con características polinomiales</span>
+<div class="highlight-line">model = <span class="code-function">Pipeline</span>([
+    (<span class="code-string">"preprocessor"</span>, preprocessor),
+    (<span class="code-string">"regressor"</span>, <span class="code-function">LinearRegression</span>())
+])</div>
+
+<span class="code-comment"># Entrenamiento</span>
+model.<span class="code-function">fit</span>(X_train, y_train)
+
+<span class="code-comment"># Evaluación</span>
+y_pred = model.<span class="code-function">predict</span>(X_test)
+<div class="highlight-line">r2 = <span class="code-function">r2_score</span>(y_test, y_pred)  <span class="code-comment"># 0.8815</span>
+rmse = np.<span class="code-function">sqrt</span>(<span class="code-function">mean_squared_error</span>(y_test, y_pred))</div>
+
+<span class="code-function">print</span>(<span class="code-string">f"R² Score: {r2:.4f}"</span>)  
+<span class="code-function">print</span>(<span class="code-string">f"Características generadas: {X_transformed.shape[1]}"</span>)
+                                </div>
+                                <div class="code-description">
+                                    El modelo polinomial logra un R² de 0.8815, capturando relaciones complejas entre variables.
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Logistic Regression -->
-            <div class="model-card logistic">
-                <h2 class="model-title">
-                    <div class="model-icon">🎯</div>
-                    Regresión Logística
-                </h2>
-                <div class="dataset-info">
-                    <div class="dataset-name">Dataset: Breast Cancer Wisconsin (Diagnostic)</div>
-                    <p>Clasificación binaria para determinar si un tumor es maligno o benigno.</p>
+            <!-- Logistic Regression Tab -->
+            <div id="logistic-tab" class="tab-content">
+                <div class="tab-model-card">
+                    <h2 class="tab-model-title">
+                        <div class="tab-model-icon">🎯</div>
+                        Regresión Logística
+                    </h2>
+                    
+                    <div class="tab-dataset-info">
+                        <div class="tab-dataset-name">Dataset: Breast Cancer Wisconsin (Diagnostic)</div>
+                        <p>Clasificación binaria para determinar si un tumor es maligno o benigno. Este modelo utiliza la función logística para calcular probabilidades de malignidad basándose en características morfológicas de núcleos celulares.</p>
+                        <p><strong>Variables:</strong> Radio, textura, perímetro, área, suavidad, compacidad, concavidad, puntos cóncavos, simetría, dimensión fractal</p>
+                        <p><strong>Target:</strong> Diagnóstico (Maligno/Benigno)</p>
+                    </div>
+
+                    <div class="tab-metrics-section">
+                        <div class="metrics-grid">
+                            <div class="metric-item">
+                                <div class="metric-value">96.49%</div>
+                                <div class="metric-label">Accuracy</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">97.50%</div>
+                                <div class="metric-label">Precision</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">92.86%</div>
+                                <div class="metric-label">Recall</div>
+                            </div>
+                            <div class="metric-item">
+                                <div class="metric-value">99.60%</div>
+                                <div class="metric-label">ROC-AUC</div>
+                            </div>
+                        </div>
+
+                        <div class="tab-equation-large">
+                            <div class="tab-equation-title">🎯 Ecuación Logística</div>
+                            <div class="tab-equation-formula">
+                                P(Maligno) = 1 / (1 + e^(-logit(P)))<br><br>
+                                logit(P) = -0.71 + 1.13×radio + 1.34×textura<br>
+                                + 1.70×perímetro + 1.39×área + 1.64×suavidad
+                            </div>
+                            <div class="tab-equation-interpretation">
+                                <strong>Función Sigmoide:</strong><br>
+                                • Probabilidad entre 0 y 1<br>
+                                • Clasificación binaria médica<br>
+                                • Interpretación probabilística<br>
+                                • Excelente precisión diagnóstica (96.49%)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="code-section">
+                        <div class="code-title">
+                            💻 Código Principal - Regresión Logística
+                        </div>
+                        
+                        <div class="code-tabs">
+                            <div class="code-tab active" onclick="showCodeTab(event, 'logistic-imports')">Imports & Data</div>
+                            <div class="code-tab" onclick="showCodeTab(event, 'logistic-preprocessing')">Preprocesamiento</div>
+                            <div class="code-tab" onclick="showCodeTab(event, 'logistic-model')">Clasificación & Métricas</div>
+                        </div>
+
+                        <div id="logistic-imports" class="code-content active">
+                            <div class="code-block">
+                                <div class="code-python">
+<span class="code-comment"># Imports para clasificación</span>
+<span class="code-keyword">import</span> pandas <span class="code-keyword">as</span> pd
+<span class="code-keyword">from</span> sklearn.linear_model <span class="code-keyword">import</span> <span class="code-function">LogisticRegression</span>
+<span class="code-keyword">from</span> sklearn.preprocessing <span class="code-keyword">import</span> <span class="code-function">StandardScaler</span>
+<span class="code-keyword">from</span> sklearn.metrics <span class="code-keyword">import</span> accuracy_score, precision_score, 
+                                recall_score, roc_auc_score
+
+<span class="code-comment"># Cargar datos de cáncer de mama</span>
+df = pd.<span class="code-function">read_csv</span>(<span class="code-string">"Data/data.csv"</span>)
+
+<span class="code-comment"># Limpiar datos</span>
+<span class="code-keyword">if</span> <span class="code-string">"id"</span> <span class="code-keyword">in</span> df.columns:
+    df = df.<span class="code-function">drop</span>(columns=[<span class="code-string">"id"</span>])
+                                </div>
+                                <div class="code-description">
+                                    Configuración para clasificación binaria con el dataset de cáncer de mama de Wisconsin.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="logistic-preprocessing" class="code-content">
+                            <div class="code-block">
+                                <div class="code-python">
+<span class="code-comment"># Preparar variables objetivo</span>
+<div class="highlight-line">y = df[<span class="code-string">"diagnosis"</span>].<span class="code-function">map</span>({<span class="code-string">"M"</span>: <span class="code-number">1</span>, <span class="code-string">"B"</span>: <span class="code-number">0</span>})  <span class="code-comment"># Maligno=1, Benigno=0</span></div>
+X = df.<span class="code-function">drop</span>(columns=[<span class="code-string">"diagnosis"</span>])
+
+<span class="code-comment"># Pipeline con escalado</span>
+<div class="highlight-line">model = <span class="code-function">Pipeline</span>([
+    (<span class="code-string">"scaler"</span>, <span class="code-function">StandardScaler</span>()),
+    (<span class="code-string">"logreg"</span>, <span class="code-function">LogisticRegression</span>(max_iter=<span class="code-number">1000</span>))
+])</div>
+
+<span class="code-comment"># División de datos</span>
+X_train, X_test, y_train, y_test = <span class="code-function">train_test_split</span>(
+    X, y, test_size=<span class="code-number">0.2</span>, random_state=<span class="code-number">42</span>
+)
+                                </div>
+                                <div class="code-description">
+                                    Codificación de la variable objetivo y escalado de características para optimizar la convergencia.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="logistic-model" class="code-content">
+                            <div class="code-block">
+                                <div class="code-python">
+<span class="code-comment"># Entrenamiento del modelo</span>
+model.<span class="code-function">fit</span>(X_train, y_train)
+
+<span class="code-comment"># Predicciones</span>
+y_pred = model.<span class="code-function">predict</span>(X_test)
+y_pred_proba = model.<span class="code-function">predict_proba</span>(X_test)[:, <span class="code-number">1</span>]
+
+<span class="code-comment"># Métricas de clasificación</span>
+<div class="highlight-line">accuracy = <span class="code-function">accuracy_score</span>(y_test, y_pred)      <span class="code-comment"># 96.49%</span>
+precision = <span class="code-function">precision_score</span>(y_test, y_pred)    <span class="code-comment"># 97.50%</span>
+recall = <span class="code-function">recall_score</span>(y_test, y_pred)         <span class="code-comment"># 92.86%</span>
+roc_auc = <span class="code-function">roc_auc_score</span>(y_test, y_pred_proba)  <span class="code-comment"># 99.60%</span></div>
+
+<span class="code-function">print</span>(<span class="code-string">f"Accuracy: {accuracy:.4f}"</span>)
+<span class="code-function">print</span>(<span class="code-string">f"ROC-AUC: {roc_auc:.4f}"</span>)
+                                </div>
+                                <div class="code-description">
+                                    Excelente rendimiento en clasificación médica con 96.49% de precisión diagnóstica.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <p><strong>Variables:</strong> Radio, textura, perímetro, área, suavidad, concavidad, simetría</p>
-                <p><strong>Target:</strong> Diagnóstico (Maligno/Benigno)</p>
-                <div class="metrics-grid">
-                    <div class="metric-item">
-                        <div class="metric-value">96.49%</div>
-                        <div class="metric-label">Accuracy</div>
+            </div>
+        </section>
+
+        <!-- Equations Summary -->
+        <section class="equations-summary">
+            <h2 class="section-title">📐 Resumen de Ecuaciones Matemáticas</h2>
+            <p style="text-align: center; margin-bottom: 2rem; color: #666; font-size: 1.1rem;">
+                Ecuaciones resultantes de cada modelo de aprendizaje supervisado
+            </p>
+            
+            <div class="equations-grid">
+                <div class="equation-card">
+                    <div class="equation-card-title">
+                        📈 Regresión Lineal
                     </div>
-                    <div class="metric-item">
-                        <div class="metric-value">97.50%</div>
-                        <div class="metric-label">Precision</div>
+                    <div class="equation-content">
+                        <div class="equation-main">
+                            charges = -6,118 + 221×edad + 332×IMC + 563×hijos
+                        </div>
+                        <div class="equation-details">
+                            <strong>Interpretación:</strong><br>
+                            • Por cada año adicional de edad: +$221<br>
+                            • Por cada punto de IMC: +$332<br>
+                            • Por cada hijo adicional: +$563<br>
+                            • R² = 0.7836 (78.36% de varianza explicada)
+                        </div>
                     </div>
-                    <div class="metric-item">
-                        <div class="metric-value">92.86%</div>
-                        <div class="metric-label">Recall</div>
+                </div>
+
+                <div class="equation-card">
+                    <div class="equation-card-title">
+                        📊 Regresión Polinomial
                     </div>
-                    <div class="metric-item">
-                        <div class="metric-value">99.60%</div>
-                        <div class="metric-label">ROC-AUC</div>
+                    <div class="equation-content">
+                        <div class="equation-main">
+                            math_score = 8.9 + 0.90×escritura - 0.07×lectura
+                        </div>
+                        <div class="equation-details">
+                            + 0.010×lectura² - 0.010×lectura×escritura + 0.001×escritura²<br>
+                            <strong>Características:</strong><br>
+                            • Captura relaciones no lineales (grado 3)<br>
+                            • Interacciones entre variables<br>
+                            • R² = 0.8815 (88.15% de varianza explicada)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="equation-card">
+                    <div class="equation-card-title">
+                        🎯 Regresión Logística
+                    </div>
+                    <div class="equation-content">
+                        <div class="equation-main">
+                            P(Maligno) = 1 / (1 + e^(-logit(P)))
+                        </div>
+                        <div class="equation-details">
+                            logit(P) = -0.71 + 1.13×radio + 1.34×textura + 1.70×perímetro<br>
+                            <strong>Función Sigmoide:</strong><br>
+                            • Probabilidad entre 0 y 1<br>
+                            • Clasificación binaria (Maligno/Benigno)<br>
+                            • Accuracy = 96.49%
+                        </div>
                     </div>
                 </div>
             </div>
@@ -490,7 +1292,7 @@
                 <p>La <strong>Regresión Logística</strong> demostró excelente capacidad de clasificación con 96.49% de accuracy y 99.60% de ROC-AUC en diagnóstico médico.</p>
             </div>
             <div class="insight-card">
-                <div class="insight-icon">⚖️</div>
+                <div class="insight-icon">⚖</div>
                 <h3>Equilibrio Eficacia</h3>
                 <p>La <strong>Regresión Lineal</strong> ofreció un rendimiento sólido (R²=0.7836) con simplicidad interpretativa para predicciones de costos médicos.</p>
             </div>
@@ -505,9 +1307,48 @@
     </footer>
 
     <script>
+        // Tab functionality
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            
+            // Hide all tab contents
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
+            
+            // Remove active class from all tab buttons
+            tablinks = document.getElementsByClassName("tab-button");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            
+            // Show the selected tab and mark button as active
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Code tab functionality
+        function showCodeTab(evt, tabName) {
+            // Get the parent code section
+            const codeSection = evt.target.closest('.code-section');
+            
+            // Hide all code contents in this section
+            const codeContents = codeSection.querySelectorAll('.code-content');
+            codeContents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all code tabs in this section
+            const codeTabs = codeSection.querySelectorAll('.code-tab');
+            codeTabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected content and mark tab as active
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+
         // Smooth scroll animation
         document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.model-card, .insight-card');
+            const cards = document.querySelectorAll('.model-card, .insight-card, .equation-card, .tab-model-card');
             
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {
@@ -533,6 +1374,37 @@
                 item.addEventListener('mouseleave', function() {
                     this.style.background = 'rgba(255, 255, 255, 0.8)';
                 });
+            });
+
+            // Add hover effects to equation sections
+            const equationSections = document.querySelectorAll('.equation-section, .equation-card, .tab-equation-large');
+            equationSections.forEach(section => {
+                section.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                    this.style.boxShadow = '0 8px 20px rgba(103, 126, 234, 0.15)';
+                });
+                section.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '';
+                });
+            });
+
+            // Add keyboard navigation for tabs
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                    const activeTab = document.querySelector('.tab-button.active');
+                    const allTabs = Array.from(document.querySelectorAll('.tab-button'));
+                    const currentIndex = allTabs.indexOf(activeTab);
+                    
+                    let nextIndex;
+                    if (e.key === 'ArrowRight') {
+                        nextIndex = (currentIndex + 1) % allTabs.length;
+                    } else {
+                        nextIndex = (currentIndex - 1 + allTabs.length) % allTabs.length;
+                    }
+                    
+                    allTabs[nextIndex].click();
+                }
             });
         });
     </script>
