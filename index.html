@@ -400,1102 +400,1667 @@
   <script>
     // Datos de ejemplo extraídos del PDF (solo algunos para demostración)
     const courses = [
-        // PLAN 2016 - Página 1
-        {
-          code: "SIS072",
-          section: "7A",
-          cycle: "07",
-          name: "MODELOS ESTOCASTICOS",
-          category: "EBE",
-          credits: 3.00,
-          prerequisite: "STD008",
-          schedule: {
-            mar: "09-11"
-          },
-          classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
-          teacher: "SERNAQUE FERNANDEZ PAULA BENANCIA",
-          type: "DIRIGIDO",
-          plan: "2016"
+      {
+        code: "SIS072",
+        section: "7A",
+        cycle: "07",
+        name: "MODELOS ESTOCASTICOS",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "STD008",
+        schedule: {
+          mar: "09-11",
         },
-        {
-          code: "SIS018",
-          section: "8A",
-          cycle: "08",
-          name: "MODELACION Y SIMULACION DE SISTEMAS",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "SIS072",
-          schedule: {
-            mar: "09-11"
-          },
-          classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
-          teacher: "MEZA APARICIO ROXANA",
-          type: "DIRIGIDO",
-          plan: "2016"
+        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
+        teacher: "SERNAQUE FERNANDEZ PAULA BENANCIA",
+        type: "DIRIGIDO",
+        plan: "2016"
+      },
+      {
+        code: "SIS018",
+        section: "8A",
+        cycle: "08",
+        name: "MODELACION Y SIMULACION DE SISTEMAS",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS072",
+        schedule: {
+          lun: "09-11",
         },
-        {
-          code: "SIS074",
-          section: "9A",
-          cycle: "09",
-          name: "GESTION DE PROYECTOS DE SISTEMAS",
-          category: "EFE",
-          credits: 3.00,
-          prerequisite: "SIS022",
-          schedule: {
-            mar: "14-16"
-          },
-          classroom: "",
-          teacher: "MOREANO CORDOVA JAVIER",
-          type: "DIRIGIDO",
-          plan: "2016"
+        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
+        teacher: "MEZA APARICIO ROXANA",
+        type: "DIRIGIDO",
+        plan: "2016"
+      },
+      {
+        code: "SIS074",
+        section: "9A",
+        cycle: "09",
+        name: "GESTION DE PROYECTOS DE SISTEMAS",
+        category: "EFE",
+        credits: 3.0,
+        prerequisite: "SIS022",
+        schedule: {
+          lun: "14-16",
         },
-        {
-          code: "SIS064",
-          section: "10A",
-          cycle: "10",
-          name: "INGENIERIA DE LA INFORMACION",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "170 Cred.",
-          schedule: {
-            lun: "07-09"
-          },
-          classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
-          teacher: "ARDLES ROMERO VELIA",
-          type: "DIRIGIDO",
-          plan: "2016"
+        classroom: "",
+        teacher: "MOREANO CORDOVA JAVIER",
+        type: "DIRIGIDO",
+        plan: "2016"
+      },
+      {
+        code: "SIS064",
+        section: "10A",
+        cycle: "10",
+        name: "INGENIERIA DE LA INFORMACION",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "170 Cred.",
+        schedule: {
+          lun: "07-09",
         },
-        {
-          code: "SIS075",
-          section: "10A",
-          cycle: "10",
-          name: "TOPICOS DE CIENCIA DE DATOS",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "170 Cred.",
-          schedule: {
-            lun: "18-20",
-            mar: "18-20",
-            mie: "18-20",
-            jue: "18-20"
-          },
-          classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-302",
-          teacher: "CHULLO LLAVE BORIS",
-          type: "PRESENCIAL",
-          plan: "2016"
+        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
+        teacher: "ARDILES ROMERO VELIA",
+        type: "DIRIGIDO",
+        plan: "2016"
+      },
+      {
+        code: "SIS075",
+        section: "10A",
+        cycle: "10",
+        name: "TOPICOS DE CIENCIA DE DATOS",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "170 Cred.",
+        schedule: {
+          lun: "18-20",
+          mie: "18-20",
+          vie: "18-20",
         },
-
-        // PLAN 2020 - Página 1
-        {
-          code: "SIS082",
-          section: "3A",
-          cycle: "03",
-          name: "ALGORTMICA Y LENGUAJE DE PROGRAMACION ORIENTADA A OBJETOS",
-          category: "EBE",
-          credits: 4.00,
-          prerequisite: "SIS056",
-          schedule: {
-            lun: "09-11",
-            mar: "09-11",
-            mie: "09-11",
-            jue: "09-11"
-          },
-          classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS ,ING-301",
-          teacher: "CHAVEZ ESPINOZA WILLIAM ALBERTO",
-          type: "PRESENCIAL",
-          plan: "2020"
+        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-302",
+        teacher: "CHULLO LLAVE BORIS",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS082",
+        section: "3A",
+        cycle: "03",
+        name: "ALGORITMICA Y LENGUAJE DE PROGRAMACION ORIENTADA A OBJETOS",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "SIS056",
+        schedule: {
+          lun: "09-11",
+          mie: "09-11",
+          vie: "09-11",
         },
-        {
-          code: "BIO006",
-          section: "3A",
-          cycle: "03",
-          name: "BIOLOGIA",
-          category: "EBE",
-          credits: 3.00,
-          prerequisite: "25 Cred.",
-          schedule: {
-            lun: "09-11",
-            mar: "09-11"
-          },
-          classroom: "ING-301",
-          teacher: "HUANCA POLIAR MARIA CLEOFE",
-          type: "PRESENCIAL",
-          plan: "2020"
+        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS ,ING-301",
+        teacher: "CHAVEZ ESPINOZA WILLIAM ALBERTO",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "BIO006",
+        section: "3A",
+        cycle: "03",
+        name: "BIOLOGIA",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "25 Cred.",
+        schedule: {
+          mar: "09-11",
+          jue: "09-11",
         },
-        {
-          code: "MAT005",
-          section: "3A",
-          cycle: "03",
-          name: "CALCULO II",
-          category: "EBE",
-          credits: 4.00,
-          prerequisite: "MAT004",
-          schedule: {
-            lun: "11-13",
-            mar: "11-13",
-            mie: "11-13"
-          },
-          classroom: "ING-301",
-          teacher: "CORNEJO LAZO CONNIE YASSHYRA",
-          type: "PRESENCIAL",
-          plan: "2020"
+        classroom: "ING-301",
+        teacher: "HUANCA POLIAR MARIA CLEOFE",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "MAT005",
+        section: "3A",
+        cycle: "03",
+        name: "CALCULO II",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "MAT004",
+        schedule: {
+          lun: "11-13",
+          mie: "11-13",
+          vie: "11-13",
         },
-        {
-          code: "MAT005",
-          section: "3B",
-          cycle: "03",
-          name: "CALCULO II",
-          category: "EBE",
-          credits: 4.00,
-          prerequisite: "MAT004",
-          schedule: {
-            lun: "18-20",
-            mar: "18-20",
-            mie: "18-20"
-          },
-          classroom: "ING-409",
-          teacher: "VELASQUEZ HACHIA IGNACIO",
-          type: "ESPECIAL",
-          plan: "2020"
+        classroom: "ING-301",
+        teacher: "CORNEJO LAZO CONNIE YASSHYRA",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "MAT005",
+        section: "3B",
+        cycle: "03",
+        name: "CALCULO II",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "MAT004",
+        schedule: {
+          lun: "18-20",
+          mie: "18-20",
+          vie: "18-20",
         },
-        {
-          code: "STD005",
-          section: "3A",
-          cycle: "03",
-          name: "ESTADISTICA II",
-          category: "EBE",
-          credits: 4.00,
-          prerequisite: "STD004",
-          schedule: {
-            lun: "07-09",
-            mar: "07-09",
-            mie: "07-09"
-          },
-          classroom: "ING-301",
-          teacher: "VARGAS ARAMACO LUIS ALBERTO",
-          type: "PRESENCIAL",
-          plan: "2020"
+        classroom: "ING-409",
+        teacher: "VELASQUEZ HACHA IGNACIO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "STD005",
+        section: "3A",
+        cycle: "03",
+        name: "ESTADISTICA II",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "STD004",
+        schedule: {
+          lun: "07-09",
+          mie: "07-09",
+          vie: "07-09",
         },
-        {
-          code: "FIS001",
-          section: "3A",
-          cycle: "03",
-          name: "FISICA I",
-          category: "EBE",
-          credits: 4.00,
-          prerequisite: "MAT004",
-          schedule: {
-            lun: "11-13",
-            mar: "11-13"
-          },
-          classroom: "ING-409",
-          teacher: "PALOMINO GAMARRA MARIBEL",
-          type: "PRESENCIAL",
-          plan: "2020"
+        classroom: "ING-301",
+        teacher: "VARGAS AÑAMACO LUIS ALBERTO",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "FIS001",
+        section: "3A",
+        cycle: "03",
+        name: "FISICA I",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "MAT004",
+        schedule: {
+          mar: "11-13",
+          jue: "11-13",
         },
-        {
-          code: "FIL005",
-          section: "3A",
-          cycle: "03",
-          name: "PENSAMIENTO FILOSOFICO Y CIUDADANIA",
-          category: "EBE",
-          credits: 3.00,
-          prerequisite: "25 Cred.",
-          schedule: {
-            lun: "07-09",
-            mar: "07-09"
-          },
-          classroom: "ING-402",
-          teacher: "ROJO SOLORZANO HENRY CHARLES",
-          type: "PRESENCIAL",
-          plan: "2020"
+        classroom: "ING-409",
+        teacher: "PALOMINO GAMARRA MARIBEL",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "FIL005",
+        section: "3A",
+        cycle: "03",
+        name: "PENSAMIENTO FILOSOFICO Y CIUDADANIA",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "25 Cred.",
+        schedule: {
+          mar: "07-09",
+          jue: "07-09",
         },
-        {
-          code: "MAT011",
-          section: "4A",
-          cycle: "04",
-          name: "ALGEBRA LINEAL",
-          category: "EBE",
-          credits: 3.00,
-          prerequisite: "45 Cred.",
-          schedule: {
-            lun: "07-09",
-            mar: "07-09"
-          },
-          classroom: "ING-409",
-          teacher: "HOLGUIN SEGOVIA ALEJANDRINO DOMATO",
-          type: "ESPECIAL",
-          plan: "2020"
+        classroom: "ING-402",
+        teacher: "ROJO SOLORZANO HENRY CHARLES",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "MAT011",
+        section: "4A",
+        cycle: "04",
+        name: "ALGEBRA LINEAL",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "45 Cred.",
+        schedule: {
+          mar: "07-09",
+          jue: "07-09",
         },
-        {
-          code: "MAT011",
-          section: "4B",
-          cycle: "04",
-          name: "ALGEBRA LINEAL",
-          category: "EBE",
-          credits: 3.00,
-          prerequisite: "45 Cred.",
-          schedule: {
-            lun: "16-18",
-            mar: "16-18"
-          },
-          classroom: "ING-401,ING-409",
-          teacher: "VELASQUEZ HACHIA IGNACIO",
-          type: "ESPECIAL",
-          plan: "2020"
+        classroom: "ING-409",
+        teacher: "HOLGUIN SEGOVIA ALEJANDRINO DONATO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "MAT011",
+        section: "4B",
+        cycle: "04",
+        name: "ALGEBRA LINEAL",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "45 Cred.",
+        schedule: {
+          mar: "16-18",
+          jue: "16-18",
         },
-        {
-          code: "MAT006",
-          section: "4A",
-          cycle: "04",
-          name: "CALCULO III",
-          category: "EBE",
-          credits: 4.00,
-          prerequisite: "MAT005",
-          schedule: {
-            lun: "09-11",
-            mar: "09-11",
-            mie: "09-11"
-          },
-          classroom: "ING-409",
-          teacher: "ALMANZA HUALLPA DANNY JAVIER",
-          type: "PRESENCIAL",
-          plan: "2020"
+        classroom: "ING-401,ING-409",
+        teacher: "VELASQUEZ HACHA IGNACIO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "MAT006",
+        section: "4A",
+        cycle: "04",
+        name: "CALCULO III",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "MAT005",
+        schedule: {
+          lun: "09-11",
+          mie: "09-11",
+          vie: "09-11",
         },
-        {
-          code: "SIS062",
-          section: "4A",
-          cycle: "04",
-          name: "ESTRUCTURA DE DATOS",
-          category: "EBE",
-          credits: 4.00,
-          prerequisite: "SIS082",
-          schedule: {
-            lun: "07-09",
-            mar: "07-09",
-            mie: "07-09"
-          },
-          classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS",
-          teacher: "VARGAS VERA LIZET",
-          type: "ESPECIAL",
-          plan: "2020"
+        classroom: "ING-409",
+        teacher: "ALMANZA HUALLPA DANNY JAVIER",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS062",
+        section: "4A",
+        cycle: "04",
+        name: "ESTRUCTURA DE DATOS",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "SIS082",
+        schedule: {
+          lun: "07-09",
+          mie: "07-09",
+          vie: "07-09",
         },
-        {
-          code: "SIS062",
-          section: "4B",
-          cycle: "04",
-          name: "ESTRUCTURA DE DATOS",
-          category: "EBE",
-          credits: 4.00,
-          prerequisite: "SIS082",
-          schedule: {
-            lun: "14-16",
-            mar: "14-16",
-            mie: "14-16"
-          },
-          classroom: "ING-204",
-          teacher: "LEON NÚÑEZ LIDA",
-          type: "ESPECIAL",
-          plan: "2020"
+        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS",
+        teacher: "VARGAS VERA LIZET",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS062",
+        section: "4B",
+        cycle: "04",
+        name: "ESTRUCTURA DE DATOS",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "SIS082",
+        schedule: {
+          lun: "14-16",
+          mie: "14-16",
+          vie: "14-16",
         },
-
-        // PLAN 2016 - Página 4
-        {
-          code: "SIS067",
-          section: "7A",
-          cycle: "07",
-          name: "GESTION ESTRATEGICA DE TECNOLOGIA DE INFORMACION",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "105 Cred.",
-          schedule: {
-            lun: "18-20",
-            mar: "18-20",
-            mie: "18-20"
-          },
-          classroom: "LABORATORIO COMPUTO 5 SISTEMAS,ING-301",
-          teacher: "QUISPE ONOFRE CARLOS RAMON",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-205 LABORATORIO COMPUTO 5              SISTEMAS,ING-302",
+        teacher: "LEON NUÑEZ LIDA",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "FIS002",
+        section: "4A",
+        cycle: "04",
+        name: "FISICA II",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "FIS001",
+        schedule: {
+          mar: "11-13",
+          jue: "11-13",
         },
-        {
-          code: "SIS067",
-          section: "7B",
-          cycle: "07",
-          name: "GESTION ESTRATEGICA DE TECNOLOGIA DE INFORMACION",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "105 Cred.",
-          schedule: {
-            lun: "20-22",
-            mar: "20-22",
-            mie: "20-22"
-          },
-          classroom: "LABORATORIO COMPUTO 3 SISTEMAS,ING-302",
-          teacher: "CONZA BALBIN CARLOS HERNAN",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-401",
+        teacher: "SUAREZ PAUCAR HECTOR JUAN",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "FIS002",
+        section: "4B",
+        cycle: "04",
+        name: "FISICA II",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "FIS001",
+        schedule: {
+          mar: "18-20",
+          jue: "18-20",
         },
-        {
-          code: "ECO056",
-          section: "7A",
-          cycle: "07",
-          name: "INGENIERIA ECONOMICA",
-          category: "EBE",
-          credits: 3.00,
-          prerequisite: "105 Cred.",
-          schedule: {
-            lun: "14-16",
-            mar: "14-16"
-          },
-          classroom: "LABORATORIO COMPUTO 5 SISTEMAS,ING-301",
-          teacher: "DEL CARPIO CUENTAS LUIS ENRIQUE",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-302",
+        teacher: "ATAU ENRIQUEZ EDILBERTO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS083",
+        section: "4A",
+        cycle: "04",
+        name: "INGENIERIA DE COSTOS",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "45 Cred.",
+        schedule: {
+          mar: "09-11",
+          jue: "09-11",
         },
-        {
-          code: "ECO056",
-          section: "7B",
-          cycle: "07",
-          name: "INGENIERIA ECONOMICA",
-          category: "EBE",
-          credits: 3.00,
-          prerequisite: "105 Cred.",
-          schedule: {
-            lun: "11-13",
-            mar: "11-13"
-          },
-          classroom: "LABORATORIO COMPUTO 4 SISTEMAS,ING-301",
-          teacher: "DEL CARPIO CUENTAS LUIS ENRIQUE",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-401",
+        teacher: "DEL CARPIO CUENTAS LUIS ENRIQUE",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS083",
+        section: "4B",
+        cycle: "04",
+        name: "INGENIERIA DE COSTOS",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "45 Cred.",
+        schedule: {
+          mar: "14-16",
+          jue: "14-16",
         },
-        {
-          code: "SIS017",
-          section: "7A",
-          cycle: "07",
-          name: "SISTEMAS OPERATIVOS",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "SIS090",
-          schedule: {
-            lun: "16-18",
-            mar: "16-18",
-            mie: "16-18"
-          },
-          classroom: "LABORATORIO COMPUTO 5 SISTEMAS,ING-409",
-          teacher: "CALOMINO OLIVERA EMILIO",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-302",
+        teacher: "DEL CARPIO CUENTAS LUIS ENRIQUE",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS084",
+        section: "4A",
+        cycle: "04",
+        name: "ORGANIZACION Y ADMINISTRACION DE SISTEMAS DE INFORMACION",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "45 Cred.",
+        schedule: {
+          lun: "11-13",
+          mie: "11-13",
         },
-        {
-          code: "SIS017",
-          section: "7B",
-          cycle: "07",
-          name: "SISTEMAS OPERATIVOS",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "SIS090",
-          schedule: {
-            lun: "09-11",
-            mar: "09-11",
-            mie: "09-11"
-          },
-          classroom: "LABORATORIO COMPUTO 1 SISTEMAS,ING-302",
-          teacher: "CONZA BALBIN CARLOS HERNAN",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-302",
+        teacher: "CONZA BALBIN CARLOS HERNAN",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS084",
+        section: "4B",
+        cycle: "04",
+        name: "ORGANIZACION Y ADMINISTRACION DE SISTEMAS DE INFORMACION",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "45 Cred.",
+        schedule: {
+          lun: "16-18",
+          mie: "16-18",
         },
-        {
-          code: "SIS022",
-          section: "8A",
-          cycle: "08",
-          name: "FORMULACION DE PROYECTOS DE SISTEMAS",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "ECO056",
-          schedule: {
-            lun: "18-20",
-            mar: "18-20",
-            mie: "18-20"
-          },
-          classroom: "LABORATORIO COMPUTO 1 SISTEMAS,ING-302",
-          teacher: "COSIO OBLEA JOHAN EDWIN",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-401,TA ING-208",
+        teacher: "COSIO OBLEA JOHAN EDWIN",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS086",
+        section: "5A",
+        cycle: "05",
+        name: "ETICA Y DEONTOLOGIA PROFESIONAL EN INGENIERIA DE SISTEMAS",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "65 Cred.",
+        schedule: {
+          lun: "11-13",
+          mie: "11-13",
         },
-        {
-          code: "SIS022",
-          section: "8B",
-          cycle: "08",
-          name: "FORMULACION DE PROYECTOS DE SISTEMAS",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "ECO056",
-          schedule: {
-            lun: "18-20",
-            mar: "18-20",
-            mie: "18-20"
-          },
-          classroom: "LABORATORIO COMPUTO 4 SISTEMAS,ING-401",
-          teacher: "CONZA BALBIN CARLOS HERNAN",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-402,ING-409",
+        teacher: "LEON NUÑEZ LIDA",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS086",
+        section: "5B",
+        cycle: "05",
+        name: "ETICA Y DEONTOLOGIA PROFESIONAL EN INGENIERIA DE SISTEMAS",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "65 Cred.",
+        schedule: {
+          mie: "20-22",
+          vie: "20-22",
         },
-        {
-          code: "SIS092",
-          section: "8A",
-          cycle: "08",
-          name: "INFRAESTRUCTURA DE REDES",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "SIS017",
-          schedule: {
-            lun: "16-18",
-            mar: "16-18",
-            mie: "16-18"
-          },
-          classroom: "ING-402,TA ING-201",
-          teacher: "CARRASCO POBLETE EDWIN",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-402",
+        teacher: "LAZO MAMANI JUAN CARLOS",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "FIS007",
+        section: "5A",
+        cycle: "05",
+        name: "FISICA III",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "FIS002",
+        schedule: {
+          mie: "07-09",
+          vie: "07-09",
         },
-        {
-          code: "SIS092",
-          section: "8B",
-          cycle: "08",
-          name: "INFRAESTRUCTURA DE REDES",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "SIS017",
-          schedule: {
-            lun: "14-16",
-            mar: "14-16",
-            mie: "14-16"
-          },
-          classroom: "ING-401,TA ING-208",
-          teacher: "SOLTARELLANA LUIS ALBERTO",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-302",
+        teacher: "LOZANO CUSI ROLANDO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "FIS007",
+        section: "5B",
+        cycle: "05",
+        name: "FISICA III",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "FIS002",
+        schedule: {
+          mar: "18-20",
+          jue: "18-20",
         },
-        {
-          code: "SIS021",
-          section: "8A",
-          cycle: "08",
-          name: "INGENIERIA DE SOFTWARE",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "SIS012",
-          schedule: {
-            lun: "20-22",
-            mar: "20-22"
-          },
-          classroom: "LABORATORIO COMPUTO 1 SISTEMAS,ING-401",
-          teacher: "QUISPE SOTA JULIO VLADIMIR",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-401",
+        teacher: "LOZANO CUSI ROLANDO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS088",
+        section: "5A",
+        cycle: "05",
+        name: "GESTION DE PROCESOS DE NEGOCIO",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "SIS084",
+        schedule: {
+          mar: "09-11",
+          jue: "09-11",
         },
-        {
-          code: "SIS021",
-          section: "8B",
-          cycle: "08",
-          name: "INGENIERIA DE SOFTWARE",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "SIS012",
-          schedule: {
-            lun: "20-22",
-            mar: "20-22"
-          },
-          classroom: "LABORATORIO COMPUTO 3 SISTEMAS,ING-401",
-          teacher: "CHULLO LLAVE BORIS",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-302",
+        teacher: "CUBA DEL CASTILLO MARIA YORNET",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "STD007",
+        section: "5A",
+        cycle: "05",
+        name: "INVESTIGACION OPERATIVA I",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "65 Cred.",
+        schedule: {
+          mar: "11-13",
+          jue: "11-13",
         },
-        {
-          code: "INV007",
-          section: "8A",
-          cycle: "08",
-          name: "METODOLOGIA DE LA INVESTIGACION EN INGENIERIA",
-          category: "EBE",
-          credits: 3.00,
-          prerequisite: "125 Cred.",
-          schedule: {
-            lun: "18-20",
-            mar: "18-20"
-          },
-          classroom: "ING-402",
-          teacher: "ZUÑIGA ROJAS GABRIELA",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
+        teacher: "ZAMBRANO INCHAUSTEGUI CARLOS ALBERTO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "STD007",
+        section: "5B",
+        cycle: "05",
+        name: "INVESTIGACION OPERATIVA I",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "65 Cred.",
+        schedule: {
+          lun: "16-18",
+          mie: "16-18",
         },
-        {
-          code: "INV007",
-          section: "8B",
-          cycle: "08",
-          name: "METODOLOGIA DE LA INVESTIGACION EN INGENIERIA",
-          category: "EBE",
-          credits: 3.00,
-          prerequisite: "125 Cred.",
-          schedule: {
-            lun: "18-20",
-            mar: "18-20"
-          },
-          classroom: "LABORATORIO COMPUTO 5 SISTEMAS,ING-401",
-          teacher: "VERA OLIVERA HARLEY",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-301",
+        teacher: "VENGOA FIGUEROA BONY DUGLAS",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "MAT021",
+        section: "5A",
+        cycle: "05",
+        name: "MATEMATICA DISCRETA I",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "MAT011",
+        schedule: {
+          mar: "07-09",
+          jue: "07-09",
         },
-        {
-          code: "SIS091",
-          section: "8A",
-          cycle: "08",
-          name: "PLATAFORMAS PARA EL DESARROLLO DE APLICACIONES",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "SIS048",
-          schedule: {
-            lun: "14-16",
-            mar: "14-16",
-            mie: "14-16"
-          },
-          classroom: "LABORATORIO COMPUTO 3 SISTEMAS,ING-401",
-          teacher: "VARGAS QUISPE FELIX ESTANISLAO",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS ,ING-401",
+        teacher: "BERNALES GUZMAN YESSENIA",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS085",
+        section: "5A",
+        cycle: "05",
+        name: "MODELADO DE BASE DE DATOS",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "SIS062",
+        schedule: {
+          lun: "09-11",
+          mie: "09-11",
+          vie: "09-11",
         },
-        {
-          code: "SIS091",
-          section: "8B",
-          cycle: "08",
-          name: "PLATAFORMAS PARA EL DESARROLLO DE APLICACIONES",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "SIS048",
-          schedule: {
-            lun: "14-16",
-            mar: "14-16",
-            mie: "14-16"
-          },
-          classroom: "LABORATORIO COMPUTO 1 SISTEMAS,ING-401",
-          teacher: "VARGAS QUISPE FELIX ESTANISLAO",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-401",
+        teacher: "PALOMINO CAHUAYA ARIADNA",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS085",
+        section: "5B",
+        cycle: "05",
+        name: "MODELADO DE BASE DE DATOS",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "SIS062",
+        schedule: {
+          lun: "11-13",
+          mie: "11-13",
+          vie: "11-13",
         },
-        {
-          code: "SIS094",
-          section: "9A",
-          cycle: "09",
-          name: "ADMINISTRACION DE SERVICIOS DE REDES",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "SIS092",
-          schedule: {
-            lun: "18-20",
-            mar: "18-20",
-            mie: "18-20"
-          },
-          classroom: "LABORATORIO COMPUTO 5 SISTEMAS,ING-402",
-          teacher: "CARRASCO POBLETE EDWIN",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS",
+        teacher: "ESPETIA HUAMANGA HUGO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS089",
+        section: "6A",
+        cycle: "06",
+        name: "ADMINISTRACION Y ORGANIZACION DE BASE DE DATOS",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS085",
+        schedule: {
+          lun: "11-13",
+          mie: "11-13",
+          vie: "11-13",
         },
-        {
-          code: "SIS094",
-          section: "9B",
-          cycle: "09",
-          name: "ADMINISTRACION DE SERVICIOS DE REDES",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "SIS092",
-          schedule: {
-            lun: "18-20",
-            mar: "18-20",
-            mie: "18-20"
-          },
-          classroom: "LABORATORIO COMPUTO 3 SISTEMAS,ING-402",
-          teacher: "ZAMALLOA PARO WILLIAN",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS ,ING-409",
+        teacher: "PUMASUPA PARO NICK EUGENY",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS089",
+        section: "6B",
+        cycle: "06",
+        name: "ADMINISTRACION Y ORGANIZACION DE BASE DE DATOS",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS085",
+        schedule: {
+          lun: "18-20",
+          mie: "18-20",
+          vie: "18-20",
         },
-
-        // PLAN 2016 - Página 5
-        {
-          code: "SIS033",
-          section: "9A",
-          cycle: "09",
-          name: "GESTION DE LA INNOVACION Y EMPRENDIMIENTO",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "SIS022",
-          schedule: {
-            lun: "18-20",
-            mar: "18-20",
-            mie: "18-20"
-          },
-          classroom: "LABORATORIO COMPUTO 3 SISTEMAS",
-          teacher: "ALCOA ZELA ERICK",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
+        teacher: "MONZON CONDORI LUIS ALVARO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS011",
+        section: "6A",
+        cycle: "06",
+        name: "ANALISIS Y DISEÑO DE SISTEMAS DE INFORMACION I",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS088",
+        schedule: {
+          lun: "07-09",
+          mie: "07-09",
+          vie: "07-09",
         },
-        {
-          code: "SIS033",
-          section: "9B",
-          cycle: "09",
-          name: "GESTION DE LA INNOVACION Y EMPRENDIMIENTO",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "SIS022",
-          schedule: {
-            lun: "20-22",
-            mar: "20-22",
-            mie: "20-22"
-          },
-          classroom: "LABORATORIO COMPUTO 4 SISTEMAS,ING-301",
-          teacher: "COSIO OBLEA JOHAN EDWIN",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-401",
+        teacher: "MARCA AIMA MONICA",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS011",
+        section: "6B",
+        cycle: "06",
+        name: "ANALISIS Y DISEÑO DE SISTEMAS DE INFORMACION I",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS088",
+        schedule: {
+          lun: "07-09",
+          mie: "07-09",
+          vie: "07-09",
         },
-        {
-          code: "SIS058",
-          section: "9A",
-          cycle: "09",
-          name: "INTELIGENCIA DE NEGOCIOS",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "145 Cred.",
-          schedule: {
-            lun: "16-18",
-            mar: "16-18",
-            mie: "16-18"
-          },
-          classroom: "LABORATORIO COMPUTO 4 SISTEMAS,ING-401",
-          teacher: "QUISPE ONOFRE CARLOS RAMON",
-          type: "PRESENCIAL",
-          plan: "2016"
+        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-402",
+        teacher: "CUBA DEL CASTILLO MARIA YORNET",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS047",
+        section: "6A",
+        cycle: "06",
+        name: "DESARROLLO DE SOFTWARE I",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "85 Cred.",
+        schedule: {
+          lun: "09-11",
+          mie: "09-11",
+          vie: "09-11",
         },
-        {
-          code: "INV003",
-          section: "9A",
-          cycle: "09",
-          name: "SEMINARIO TALLER DE TESIS I",
-          category: "EFE",
-          credits: 3.00,
-          prerequisite: "INV007",
-          schedule: {
-            lun: "14-16",
-            mar: "14-16",
-            mie: "14-16"
-          },
-          classroom: "LABORATORIO COMPUTO 4 SISTEMAS,ING-401",
-          teacher: "RNAS MAGO LORNEL ANTONIO",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-302",
+        teacher: "PUMASUPA PARO NICK EUGENY",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS047",
+        section: "6B",
+        cycle: "06",
+        name: "DESARROLLO DE SOFTWARE I",
+        category: "EBE",
+        credits: 4.0,
+        prerequisite: "85 Cred.",
+        schedule: {
+          mar: "07-09",
+          jue: "07-09",
+          sab: "07-09",
         },
-        {
-          code: "INV003",
-          section: "9B",
-          cycle: "09",
-          name: "SEMINARIO TALLER DE TESIS I",
-          category: "EFE",
-          credits: 3.00,
-          prerequisite: "INV007",
-          schedule: {
-            lun: "16-18",
-            mar: "16-18",
-            mie: "16-18"
-          },
-          classroom: "ING-402",
-          teacher: "ZUÑIGA ROJAS GABRIELA",
-          type: "PRESENCIAL",
-          plan: "2016"
+        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS",
+        teacher: "HUAMAN ATAULLUCO FELIX ENRIQUE",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "STD008",
+        section: "6A",
+        cycle: "06",
+        name: "INVESTIGACION OPERATIVA II",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "STD007",
+        schedule: {
+          mar: "09-11",
+          jue: "09-11",
         },
-        {
-          code: "SIS093",
-          section: "9A",
-          cycle: "09",
-          name: "SISTEMAS DE INFORMACION GERENCIAL",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "145 Cred.",
-          schedule: {
-            lun: "14-16",
-            mar: "14-16",
-            mie: "14-16"
-          },
-          classroom: "LABORATORIO COMPUTO 4 SISTEMAS,ING-302",
-          teacher: "DE LA VEGA BELLIDO VIVIAN LUZ",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS ,ING-402",
+        teacher: "ZAMBRANO INCHAUSTEGUI CARLOS ALBERTO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "STD008",
+        section: "6B",
+        cycle: "06",
+        name: "INVESTIGACION OPERATIVA II",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "STD007",
+        schedule: {
+          mar: "18-20",
+          jue: "18-20",
         },
-        {
-          code: "SIS093",
-          section: "9B",
-          cycle: "09",
-          name: "SISTEMAS DE INFORMACION GERENCIAL",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "145 Cred.",
-          schedule: {
-            lun: "20-22",
-            mar: "20-22",
-            mie: "20-22"
-          },
-          classroom: "LABORATORIO COMPUTO 4 SISTEMAS, ING-204",
-          teacher: "QUISPE SOTA JULIO VLADIMIR",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS",
+        teacher: "COSIO OBLEA JOHAN EDWIN",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "MAT022",
+        section: "6A",
+        cycle: "06",
+        name: "MATEMATICA DISCRETA II",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "MAT021",
+        schedule: {
+          mar: "11-13",
+          jue: "11-13",
         },
-        {
-          code: "SIS095",
-          section: "10A",
-          cycle: "10",
-          name: "CALIDAD DE SISTEMAS DE INFORMACION",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "SIS093",
-          schedule: {
-            lun: "14-16",
-            mar: "14-16",
-            mie: "14-16"
-          },
-          classroom: "ING-301,ING-402",
-          teacher: "CHAVEZ ESPINOZA WILLIAM ALBERTO",
-          type: "PRESENCIAL",
-          plan: "2016"
+        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-402",
+        teacher: "RAMIREZ VARGAS ADRIEL",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "MAT022",
+        section: "6B",
+        cycle: "06",
+        name: "MATEMATICA DISCRETA II",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "MAT021",
+        schedule: {
+          mar: "14-16",
+          jue: "14-16",
         },
-        {
-          code: "SIS027",
-          section: "10A",
-          cycle: "10",
-          name: "CONTROL Y AUDITORIA DE SISTEMAS",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "165 Cred.",
-          schedule: {
-            lun: "18-20",
-            mar: "18-20",
-            mie: "18-20"
-          },
-          classroom: "TA ING-208",
-          teacher: "PALOMINO OLIVERA EMILIO",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-302",
+        teacher: "VENGOA FIGUEROA BONY DUGLAS",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS090",
+        section: "6A",
+        cycle: "06",
+        name: "ORGANIZACION Y ARQUITECTURA DEL COMPUTADOR",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "85 Cred.",
+        schedule: {
+          lun: "18-20",
+          mie: "18-20",
+          vie: "18-20",
         },
-        {
-          code: "SIS027",
-          section: "10B",
-          cycle: "10",
-          name: "CONTROL Y AUDITORIA DE SISTEMAS",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "165 Cred.",
-          schedule: {
-            lun: "18-20",
-            mar: "18-20",
-            mie: "18-20"
-          },
-          classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS",
-          teacher: "CONZA BALBIN CARLOS HERNAN",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-301,TA ING-208",
+        teacher: "PALOMINO OLIVERA EMILIO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS090",
+        section: "6B",
+        cycle: "06",
+        name: "ORGANIZACION Y ARQUITECTURA DEL COMPUTADOR",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "85 Cred.",
+        schedule: {
+          lun: "11-13",
+          mie: "11-13",
+          vie: "11-13",
         },
-        {
-          code: "SIS070",
-          section: "10A",
-          cycle: "10",
-          name: "INTELIGENCIA ARTIFICIAL",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "165 Cred.",
-          schedule: {
-            lun: "14-16",
-            mar: "14-16",
-            mie: "14-16"
-          },
-          classroom: "LABORATORIO COMPUTO 1 SISTEMAS,ING-202",
-          teacher: "ESPETTA HUAMANGA HUGO",
-          type: "PRESENCIAL",
-          plan: "2016"
+        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
+        teacher: "RAMIREZ VARGAS ADRIEL",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS012",
+        section: "7A",
+        cycle: "07",
+        name: "ANALISIS Y DISEÑO DE SISTEMAS DE INFORMACION II",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS011",
+        schedule: {
+          lun: "11-13",
+          mie: "11-13",
+          vie: "11-13",
         },
-        {
-          code: "SIS096",
-          section: "10A",
-          cycle: "10",
-          name: "SEGURIDAD EN TECNOLOGIAS DE INFORMACION",
-          category: "EFE",
-          credits: 4.00,
-          prerequisite: "SIS094",
-          schedule: {
-            lun: "20-22",
-            mar: "20-22",
-            mie: "20-22"
-          },
-          classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
-          teacher: "ZAMALLOA PARO WILLIAN",
-          type: "PRESENCIAL",
-          plan: "2016"
+        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-302",
+        teacher: "ALCCA ZELA ERICK",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS012",
+        section: "7B",
+        cycle: "07",
+        name: "ANALISIS Y DISEÑO DE SISTEMAS DE INFORMACION II",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS011",
+        schedule: {
+          lun: "07-09",
+          mie: "07-09",
+          vie: "07-09",
         },
-        {
-          code: "INV004",
-          section: "10A",
-          cycle: "10",
-          name: "SEMINARIO TALLER DE TESIS II",
-          category: "EFE",
-          credits: 3.00,
-          prerequisite: "INV003",
-          schedule: {
-            lun: "16-18",
-            mar: "16-18",
-            mie: "16-18"
-          },
-          classroom: "ING-302,ING-401",
-          teacher: "COSIO OBLEA JOHAN EDWIN",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS ,ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-402",
+        teacher: "VILLENA LEON OLMER CLAUDIO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "ADM071",
+        section: "7A",
+        cycle: "07",
+        name: "ARQUITECTURA EMPRESARIAL",
+        category: "EFE",
+        credits: 3.0,
+        prerequisite: "105 Cred.",
+        schedule: {
+          mar: "18-20",
+          jue: "18-20",
         },
-        {
-          code: "INV004",
-          section: "10B",
-          cycle: "10",
-          name: "SEMINARIO TALLER DE TESIS II",
-          category: "EFE",
-          credits: 3.00,
-          prerequisite: "INV003",
-          schedule: {
-            lun: "16-18",
-            mar: "16-18",
-            mie: "16-18"
-          },
-          classroom: "ING-301,ING-302",
-          teacher: "VERA OLIVERA HARLEY",
-          type: "ESPECIAL",
-          plan: "2016"
+        classroom: "ING-301",
+        teacher: "LAZO MAMANI JUAN CARLOS",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "ADM071",
+        section: "7B",
+        cycle: "07",
+        name: "ARQUITECTURA EMPRESARIAL",
+        category: "EFE",
+        credits: 3.0,
+        prerequisite: "105 Cred.",
+        schedule: {
+          mar: "07-09",
+          jue: "07-09",
         },
-
-        // ELECTIVAS - Página 5
-        {
-          code: "SIS098",
-          section: "9A",
-          cycle: "00",
-          name: "DESARROLLO DE VIDEO JUEGOS",
-          category: "EFE",
-          credits: 3.00,
-          prerequisite: "150 Cred.",
-          schedule: {
-            lun: "11-13",
-            mar: "11-13"
-          },
-          classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
-          teacher: "VARGAS QUISPE FELIX ESTANISLAO",
-          type: "PRESENCIAL",
-          plan: "2016"
+        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS ,ING-401",
+        teacher: "PUMASUPA PARO NICK EUGENY",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS048",
+        section: "7A",
+        cycle: "07",
+        name: "DESARROLLO DE SOFTWARE II",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS047",
+        schedule: {
+          mar: "16-18",
+          jue: "16-18",
+          sab: "09-11",
         },
-        {
-          code: "SIS038",
-          section: "10A",
-          cycle: "00",
-          name: "DINÁMICA DE SISTEMAS",
-          category: "EFE",
-          credits: 3.00,
-          prerequisite: "130 Cred.",
-          schedule: {
-            lun: "16-18",
-            mar: "16-18",
-            mie: "16-18"
-          },
-          classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-302",
-          teacher: "VARGAS NORIEGA CAMILA JIMENA",
-          type: "PRESENCIAL",
-          plan: "2016"
+        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
+        teacher: "COLLANTES VALER YOVER",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS048",
+        section: "7B",
+        cycle: "07",
+        name: "DESARROLLO DE SOFTWARE II",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS047",
+        schedule: {
+          mar: "14-16",
+          jue: "14-16",
+          sab: "11-13",
         },
-        {
-          code: "SIS073",
-          section: "8A",
-          cycle: "00",
-          name: "FUNDAMENTOS DE BIONFORMATICA",
-          category: "EFE",
-          credits: 3.00,
-          prerequisite: "130 Cred.",
-          schedule: {
-            lun: "09-11",
-            mar: "09-11"
-          },
-          classroom: "ING-302",
-          teacher: "SERNAQUE FERNANDEZ PAULA BENANCIA",
-          type: "PRESENCIAL",
-          plan: "2016"
+        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
+        teacher: "ZUÑIGA ROJAS GABRIELA",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS067",
+        section: "7A",
+        cycle: "07",
+        name: "GESTION ESTRATEGICA DE TECNOLOGIA DE INFORMACION",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "105 Cred.",
+        schedule: {
+          lun: "18-20",
+          mie: "18-20",
+          vie: "18-20",
         },
-        {
-          code: "MKT012",
-          section: "8A",
-          cycle: "00",
-          name: "MARKETING DIGITAL",
-          category: "EFE",
-          credits: 3.00,
-          prerequisite: "130 Cred.",
-          schedule: {
-            lun: "20-22",
-            mar: "20-22"
-          },
-          classroom: "ING-301",
-          teacher: "ASTETE VALCARCEL HENRY",
-          type: "PRESENCIAL",
-          plan: "2016"
+        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-301",
+        teacher: "QUISPE ONOFRE CARLOS RAMON",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS067",
+        section: "7B",
+        cycle: "07",
+        name: "GESTION ESTRATEGICA DE TECNOLOGIA DE INFORMACION",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "105 Cred.",
+        schedule: {
+          mar: "20-22",
+          jue: "20-22",
+          vie: "20-22",
         },
-        {
-          code: "SIS032",
-          section: "9A",
-          cycle: "00",
-          name: "REALIDAD VIRTUAL",
-          category: "EFE",
-          credits: 3.00,
-          prerequisite: "130 Cred.",
-          schedule: {
-            lun: "20-22",
-            mar: "20-22"
-          },
-          classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
-          teacher: "VERA OLIVERA HARLEY",
-          type: "PRESENCIAL",
-          plan: "2016"
+        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS ,ING-402",
+        teacher: "CONZA BALBIN CARLOS HERNAN",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "ECO056",
+        section: "7A",
+        cycle: "07",
+        name: "INGENIERIA ECONOMICA",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "105 Cred.",
+        schedule: {
+          lun: "14-16",
+          mie: "14-16",
         },
-        {
-          code: "SIS097",
-          section: "8A",
-          cycle: "00",
-          name: "SISTEMAS DIGITALES EMBEBIDOS",
-          category: "EFE",
-          credits: 3.00,
-          prerequisite: "130 Cred.",
-          schedule: {
-            lun: "16-18",
-            mar: "16-18"
-          },
-          classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
-          teacher: "CARRASCO POBLETE EDWIN",
-          type: "PRESENCIAL",
-          plan: "2016"
+        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-301",
+        teacher: "DEL CARPIO CUENTAS LUIS ENRIQUE",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "ECO056",
+        section: "7B",
+        cycle: "07",
+        name: "INGENIERIA ECONOMICA",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "105 Cred.",
+        schedule: {
+          mar: "11-13",
+          jue: "11-13",
         },
-
-        // PLAN 2025 - Página 6
-        {
-          code: "SIS006",
-          section: "1A",
-          cycle: "01",
-          name: "INTRODUCCION A LA INGENIERIA DE SISTEMAS",
-          category: "EBE",
-          credits: 3.00,
-          prerequisite: "",
-          schedule: {
-            lun: "07-09",
-            mar: "07-09",
-            mie: "07-09",
-            jue: "07-09"
-          },
-          classroom: "ING-302",
-          teacher: "GONZALES CONDORI HARRY YEISON",
-          type: "ESPECIAL",
-          plan: "2025"
+        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-301",
+        teacher: "DEL CARPIO CUENTAS LUIS ENRIQUE",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS017",
+        section: "7A",
+        cycle: "07",
+        name: "SISTEMAS OPERATIVOS",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS090",
+        schedule: {
+          lun: "16-18",
+          mie: "16-18",
+          vie: "16-18",
         },
-        {
-          code: "SIS006",
-          section: "1B",
-          cycle: "01",
-          name: "INTRODUCCION A LA INGENIERIA DE SISTEMAS",
-          category: "EBE",
-          credits: 3.00,
-          prerequisite: "",
-          schedule: {
-            lun: "14-16",
-            mar: "14-16",
-            mie: "14-16"
-          },
-          classroom: "ING-401,ING-402",
-          teacher: "VARGAS NORIEGA CAMILA JIMENA",
-          type: "ESPECIAL",
-          plan: "2025"
+        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-409",
+        teacher: "PALOMINO OLIVERA EMILIO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS017",
+        section: "7B",
+        cycle: "07",
+        name: "SISTEMAS OPERATIVOS",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS090",
+        schedule: {
+          lun: "09-11",
+          mar: "09-11",
+          jue: "09-11",
         },
-        {
-          code: "SIS056",
-          section: "2A",
-          cycle: "02",
-          name: "ALGORTMICA Y LENGUAJE DE PROGRAMACION ESTRUCTURADA",
-          category: "EBE",
-          credits: 3.00,
-          prerequisite: "10 Cred.",
-          schedule: {
-            lun: "07-09",
-            mar: "07-09",
-            mie: "07-09"
-          },
-          classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
-          teacher: "ACURIO GUTIERREZ MARIA ISABEL",
-          type: "ESPECIAL",
-          plan: "2025"
+        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-302",
+        teacher: "CONZA BALBIN CARLOS HERNAN",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS022",
+        section: "8A",
+        cycle: "08",
+        name: "FORMULACION DE PROYECTOS DE SISTEMAS",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "ECO056",
+        schedule: {
+          lun: "18-20",
+          mie: "18-20",
+          vie: "18-20",
         },
-        {
-          code: "SIS056",
-          section: "2B",
-          cycle: "02",
-          name: "ALGORTMICA Y LENGUAJE DE PROGRAMACION ESTRUCTURADA",
-          category: "EBE",
-          credits: 3.00,
-          prerequisite: "10 Cred.",
-          schedule: {
-            lun: "14-16",
-            mar: "14-16"
-          },
-          classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS",
-          teacher: "VILLENA LEON OLMER CLAUDIO",
-          type: "PRESENCIAL",
-          plan: "2025"
+        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-302",
+        teacher: "COSIO OBLEA JOHAN EDWIN",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS022",
+        section: "8B",
+        cycle: "08",
+        name: "FORMULACION DE PROYECTOS DE SISTEMAS",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "ECO056",
+        schedule: {
+          lun: "18-20",
+          mie: "18-20",
+          vie: "18-20",
         },
-        {
-          code: "SIS007",
-          section: "2A",
-          cycle: "02",
-          name: "INGENIERIA DE SISTEMAS",
-          category: "EBE",
-          credits: 3.00,
-          prerequisite: "SIS006",
-          schedule: {
-            lun: "07-09",
-            mar: "07-09",
-            mie: "07-09"
-          },
-          classroom: "ING-301",
-          teacher: "GANVINI VALCARCEL CRISTHIAN EDUARDO",
-          type: "ESPECIAL",
-          plan: "2025"
+        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-401",
+        teacher: "CONZA BALBIN CARLOS HERNAN",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS092",
+        section: "8A",
+        cycle: "08",
+        name: "INFRAESTRUCTURA DE REDES",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS017",
+        schedule: {
+          lun: "16-18",
+          mie: "16-18",
+          vie: "16-18",
         },
-        {
-          code: "SIS007",
-          section: "2B",
-          cycle: "02",
-          name: "INGENIERIA DE SISTEMAS",
-          category: "EBE",
-          credits: 3.00,
-          prerequisite: "SIS006",
-          schedule: {
-            lun: "14-16",
-            mar: "14-16"
-          },
-          classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-301",
-          teacher: "DE LA VEGA BELLIDO VIVIAN LUZ",
-          type: "ESPECIAL",
-          plan: "2025"
-        }
-      ];
+        classroom: "ING-402,TA ING-208",
+        teacher: "CARRASCO POBLETE EDWIN",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS092",
+        section: "8B",
+        cycle: "08",
+        name: "INFRAESTRUCTURA DE REDES",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS017",
+        schedule: {
+          lun: "14-16",
+          mie: "14-16",
+          vie: "14-16",
+        },
+        classroom: "ING-401,TA ING-208",
+        teacher: "SOTA ORELLANA LUIS ALBERTO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS021",
+        section: "8A",
+        cycle: "08",
+        name: "INGENIERIA DE SOFTWARE",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS012",
+        schedule: {
+          mar: "20-22",
+          jue: "20-22",
+        },
+        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-401",
+        teacher: "QUISPE SOTA JULIO VLADIMIR",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS021",
+        section: "8B",
+        cycle: "08",
+        name: "INGENIERIA DE SOFTWARE",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS012",
+        schedule: {
+          lun: "20-22",
+          mie: "20-22",
+        },
+        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
+        teacher: "CHULLO LLAVE BORIS",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "INV007",
+        section: "8A",
+        cycle: "08",
+        name: "METODOLOGIA DE LA INVESTIGACION EN INGENIERIA",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "125 Cred.",
+        schedule: {
+          mar: "18-20",
+          jue: "18-20",
+        },
+        classroom: "ING-402",
+        teacher: "ZUÑIGA ROJAS GABRIELA",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "INV007",
+        section: "8B",
+        cycle: "08",
+        name: "METODOLOGIA DE LA INVESTIGACION EN INGENIERIA",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "125 Cred.",
+        schedule: {
+          mar: "18-20",
+          jue: "18-20",
+        },
+        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
+        teacher: "VERA OLIVERA HARLEY",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS091",
+        section: "8A",
+        cycle: "08",
+        name: "PLATAFORMAS PARA EL DESARROLLO DE APLICACIONES",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS048",
+        schedule: {
+          lun: "14-16",
+          mie: "14-16",
+          vie: "14-16",
+        },
+        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
+        teacher: "VARGAS QUISPE FELIX ESTANISLAO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS091",
+        section: "8B",
+        cycle: "08",
+        name: "PLATAFORMAS PARA EL DESARROLLO DE APLICACIONES",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS048",
+        schedule: {
+          mar: "14-16",
+          jue: "14-16",
+          sab: "09-11",
+        },
+        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
+        teacher: "VARGAS QUISPE FELIX ESTANISLAO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS094",
+        section: "9A",
+        cycle: "09",
+        name: "ADMINISTRACION DE SERVICIOS DE REDES",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS092",
+        schedule: {
+          lun: "18-20",
+          mie: "18-20",
+          vie: "18-20",
+        },
+        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-402",
+        teacher: "CARRASCO POBLETE EDWIN",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS094",
+        section: "9B",
+        cycle: "09",
+        name: "ADMINISTRACION DE SERVICIOS DE REDES",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS092",
+        schedule: {
+          lun: "18-20",
+          mie: "18-20",
+          vie: "18-20",
+        },
+        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS ,ING-401",
+        teacher: "ZAMALLOA PARO WILLIAN",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS033",
+        section: "9A",
+        cycle: "09",
+        name: "GESTION DE LA INNOVACION Y EMPRENDIMIENTO",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS022",
+        schedule: {
+          mar: "18-20",
+          jue: "18-20",
+        },
+        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
+        teacher: "ALCCA ZELA ERICK",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS033",
+        section: "9B",
+        cycle: "09",
+        name: "GESTION DE LA INNOVACION Y EMPRENDIMIENTO",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS022",
+        schedule: {
+          mar: "20-22",
+          jue: "20-22",
+        },
+        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-301",
+        teacher: "COSIO OBLEA JOHAN EDWIN",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS058",
+        section: "9A",
+        cycle: "09",
+        name: "INTELIGENCIA DE NEGOCIOS",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "145 Cred.",
+        schedule: {
+          lun: "16-18",
+          mie: "16-18",
+          vie: "16-18",
+        },
+        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-401",
+        teacher: "QUISPE ONOFRE CARLOS RAMON",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "INV003",
+        section: "9A",
+        cycle: "09",
+        name: "SEMINARIO TALLER DE TESIS I",
+        category: "EFE",
+        credits: 3.0,
+        prerequisite: "INV007",
+        schedule: {
+          mar: "14-16",
+          jue: "14-16",
+        },
+        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-401",
+        teacher: "RIVAS MAGO LORNEL ANTONIO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "INV003",
+        section: "9B",
+        cycle: "09",
+        name: "SEMINARIO TALLER DE TESIS I",
+        category: "EFE",
+        credits: 3.0,
+        prerequisite: "INV007",
+        schedule: {
+          mar: "16-18",
+          jue: "16-18",
+        },
+        classroom: "ING-402",
+        teacher: "ZUÑIGA ROJAS GABRIELA",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS093",
+        section: "9A",
+        cycle: "09",
+        name: "SISTEMAS DE INFORMACION GERENCIAL",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "145 Cred.",
+        schedule: {
+          lun: "14-16",
+          mie: "14-16",
+          vie: "14-16",
+        },
+        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-302",
+        teacher: "DE LA VEGA BELLIDO VIVIAN LUZ",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS093",
+        section: "9B",
+        cycle: "09",
+        name: "SISTEMAS DE INFORMACION GERENCIAL",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "145 Cred.",
+        schedule: {
+          lun: "20-22",
+          mie: "20-22",
+          vie: "20-22",
+        },
+        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS",
+        teacher: "QUISPE SOTA JULIO VLADIMIR",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS095",
+        section: "10A",
+        cycle: "10",
+        name: "CALIDAD DE SISTEMAS DE INFORMACION",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS093",
+        schedule: {
+          mar: "14-16",
+          jue: "14-16",
+        },
+        classroom: "ING-301,ING-402",
+        teacher: "CHAVEZ ESPINOZA WILLIAM ALBERTO",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS027",
+        section: "10A",
+        cycle: "10",
+        name: "CONTROL Y AUDITORIA DE SISTEMAS",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "165 Cred.",
+        schedule: {
+          mar: "18-20",
+          jue: "18-20",
+        },
+        classroom: "TA ING-208",
+        teacher: "PALOMINO OLIVERA EMILIO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS027",
+        section: "10B",
+        cycle: "10",
+        name: "CONTROL Y AUDITORIA DE SISTEMAS",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "165 Cred.",
+        schedule: {
+          mar: "18-20",
+          jue: "18-20",
+        },
+        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS",
+        teacher: "CONZA BALBIN CARLOS HERNAN",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS070",
+        section: "10A",
+        cycle: "10",
+        name: "INTELIGENCIA ARTIFICIAL",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "165 Cred.",
+        schedule: {
+          lun: "14-16",
+          mie: "14-16",
+          vie: "14-16",
+        },
+        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-402",
+        teacher: "ESPETIA HUAMANGA HUGO",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS096",
+        section: "10A",
+        cycle: "10",
+        name: "SEGURIDAD EN TECNOLOGIAS DE INFORMACION",
+        category: "EFE",
+        credits: 4.0,
+        prerequisite: "SIS094",
+        schedule: {
+          lun: "20-22",
+          mie: "20-22",
+          vie: "20-22",
+        },
+        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
+        teacher: "ZAMALLOA PARO WILLIAN",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "INV004",
+        section: "10A",
+        cycle: "10",
+        name: "SEMINARIO TALLER DE TESIS II",
+        category: "EFE",
+        credits: 3.0,
+        prerequisite: "INV003",
+        schedule: {
+          mar: "16-18",
+          jue: "16-18",
+        },
+        classroom: "ING-302,ING-401",
+        teacher: "COSIO OBLEA JOHAN EDWIN",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "INV004",
+        section: "10B",
+        cycle: "10",
+        name: "SEMINARIO TALLER DE TESIS II",
+        category: "EFE",
+        credits: 3.0,
+        prerequisite: "INV003",
+        schedule: {
+          mar: "16-18",
+          jue: "16-18",
+        },
+        classroom: "ING-301,ING-302",
+        teacher: "VERA OLIVERA HARLEY",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS098",
+        section: "9A",
+        cycle: "00",
+        name: "DESARROLLO DE VIDEO JUEGOS",
+        category: "EEE",
+        credits: 3.0,
+        prerequisite: "150 Cred.",
+        schedule: {
+          mar: "11-13",
+          jue: "11-13",
+        },
+        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
+        teacher: "VARGAS QUISPE FELIX ESTANISLAO",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS038",
+        section: "10A",
+        cycle: "00",
+        name: "DINAMICA DE SISTEMAS",
+        category: "EEE",
+        credits: 3.0,
+        prerequisite: "130 Cred.",
+        schedule: {
+          lun: "16-18",
+          mie: "16-18",
+        },
+        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-302",
+        teacher: "VARGAS NORIEGA CAMILA JIMENA",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS073",
+        section: "8A",
+        cycle: "00",
+        name: "FUNDAMENTOS DE BIOINFORMATICA",
+        category: "EEE",
+        credits: 3.0,
+        prerequisite: "130 Cred.",
+        schedule: {
+          mie: "09-11",
+          vie: "09-11",
+        },
+        classroom: "ING-302",
+        teacher: "SERNAQUE FERNANDEZ PAULA BENANCIA",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "MKT012",
+        section: "8A",
+        cycle: "00",
+        name: "MARKETING DIGITAL",
+        category: "EEE",
+        credits: 3.0,
+        prerequisite: "130 Cred.",
+        schedule: {
+          lun: "20-22",
+          mie: "20-22",
+        },
+        classroom: "ING-301",
+        teacher: "ASTETE VALCARCEL HENRY",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS032",
+        section: "9A",
+        cycle: "00",
+        name: "REALIDAD VIRTUAL",
+        category: "EEE",
+        credits: 3.0,
+        prerequisite: "130 Cred.",
+        schedule: {
+          mar: "20-22",
+          jue: "20-22",
+        },
+        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
+        teacher: "VERA OLIVERA HARLEY",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS097",
+        section: "8A",
+        cycle: "00",
+        name: "SISTEMAS DIGITALES EMBEBIDOS",
+        category: "EEE",
+        credits: 3.0,
+        prerequisite: "130 Cred.",
+        schedule: {
+          mar: "16-18",
+          jue: "16-18",
+        },
+        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
+        teacher: "CARRASCO POBLETE EDWIN",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS006",
+        section: "1A",
+        cycle: "01",
+        name: "INTRODUCCION A LA INGENIERIA DE SISTEMAS",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "",
+        schedule: {
+          mar: "07-09",
+          jue: "07-09",
+        },
+        classroom: "ING-302",
+        teacher: "GONZALES CONDORI HARRY YEISON",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS006",
+        section: "1B",
+        cycle: "01",
+        name: "INTRODUCCION A LA INGENIERIA DE SISTEMAS",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "",
+        schedule: {
+          mar: "14-16",
+          jue: "14-16",
+        },
+        classroom: "ING-401,ING-402",
+        teacher: "VARGAS NORIEGA CAMILA JIMENA",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS056",
+        section: "2A",
+        cycle: "02",
+        name: "ALGORITMICA Y LENGUAJE DE PROGRAMACION ESTRUCTURADA",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "10 Cred.",
+        schedule: {
+          lun: "07-09",
+          mie: "07-09",
+        },
+        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
+        teacher: "ACURIO GUTIERREZ MARIA ISABEL",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS056",
+        section: "2B",
+        cycle: "02",
+        name: "ALGORITMICA Y LENGUAJE DE PROGRAMACION ESTRUCTURADA",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "10 Cred.",
+        schedule: {
+          lun: "14-16",
+          mie: "14-16",
+        },
+        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
+        teacher: "VILLENA LEON OLMER CLAUDIO",
+        type: "PRESENCIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS007",
+        section: "2A",
+        cycle: "02",
+        name: "INGENIERIA DE SISTEMAS",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "SIS006",
+        schedule: {
+          mar: "07-09",
+          jue: "07-09",
+        },
+        classroom: "ING-301",
+        teacher: "GANVINI VALCARCEL CRISTHIAN EDUARDO",
+        type: "ESPECIAL",
+        plan: "2016"
+      },
+      {
+        code: "SIS007",
+        section: "2B",
+        cycle: "02",
+        name: "INGENIERIA DE SISTEMAS",
+        category: "EBE",
+        credits: 3.0,
+        prerequisite: "SIS006",
+        schedule: {
+          mar: "14-16",
+          jue: "14-16",
+        },
+        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-301",
+        teacher: "DE LA VEGA BELLIDO VIVIAN LUZ",
+        type: "ESPECIAL",
+        plan: "2016"
+      }
+    ];
     // Colores para diferenciar visualmente los cursos
     const courseColors = [
-        "#3498db", "#2ecc71", "#e74c3c", "#f39c12",
-        "#9b59b6", "#1abc9c", "#d35400", "#34495e",
-        "#16a085", "#27ae60", "#2980b9", "#8e44ad",
-        "#f1c40f", "#e67e22", "#c0392b", "#7f8c8d",
-        "#2c3e50", "#d35400", "#c0392b", "#8e44ad",
-        "#27ae60", "#16a085", "#2980b9", "#f39c12"
-      ];
+      "#3498db", "#2ecc71", "#e74c3c", "#f39c12",
+      "#9b59b6", "#1abc9c", "#d35490", "#34495e",
+      "#16a085", "#27ae60", "#2980b9", "#8e44ad",
+      "#f1c40f", "#e67e22", "#c0392b", "#7f8c8d",
+      "#2c3e50", "#d35400", "#c0392b", "#8e44ad",
+      "#27ae60", "#16a085", "#2980b9", "#f39c12",
+      "#e74cfc", "#2ecc71", "#3498db", "#9b59b6"
+    ];
     // Mapeo de días en español a inglés para coincidir con los datos
     const dayMapping = {
       "lun": "lun",
