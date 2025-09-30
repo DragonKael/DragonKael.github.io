@@ -1,1412 +1,1633 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modelos de Aprendizaje Supervisado | Equipo Blinders</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            padding: 2rem 0;
-            text-align: center;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            margin-bottom: 3rem;
-        }
-
-        .university-info {
-            font-size: 0.9rem;
-            color: #666;
-            margin-bottom: 1rem;
-        }
-
-        .title {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            color: #666;
-            margin-bottom: 2rem;
-        }
-
-        .team-info {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .team-member {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 1rem 1.5rem;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: transform 0.3s ease;
-        }
-
-        .team-member:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Cards Section */
-        .models-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .model-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 2.5rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .model-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-        }
-
-        .model-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
-        }
-
-        .model-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .model-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .linear .model-icon { background: linear-gradient(135deg, #4CAF50, #45a049); }
-        .polynomial .model-icon { background: linear-gradient(135deg, #FF9800, #f57c00); }
-        .logistic .model-icon { background: linear-gradient(135deg, #2196F3, #1976d2); }
-
-        .dataset-info {
-            background: rgba(103, 126, 234, 0.1);
-            padding: 1.5rem;
-            border-radius: 16px;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(103, 126, 234, 0.2);
-        }
-
-        .dataset-name {
-            font-weight: 600;
-            color: #667eea;
-            margin-bottom: 0.5rem;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .metric-item {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 1rem;
-            border-radius: 12px;
-            text-align: center;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .metric-item:hover {
-            transform: scale(1.05);
-        }
-
-        .metric-value {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #333;
-        }
-
-        .metric-label {
-            font-size: 0.8rem;
-            color: #666;
-            margin-top: 0.3rem;
-        }
-
-        /* Equations Section */
-        .equation-section {
-            background: linear-gradient(135deg, #f8f9ff, #e8f0ff);
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            border: 1px solid rgba(103, 126, 234, 0.2);
-        }
-
-        .equation-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #667eea;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .equation-content {
-            font-family: 'Courier New', monospace;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 1rem;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: #333;
-        }
-
-        .equation-main {
-            font-weight: bold;
-            color: #764ba2;
-            margin-bottom: 0.5rem;
-        }
-
-        .equation-details {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 0.5rem;
-        }
-
-        /* Mathematical Symbols */
-        .math-symbol {
-            color: #667eea;
-            font-weight: bold;
-        }
-
-        /* Equations Summary Section */
-        .equations-summary {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 3rem;
-            margin-bottom: 3rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .equations-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .equation-card {
-            background: linear-gradient(135deg, #f8f9ff, #e8f0ff);
-            border-radius: 16px;
-            padding: 1.5rem;
-            border: 1px solid rgba(103, 126, 234, 0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .equation-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .equation-card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #667eea;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        /* Tabs System */
-        .tabs-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 2rem;
-            margin-bottom: 3rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .tabs-header {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
-            background: rgba(240, 242, 255, 0.8);
-            border-radius: 16px;
-            padding: 0.5rem;
-            gap: 0.5rem;
-        }
-
-        .tab-button {
-            flex: 1;
-            max-width: 300px;
-            padding: 1rem 1.5rem;
-            border: none;
-            background: transparent;
-            border-radius: 12px;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            color: #666;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .tab-button:hover {
-            background: rgba(103, 126, 234, 0.1);
-            color: #667eea;
-            transform: translateY(-2px);
-        }
-
-        .tab-button.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            box-shadow: 0 8px 20px rgba(103, 126, 234, 0.3);
-        }
-
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .tab-model-card {
-            background: linear-gradient(135deg, #f8f9ff, #e8f0ff);
-            border-radius: 20px;
-            padding: 2.5rem;
-            border: 1px solid rgba(103, 126, 234, 0.2);
-        }
-
-        .tab-model-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .tab-model-icon {
-            font-size: 3rem;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .tab-dataset-info {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 1.5rem;
-            border-radius: 16px;
-            margin-bottom: 2rem;
-            border-left: 4px solid #667eea;
-        }
-
-        .tab-dataset-name {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #667eea;
-            margin-bottom: 0.5rem;
-        }
-
-        .tab-metrics-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .tab-equation-large {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 2rem;
-            border-radius: 16px;
-            text-align: center;
-        }
-
-        .tab-equation-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            opacity: 0.9;
-        }
-
-        .tab-equation-formula {
-            font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-        }
-
-        .tab-equation-interpretation {
-            font-size: 0.95rem;
-            opacity: 0.9;
-            line-height: 1.6;
-        }
-
-        /* Code Section */
-        .code-section {
-            background: #1e1e1e;
-            border-radius: 16px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-            border: 1px solid #333;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .code-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-        }
-
-        .code-title {
-            color: #ffffff;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .code-block {
-            background: #2d2d2d;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            overflow-x: auto;
-            border-left: 3px solid #667eea;
-        }
-
-        .code-python {
-            color: #ffffff;
-        }
-
-        .code-comment {
-            color: #6a9955;
-        }
-
-        .code-keyword {
-            color: #569cd6;
-        }
-
-        .code-string {
-            color: #ce9178;
-        }
-
-        .code-number {
-            color: #b5cea8;
-        }
-
-        .code-function {
-            color: #dcdcaa;
-        }
-
-        .code-description {
-            color: #cccccc;
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-            line-height: 1.4;
-            opacity: 0.9;
-        }
-
-        .code-tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .code-tab {
-            background: #333;
-            color: #fff;
-            padding: 0.5rem 1rem;
-            border-radius: 8px 8px 0 0;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .code-tab.active {
-            background: #667eea;
-        }
-
-        .code-content {
-            display: none;
-        }
-
-        .code-content.active {
-            display: block;
-        }
-
-        .highlight-line {
-            background: rgba(103, 126, 234, 0.1);
-            border-left: 3px solid #667eea;
-            padding-left: 0.5rem;
-            margin: 0.2rem 0;
-        }
-
-        /* Comparison Section */
-        .comparison-section {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 3rem;
-            margin-bottom: 3rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 2rem;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .comparison-table th {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 1.5rem;
-            font-weight: 600;
-            text-align: left;
-        }
-
-        .comparison-table td {
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            background: rgba(255, 255, 255, 0.8);
-        }
-
-        .comparison-table tr:hover {
-            background: rgba(103, 126, 234, 0.1);
-        }
-
-        /* Key Insights */
-        .insights-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .insight-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .insight-card:hover {
-            transform: translateY(-8px);
-        }
-
-        .insight-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Footer */
-        .footer {
-            background: rgba(0, 0, 0, 0.8);
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-            backdrop-filter: blur(20px);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .title {
-                font-size: 2rem;
-            }
-            
-            .team-info {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .models-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .model-card {
-                padding: 1.5rem;
-            }
-
-            .tabs-header {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .tab-button {
-                max-width: none;
-                font-size: 0.9rem;
-                padding: 0.8rem 1rem;
-            }
-
-            .tab-model-title {
-                font-size: 2rem;
-                flex-direction: column;
-                text-align: center;
-                gap: 0.5rem;
-            }
-
-            .tab-model-icon {
-                font-size: 2.5rem;
-            }
-
-            .tab-metrics-section {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-
-            .tab-equation-formula {
-                font-size: 0.95rem;
-            }
-
-            .tabs-container {
-                padding: 1rem;
-            }
-
-            .code-section {
-                padding: 1rem;
-            }
-
-            .code-tabs {
-                flex-direction: column;
-                gap: 0.3rem;
-            }
-
-            .code-tab {
-                padding: 0.7rem 1rem;
-                font-size: 0.8rem;
-            }
-
-            .code-block {
-                font-size: 0.8rem;
-                padding: 0.8rem;
-            }
-
-            .code-title {
-                font-size: 1rem;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .model-card, .comparison-section, .insight-card {
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        .model-card:nth-child(2) { animation-delay: 0.2s; }
-        .model-card:nth-child(3) { animation-delay: 0.4s; }
-        .insight-card:nth-child(2) { animation-delay: 0.2s; }
-        .insight-card:nth-child(3) { animation-delay: 0.4s; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Horarios Académicos - Ingeniería de Sistemas</title>
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --light-color: #ecf0f1;
+      --border-color: #bdc3c7;
+      --hover-color: #f1f2f6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .filters {
+      background-color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .filter-group {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+
+    select,
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    .schedule-container {
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .days-header {
+      display: grid;
+      grid-template-columns: 80px repeat(6, 1fr);
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+    }
+
+    .day-header {
+      padding: 0.75rem;
+      text-align: center;
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .time-slots {
+      display: grid;
+      grid-template-columns: 80px repeat(6, 1fr);
+    }
+
+    .time-slot {
+      padding: 0.5rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
+      background-color: var(--light-color);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: 80px repeat(6, 1fr);
+    }
+
+    .schedule-cell {
+      min-height: 80px;
+      border-bottom: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
+      padding: 0.25rem;
+      position: relative;
+    }
+
+    .course {
+      background-color: var(--secondary-color);
+      color: white;
+      border-radius: 4px;
+      padding: 0.5rem;
+      margin-bottom: 0.25rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .course:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .course-code {
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+
+    .course-name {
+      font-size: 0.75rem;
+      opacity: 0.9;
+    }
+
+    .course-time {
+      position: absolute;
+      top: 0.25rem;
+      right: 0.5rem;
+      font-size: 0.7rem;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 0.1rem 0.3rem;
+      border-radius: 3px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background-color: white;
+      border-radius: 8px;
+      padding: 2rem;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1rem;
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--primary-color);
+    }
+
+    .course-detail {
+      margin-bottom: 1rem;
+    }
+
+    .course-detail strong {
+      color: var(--primary-color);
+    }
+
+    .empty-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #95a5a6;
+      font-style: italic;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 1200px) {
+
+      .days-header,
+      .time-slots,
+      .schedule-grid {
+        grid-template-columns: 60px repeat(6, 1fr);
+      }
+
+      .time-slot {
+        padding: 0.25rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .filters {
+        flex-direction: column;
+      }
+
+      .days-header,
+      .time-slots,
+      .schedule-grid {
+        grid-template-columns: 50px repeat(6, 1fr);
+      }
+
+      .day-header,
+      .time-slot {
+        font-size: 0.8rem;
+        padding: 0.5rem 0.25rem;
+      }
+
+      .course {
+        padding: 0.25rem;
+        font-size: 0.7rem;
+      }
+
+      .course-name {
+        display: none;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <header class="header">
-        <div class="container">
-            <div class="university-info">
-                <strong>UNIVERSIDAD ANDINA DEL CUSCO</strong><br>
-                Facultad de Ingeniería y Arquitectura | Escuela Profesional de Ingeniería de Sistemas<br>
-                <strong>Inteligencia Artificial - 10A</strong> | Mg. Ing. Hugo Espetia Huamanga
-            </div>
-            <h1 class="title">Modelos de Aprendizaje Supervisado</h1>
-            <p class="subtitle">Análisis Comparativo de Regresión Lineal, Polinomial y Logística</p>
-            <div class="team-info">
-                <div class="team-member">
-                    <strong>Equipo Blinders</strong>
-                </div>
-                <div class="team-member">
-                    Paredes Puma, Jairo Nahuel
-                </div>
-                <div class="team-member">
-                    Rojas Cornejo, Abel Edson
-                </div>
-                <div class="team-member">
-                    Salas Challco, Luis Marin (SM)
-                </div>
-                <div class="team-member">
-                    Segovia Palacios, Mark Joel
-                </div>
-            </div>
-        </div>
-    </header>
+  <header>
+    <h1>Horarios Académicos - Ingeniería de Sistemas</h1>
+    <p>Universidad Andina del Cusco - Semestre 2025-2</p>
+  </header>
 
-    <main class="container">
-        <!-- Tabs System for Models -->
-        <section class="tabs-container">
-            <div class="tabs-header">
-                <button class="tab-button active" onclick="openTab(event, 'linear-tab')">
-                    📈 Regresión Lineal
-                </button>
-                <button class="tab-button" onclick="openTab(event, 'polynomial-tab')">
-                    📊 Regresión Polinomial
-                </button>
-                <button class="tab-button" onclick="openTab(event, 'logistic-tab')">
-                    🎯 Regresión Logística
-                </button>
-            </div>
+  <div class="container">
+    <div class="filters">
+      <div class="filter-group">
+        <label for="plan">Plan de Estudios</label>
+        <select id="plan">
+          <option value="all">Todos los planes</option>
+          <option value="2016">Plan 2016</option>
+          <option value="2020">Plan 2020</option>
+          <option value="2025">Plan 2025</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="ciclo">Ciclo</label>
+        <select id="ciclo">
+          <option value="all">Todos los ciclos</option>
+          <option value="01">Ciclo 01</option>
+          <option value="02">Ciclo 02</option>
+          <option value="03">Ciclo 03</option>
+          <option value="04">Ciclo 04</option>
+          <option value="05">Ciclo 05</option>
+          <option value="06">Ciclo 06</option>
+          <option value="07">Ciclo 07</option>
+          <option value="08">Ciclo 08</option>
+          <option value="09">Ciclo 09</option>
+          <option value="10">Ciclo 10</option>
+          <option value="00">Electivas</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="search">Buscar por código o nombre</label>
+        <input type="text" id="search" placeholder="Ej: SIS072, Cálculo...">
+      </div>
+    </div>
 
-            <!-- Linear Regression Tab -->
-            <div id="linear-tab" class="tab-content active">
-                <div class="tab-model-card">
-                    <h2 class="tab-model-title">
-                        <div class="tab-model-icon">📈</div>
-                        Regresión Lineal
-                    </h2>
-                    
-                    <div class="tab-dataset-info">
-                        <div class="tab-dataset-name">Dataset: Insurance (Medical Cost Personal)</div>
-                        <p>Predicción de costos médicos basada en características demográficas y de estilo de vida. Este modelo utiliza regresión lineal múltiple para establecer relaciones directas entre las variables predictoras y el costo de seguros médicos.</p>
-                        <p><strong>Variables:</strong> Edad, IMC, número de hijos, sexo, hábito de fumar, región</p>
-                        <p><strong>Target:</strong> Costos médicos (charges)</p>
-                    </div>
+    <div class="schedule-container">
+      <div class="days-header">
+        <div class="day-header">Hora</div>
+        <div class="day-header">Lunes</div>
+        <div class="day-header">Martes</div>
+        <div class="day-header">Miércoles</div>
+        <div class="day-header">Jueves</div>
+        <div class="day-header">Viernes</div>
+        <div class="day-header">Sábado</div>
+      </div>
 
-                    <div class="tab-metrics-section">
-                        <div class="metrics-grid">
-                            <div class="metric-item">
-                                <div class="metric-value">0.7836</div>
-                                <div class="metric-label">R²</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">5,796</div>
-                                <div class="metric-label">RMSE</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">33.6M</div>
-                                <div class="metric-label">MSE</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">78.36%</div>
-                                <div class="metric-label">Varianza Explicada</div>
-                            </div>
-                        </div>
+      <div class="time-slots">
+        <div class="time-slot">07:00 - 09:00</div>
+        <div class="schedule-cell" data-day="lun" data-time="07-09"></div>
+        <div class="schedule-cell" data-day="mar" data-time="07-09"></div>
+        <div class="schedule-cell" data-day="mie" data-time="07-09"></div>
+        <div class="schedule-cell" data-day="jue" data-time="07-09"></div>
+        <div class="schedule-cell" data-day="vie" data-time="07-09"></div>
+        <div class="schedule-cell" data-day="sab" data-time="07-09"></div>
+      </div>
 
-                        <div class="tab-equation-large">
-                            <div class="tab-equation-title">📐 Ecuación del Modelo</div>
-                            <div class="tab-equation-formula">
-                                charges = -6,118 + 221×edad + 332×IMC + 563×hijos<br>
-                                + efectos categóricos (sexo, fumador, región)
-                            </div>
-                            <div class="tab-equation-interpretation">
-                                <strong>Interpretación:</strong><br>
-                                • Por cada año adicional de edad: +$221<br>
-                                • Por cada punto de IMC: +$332<br>
-                                • Por cada hijo adicional: +$563<br>
-                                • Los fumadores tienen costos significativamente mayores
-                            </div>
-                        </div>
-                    </div>
+      <div class="time-slots">
+        <div class="time-slot">09:00 - 11:00</div>
+        <div class="schedule-cell" data-day="lun" data-time="09-11"></div>
+        <div class="schedule-cell" data-day="mar" data-time="09-11"></div>
+        <div class="schedule-cell" data-day="mie" data-time="09-11"></div>
+        <div class="schedule-cell" data-day="jue" data-time="09-11"></div>
+        <div class="schedule-cell" data-day="vie" data-time="09-11"></div>
+        <div class="schedule-cell" data-day="sab" data-time="09-11"></div>
+      </div>
 
-                    <div class="code-section">
-                        <div class="code-title">
-                            💻 Código Principal - Regresión Lineal
-                        </div>
-                        
-                        <div class="code-tabs">
-                            <div class="code-tab active" onclick="showCodeTab(event, 'linear-imports')">Imports & Data</div>
-                            <div class="code-tab" onclick="showCodeTab(event, 'linear-preprocessing')">Preprocessing</div>
-                            <div class="code-tab" onclick="showCodeTab(event, 'linear-model')">Modelo & Métricas</div>
-                        </div>
+      <div class="time-slots">
+        <div class="time-slot">11:00 - 13:00</div>
+        <div class="schedule-cell" data-day="lun" data-time="11-13"></div>
+        <div class="schedule-cell" data-day="mar" data-time="11-13"></div>
+        <div class="schedule-cell" data-day="mie" data-time="11-13"></div>
+        <div class="schedule-cell" data-day="jue" data-time="11-13"></div>
+        <div class="schedule-cell" data-day="vie" data-time="11-13"></div>
+        <div class="schedule-cell" data-day="sab" data-time="11-13"></div>
+      </div>
 
-                        <div id="linear-imports" class="code-content active">
-                            <div class="code-block">
-                                <div class="code-python">
-<span class="code-comment"># Imports principales</span>
-<span class="code-keyword">import</span> pandas <span class="code-keyword">as</span> pd
-<span class="code-keyword">from</span> sklearn.model_selection <span class="code-keyword">import</span> train_test_split
-<span class="code-keyword">from</span> sklearn.linear_model <span class="code-keyword">import</span> <span class="code-function">LinearRegression</span>
-<span class="code-keyword">from</span> sklearn.preprocessing <span class="code-keyword">import</span> <span class="code-function">StandardScaler</span>, <span class="code-function">OneHotEncoder</span>
-<span class="code-keyword">from</span> sklearn.compose <span class="code-keyword">import</span> <span class="code-function">ColumnTransformer</span>
-<span class="code-keyword">from</span> sklearn.metrics <span class="code-keyword">import</span> mean_squared_error, r2_score
+      <div class="time-slots">
+        <div class="time-slot">14:00 - 16:00</div>
+        <div class="schedule-cell" data-day="lun" data-time="14-16"></div>
+        <div class="schedule-cell" data-day="mar" data-time="14-16"></div>
+        <div class="schedule-cell" data-day="mie" data-time="14-16"></div>
+        <div class="schedule-cell" data-day="jue" data-time="14-16"></div>
+        <div class="schedule-cell" data-day="vie" data-time="14-16"></div>
+        <div class="schedule-cell" data-day="sab" data-time="14-16"></div>
+      </div>
 
-<span class="code-comment"># Cargar datos</span>
-df = pd.<span class="code-function">read_csv</span>(<span class="code-string">"Data/insurance.csv"</span>)
-y = df[<span class="code-string">"charges"</span>]
-X = df.<span class="code-function">drop</span>(columns=[<span class="code-string">"charges"</span>])
-                                </div>
-                                <div class="code-description">
-                                    Configuración inicial: importación de librerías y carga del dataset de seguros médicos.
-                                </div>
-                            </div>
-                        </div>
+      <div class="time-slots">
+        <div class="time-slot">16:00 - 18:00</div>
+        <div class="schedule-cell" data-day="lun" data-time="16-18"></div>
+        <div class="schedule-cell" data-day="mar" data-time="16-18"></div>
+        <div class="schedule-cell" data-day="mie" data-time="16-18"></div>
+        <div class="schedule-cell" data-day="jue" data-time="16-18"></div>
+        <div class="schedule-cell" data-day="vie" data-time="16-18"></div>
+        <div class="schedule-cell" data-day="sab" data-time="16-18"></div>
+      </div>
 
-                        <div id="linear-preprocessing" class="code-content">
-                            <div class="code-block">
-                                <div class="code-python">
-<span class="code-comment"># Definir columnas</span>
-num_cols = [<span class="code-string">"age"</span>, <span class="code-string">"bmi"</span>, <span class="code-string">"children"</span>]
-cat_cols = [<span class="code-string">"sex"</span>, <span class="code-string">"smoker"</span>, <span class="code-string">"region"</span>]
+      <div class="time-slots">
+        <div class="time-slot">18:00 - 20:00</div>
+        <div class="schedule-cell" data-day="lun" data-time="18-20"></div>
+        <div class="schedule-cell" data-day="mar" data-time="18-20"></div>
+        <div class="schedule-cell" data-day="mie" data-time="18-20"></div>
+        <div class="schedule-cell" data-day="jue" data-time="18-20"></div>
+        <div class="schedule-cell" data-day="vie" data-time="18-20"></div>
+        <div class="schedule-cell" data-day="sab" data-time="18-20"></div>
+      </div>
 
-<span class="code-comment"># Pipeline de preprocesamiento</span>
-<div class="highlight-line">preprocessor = <span class="code-function">ColumnTransformer</span>([
-    (<span class="code-string">"num"</span>, <span class="code-function">StandardScaler</span>(), num_cols),
-    (<span class="code-string">"cat"</span>, <span class="code-function">OneHotEncoder</span>(drop=<span class="code-string">"first"</span>), cat_cols)
-])</div>
+      <div class="time-slots">
+        <div class="time-slot">20:00 - 22:00</div>
+        <div class="schedule-cell" data-day="lun" data-time="20-22"></div>
+        <div class="schedule-cell" data-day="mar" data-time="20-22"></div>
+        <div class="schedule-cell" data-day="mie" data-time="20-22"></div>
+        <div class="schedule-cell" data-day="jue" data-time="20-22"></div>
+        <div class="schedule-cell" data-day="vie" data-time="20-22"></div>
+        <div class="schedule-cell" data-day="sab" data-time="20-22"></div>
+      </div>
+    </div>
+  </div>
 
-<span class="code-comment"># División de datos</span>
-X_train, X_test, y_train, y_test = <span class="code-function">train_test_split</span>(
-    X, y, test_size=<span class="code-number">0.2</span>, random_state=<span class="code-number">42</span>
-)
-                                </div>
-                                <div class="code-description">
-                                    Preprocesamiento de datos: escalado de variables numéricas y codificación one-hot de categóricas.
-                                </div>
-                            </div>
-                        </div>
+  <div class="modal" id="courseModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Detalles del Curso</h2>
+        <button class="close-modal">&times;</button>
+      </div>
+      <div id="modalBody">
+        <!-- Los detalles del curso se cargarán aquí -->
+      </div>
+    </div>
+  </div>
 
-                        <div id="linear-model" class="code-content">
-                            <div class="code-block">
-                                <div class="code-python">
-<span class="code-comment"># Crear y entrenar modelo</span>
-<div class="highlight-line">model = <span class="code-function">Pipeline</span>([
-    (<span class="code-string">"preprocessor"</span>, preprocessor),
-    (<span class="code-string">"regressor"</span>, <span class="code-function">LinearRegression</span>())
-])</div>
+  <script>
+    // Datos de ejemplo extraídos del PDF (solo algunos para demostración)
+    const courses = [
+        // PLAN 2016 - Página 1
+        {
+          code: "SIS072",
+          section: "7A",
+          cycle: "07",
+          name: "MODELOS ESTOCASTICOS",
+          category: "EBE",
+          credits: 3.00,
+          prerequisite: "STD008",
+          schedule: {
+            mar: "09-11"
+          },
+          classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
+          teacher: "SERNAQUE FERNANDEZ PAULA BENANCIA",
+          type: "DIRIGIDO",
+          plan: "2016"
+        },
+        {
+          code: "SIS018",
+          section: "8A",
+          cycle: "08",
+          name: "MODELACION Y SIMULACION DE SISTEMAS",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "SIS072",
+          schedule: {
+            mar: "09-11"
+          },
+          classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
+          teacher: "MEZA APARICIO ROXANA",
+          type: "DIRIGIDO",
+          plan: "2016"
+        },
+        {
+          code: "SIS074",
+          section: "9A",
+          cycle: "09",
+          name: "GESTION DE PROYECTOS DE SISTEMAS",
+          category: "EFE",
+          credits: 3.00,
+          prerequisite: "SIS022",
+          schedule: {
+            mar: "14-16"
+          },
+          classroom: "",
+          teacher: "MOREANO CORDOVA JAVIER",
+          type: "DIRIGIDO",
+          plan: "2016"
+        },
+        {
+          code: "SIS064",
+          section: "10A",
+          cycle: "10",
+          name: "INGENIERIA DE LA INFORMACION",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "170 Cred.",
+          schedule: {
+            lun: "07-09"
+          },
+          classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
+          teacher: "ARDLES ROMERO VELIA",
+          type: "DIRIGIDO",
+          plan: "2016"
+        },
+        {
+          code: "SIS075",
+          section: "10A",
+          cycle: "10",
+          name: "TOPICOS DE CIENCIA DE DATOS",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "170 Cred.",
+          schedule: {
+            lun: "18-20",
+            mar: "18-20",
+            mie: "18-20",
+            jue: "18-20"
+          },
+          classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-302",
+          teacher: "CHULLO LLAVE BORIS",
+          type: "PRESENCIAL",
+          plan: "2016"
+        },
 
-model.<span class="code-function">fit</span>(X_train, y_train)
+        // PLAN 2020 - Página 1
+        {
+          code: "SIS082",
+          section: "3A",
+          cycle: "03",
+          name: "ALGORTMICA Y LENGUAJE DE PROGRAMACION ORIENTADA A OBJETOS",
+          category: "EBE",
+          credits: 4.00,
+          prerequisite: "SIS056",
+          schedule: {
+            lun: "09-11",
+            mar: "09-11",
+            mie: "09-11",
+            jue: "09-11"
+          },
+          classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS ,ING-301",
+          teacher: "CHAVEZ ESPINOZA WILLIAM ALBERTO",
+          type: "PRESENCIAL",
+          plan: "2020"
+        },
+        {
+          code: "BIO006",
+          section: "3A",
+          cycle: "03",
+          name: "BIOLOGIA",
+          category: "EBE",
+          credits: 3.00,
+          prerequisite: "25 Cred.",
+          schedule: {
+            lun: "09-11",
+            mar: "09-11"
+          },
+          classroom: "ING-301",
+          teacher: "HUANCA POLIAR MARIA CLEOFE",
+          type: "PRESENCIAL",
+          plan: "2020"
+        },
+        {
+          code: "MAT005",
+          section: "3A",
+          cycle: "03",
+          name: "CALCULO II",
+          category: "EBE",
+          credits: 4.00,
+          prerequisite: "MAT004",
+          schedule: {
+            lun: "11-13",
+            mar: "11-13",
+            mie: "11-13"
+          },
+          classroom: "ING-301",
+          teacher: "CORNEJO LAZO CONNIE YASSHYRA",
+          type: "PRESENCIAL",
+          plan: "2020"
+        },
+        {
+          code: "MAT005",
+          section: "3B",
+          cycle: "03",
+          name: "CALCULO II",
+          category: "EBE",
+          credits: 4.00,
+          prerequisite: "MAT004",
+          schedule: {
+            lun: "18-20",
+            mar: "18-20",
+            mie: "18-20"
+          },
+          classroom: "ING-409",
+          teacher: "VELASQUEZ HACHIA IGNACIO",
+          type: "ESPECIAL",
+          plan: "2020"
+        },
+        {
+          code: "STD005",
+          section: "3A",
+          cycle: "03",
+          name: "ESTADISTICA II",
+          category: "EBE",
+          credits: 4.00,
+          prerequisite: "STD004",
+          schedule: {
+            lun: "07-09",
+            mar: "07-09",
+            mie: "07-09"
+          },
+          classroom: "ING-301",
+          teacher: "VARGAS ARAMACO LUIS ALBERTO",
+          type: "PRESENCIAL",
+          plan: "2020"
+        },
+        {
+          code: "FIS001",
+          section: "3A",
+          cycle: "03",
+          name: "FISICA I",
+          category: "EBE",
+          credits: 4.00,
+          prerequisite: "MAT004",
+          schedule: {
+            lun: "11-13",
+            mar: "11-13"
+          },
+          classroom: "ING-409",
+          teacher: "PALOMINO GAMARRA MARIBEL",
+          type: "PRESENCIAL",
+          plan: "2020"
+        },
+        {
+          code: "FIL005",
+          section: "3A",
+          cycle: "03",
+          name: "PENSAMIENTO FILOSOFICO Y CIUDADANIA",
+          category: "EBE",
+          credits: 3.00,
+          prerequisite: "25 Cred.",
+          schedule: {
+            lun: "07-09",
+            mar: "07-09"
+          },
+          classroom: "ING-402",
+          teacher: "ROJO SOLORZANO HENRY CHARLES",
+          type: "PRESENCIAL",
+          plan: "2020"
+        },
+        {
+          code: "MAT011",
+          section: "4A",
+          cycle: "04",
+          name: "ALGEBRA LINEAL",
+          category: "EBE",
+          credits: 3.00,
+          prerequisite: "45 Cred.",
+          schedule: {
+            lun: "07-09",
+            mar: "07-09"
+          },
+          classroom: "ING-409",
+          teacher: "HOLGUIN SEGOVIA ALEJANDRINO DOMATO",
+          type: "ESPECIAL",
+          plan: "2020"
+        },
+        {
+          code: "MAT011",
+          section: "4B",
+          cycle: "04",
+          name: "ALGEBRA LINEAL",
+          category: "EBE",
+          credits: 3.00,
+          prerequisite: "45 Cred.",
+          schedule: {
+            lun: "16-18",
+            mar: "16-18"
+          },
+          classroom: "ING-401,ING-409",
+          teacher: "VELASQUEZ HACHIA IGNACIO",
+          type: "ESPECIAL",
+          plan: "2020"
+        },
+        {
+          code: "MAT006",
+          section: "4A",
+          cycle: "04",
+          name: "CALCULO III",
+          category: "EBE",
+          credits: 4.00,
+          prerequisite: "MAT005",
+          schedule: {
+            lun: "09-11",
+            mar: "09-11",
+            mie: "09-11"
+          },
+          classroom: "ING-409",
+          teacher: "ALMANZA HUALLPA DANNY JAVIER",
+          type: "PRESENCIAL",
+          plan: "2020"
+        },
+        {
+          code: "SIS062",
+          section: "4A",
+          cycle: "04",
+          name: "ESTRUCTURA DE DATOS",
+          category: "EBE",
+          credits: 4.00,
+          prerequisite: "SIS082",
+          schedule: {
+            lun: "07-09",
+            mar: "07-09",
+            mie: "07-09"
+          },
+          classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS",
+          teacher: "VARGAS VERA LIZET",
+          type: "ESPECIAL",
+          plan: "2020"
+        },
+        {
+          code: "SIS062",
+          section: "4B",
+          cycle: "04",
+          name: "ESTRUCTURA DE DATOS",
+          category: "EBE",
+          credits: 4.00,
+          prerequisite: "SIS082",
+          schedule: {
+            lun: "14-16",
+            mar: "14-16",
+            mie: "14-16"
+          },
+          classroom: "ING-204",
+          teacher: "LEON NÚÑEZ LIDA",
+          type: "ESPECIAL",
+          plan: "2020"
+        },
 
-<span class="code-comment"># Predicciones y evaluación</span>
-y_pred = model.<span class="code-function">predict</span>(X_test)
-<div class="highlight-line">r2 = <span class="code-function">r2_score</span>(y_test, y_pred)  <span class="code-comment"># 0.7836</span>
-rmse = np.<span class="code-function">sqrt</span>(<span class="code-function">mean_squared_error</span>(y_test, y_pred))</div>
+        // PLAN 2016 - Página 4
+        {
+          code: "SIS067",
+          section: "7A",
+          cycle: "07",
+          name: "GESTION ESTRATEGICA DE TECNOLOGIA DE INFORMACION",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "105 Cred.",
+          schedule: {
+            lun: "18-20",
+            mar: "18-20",
+            mie: "18-20"
+          },
+          classroom: "LABORATORIO COMPUTO 5 SISTEMAS,ING-301",
+          teacher: "QUISPE ONOFRE CARLOS RAMON",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS067",
+          section: "7B",
+          cycle: "07",
+          name: "GESTION ESTRATEGICA DE TECNOLOGIA DE INFORMACION",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "105 Cred.",
+          schedule: {
+            lun: "20-22",
+            mar: "20-22",
+            mie: "20-22"
+          },
+          classroom: "LABORATORIO COMPUTO 3 SISTEMAS,ING-302",
+          teacher: "CONZA BALBIN CARLOS HERNAN",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "ECO056",
+          section: "7A",
+          cycle: "07",
+          name: "INGENIERIA ECONOMICA",
+          category: "EBE",
+          credits: 3.00,
+          prerequisite: "105 Cred.",
+          schedule: {
+            lun: "14-16",
+            mar: "14-16"
+          },
+          classroom: "LABORATORIO COMPUTO 5 SISTEMAS,ING-301",
+          teacher: "DEL CARPIO CUENTAS LUIS ENRIQUE",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "ECO056",
+          section: "7B",
+          cycle: "07",
+          name: "INGENIERIA ECONOMICA",
+          category: "EBE",
+          credits: 3.00,
+          prerequisite: "105 Cred.",
+          schedule: {
+            lun: "11-13",
+            mar: "11-13"
+          },
+          classroom: "LABORATORIO COMPUTO 4 SISTEMAS,ING-301",
+          teacher: "DEL CARPIO CUENTAS LUIS ENRIQUE",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS017",
+          section: "7A",
+          cycle: "07",
+          name: "SISTEMAS OPERATIVOS",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "SIS090",
+          schedule: {
+            lun: "16-18",
+            mar: "16-18",
+            mie: "16-18"
+          },
+          classroom: "LABORATORIO COMPUTO 5 SISTEMAS,ING-409",
+          teacher: "CALOMINO OLIVERA EMILIO",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS017",
+          section: "7B",
+          cycle: "07",
+          name: "SISTEMAS OPERATIVOS",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "SIS090",
+          schedule: {
+            lun: "09-11",
+            mar: "09-11",
+            mie: "09-11"
+          },
+          classroom: "LABORATORIO COMPUTO 1 SISTEMAS,ING-302",
+          teacher: "CONZA BALBIN CARLOS HERNAN",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS022",
+          section: "8A",
+          cycle: "08",
+          name: "FORMULACION DE PROYECTOS DE SISTEMAS",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "ECO056",
+          schedule: {
+            lun: "18-20",
+            mar: "18-20",
+            mie: "18-20"
+          },
+          classroom: "LABORATORIO COMPUTO 1 SISTEMAS,ING-302",
+          teacher: "COSIO OBLEA JOHAN EDWIN",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS022",
+          section: "8B",
+          cycle: "08",
+          name: "FORMULACION DE PROYECTOS DE SISTEMAS",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "ECO056",
+          schedule: {
+            lun: "18-20",
+            mar: "18-20",
+            mie: "18-20"
+          },
+          classroom: "LABORATORIO COMPUTO 4 SISTEMAS,ING-401",
+          teacher: "CONZA BALBIN CARLOS HERNAN",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS092",
+          section: "8A",
+          cycle: "08",
+          name: "INFRAESTRUCTURA DE REDES",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "SIS017",
+          schedule: {
+            lun: "16-18",
+            mar: "16-18",
+            mie: "16-18"
+          },
+          classroom: "ING-402,TA ING-201",
+          teacher: "CARRASCO POBLETE EDWIN",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS092",
+          section: "8B",
+          cycle: "08",
+          name: "INFRAESTRUCTURA DE REDES",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "SIS017",
+          schedule: {
+            lun: "14-16",
+            mar: "14-16",
+            mie: "14-16"
+          },
+          classroom: "ING-401,TA ING-208",
+          teacher: "SOLTARELLANA LUIS ALBERTO",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS021",
+          section: "8A",
+          cycle: "08",
+          name: "INGENIERIA DE SOFTWARE",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "SIS012",
+          schedule: {
+            lun: "20-22",
+            mar: "20-22"
+          },
+          classroom: "LABORATORIO COMPUTO 1 SISTEMAS,ING-401",
+          teacher: "QUISPE SOTA JULIO VLADIMIR",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS021",
+          section: "8B",
+          cycle: "08",
+          name: "INGENIERIA DE SOFTWARE",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "SIS012",
+          schedule: {
+            lun: "20-22",
+            mar: "20-22"
+          },
+          classroom: "LABORATORIO COMPUTO 3 SISTEMAS,ING-401",
+          teacher: "CHULLO LLAVE BORIS",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "INV007",
+          section: "8A",
+          cycle: "08",
+          name: "METODOLOGIA DE LA INVESTIGACION EN INGENIERIA",
+          category: "EBE",
+          credits: 3.00,
+          prerequisite: "125 Cred.",
+          schedule: {
+            lun: "18-20",
+            mar: "18-20"
+          },
+          classroom: "ING-402",
+          teacher: "ZUÑIGA ROJAS GABRIELA",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "INV007",
+          section: "8B",
+          cycle: "08",
+          name: "METODOLOGIA DE LA INVESTIGACION EN INGENIERIA",
+          category: "EBE",
+          credits: 3.00,
+          prerequisite: "125 Cred.",
+          schedule: {
+            lun: "18-20",
+            mar: "18-20"
+          },
+          classroom: "LABORATORIO COMPUTO 5 SISTEMAS,ING-401",
+          teacher: "VERA OLIVERA HARLEY",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS091",
+          section: "8A",
+          cycle: "08",
+          name: "PLATAFORMAS PARA EL DESARROLLO DE APLICACIONES",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "SIS048",
+          schedule: {
+            lun: "14-16",
+            mar: "14-16",
+            mie: "14-16"
+          },
+          classroom: "LABORATORIO COMPUTO 3 SISTEMAS,ING-401",
+          teacher: "VARGAS QUISPE FELIX ESTANISLAO",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS091",
+          section: "8B",
+          cycle: "08",
+          name: "PLATAFORMAS PARA EL DESARROLLO DE APLICACIONES",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "SIS048",
+          schedule: {
+            lun: "14-16",
+            mar: "14-16",
+            mie: "14-16"
+          },
+          classroom: "LABORATORIO COMPUTO 1 SISTEMAS,ING-401",
+          teacher: "VARGAS QUISPE FELIX ESTANISLAO",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS094",
+          section: "9A",
+          cycle: "09",
+          name: "ADMINISTRACION DE SERVICIOS DE REDES",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "SIS092",
+          schedule: {
+            lun: "18-20",
+            mar: "18-20",
+            mie: "18-20"
+          },
+          classroom: "LABORATORIO COMPUTO 5 SISTEMAS,ING-402",
+          teacher: "CARRASCO POBLETE EDWIN",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS094",
+          section: "9B",
+          cycle: "09",
+          name: "ADMINISTRACION DE SERVICIOS DE REDES",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "SIS092",
+          schedule: {
+            lun: "18-20",
+            mar: "18-20",
+            mie: "18-20"
+          },
+          classroom: "LABORATORIO COMPUTO 3 SISTEMAS,ING-402",
+          teacher: "ZAMALLOA PARO WILLIAN",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
 
-<span class="code-function">print</span>(<span class="code-string">f"R² Score: {r2:.4f}"</span>)
-<span class="code-function">print</span>(<span class="code-string">f"RMSE: {rmse:.2f}"</span>)
-                                </div>
-                                <div class="code-description">
-                                    Entrenamiento del modelo de regresión lineal y evaluación de métricas de rendimiento.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        // PLAN 2016 - Página 5
+        {
+          code: "SIS033",
+          section: "9A",
+          cycle: "09",
+          name: "GESTION DE LA INNOVACION Y EMPRENDIMIENTO",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "SIS022",
+          schedule: {
+            lun: "18-20",
+            mar: "18-20",
+            mie: "18-20"
+          },
+          classroom: "LABORATORIO COMPUTO 3 SISTEMAS",
+          teacher: "ALCOA ZELA ERICK",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS033",
+          section: "9B",
+          cycle: "09",
+          name: "GESTION DE LA INNOVACION Y EMPRENDIMIENTO",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "SIS022",
+          schedule: {
+            lun: "20-22",
+            mar: "20-22",
+            mie: "20-22"
+          },
+          classroom: "LABORATORIO COMPUTO 4 SISTEMAS,ING-301",
+          teacher: "COSIO OBLEA JOHAN EDWIN",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS058",
+          section: "9A",
+          cycle: "09",
+          name: "INTELIGENCIA DE NEGOCIOS",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "145 Cred.",
+          schedule: {
+            lun: "16-18",
+            mar: "16-18",
+            mie: "16-18"
+          },
+          classroom: "LABORATORIO COMPUTO 4 SISTEMAS,ING-401",
+          teacher: "QUISPE ONOFRE CARLOS RAMON",
+          type: "PRESENCIAL",
+          plan: "2016"
+        },
+        {
+          code: "INV003",
+          section: "9A",
+          cycle: "09",
+          name: "SEMINARIO TALLER DE TESIS I",
+          category: "EFE",
+          credits: 3.00,
+          prerequisite: "INV007",
+          schedule: {
+            lun: "14-16",
+            mar: "14-16",
+            mie: "14-16"
+          },
+          classroom: "LABORATORIO COMPUTO 4 SISTEMAS,ING-401",
+          teacher: "RNAS MAGO LORNEL ANTONIO",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "INV003",
+          section: "9B",
+          cycle: "09",
+          name: "SEMINARIO TALLER DE TESIS I",
+          category: "EFE",
+          credits: 3.00,
+          prerequisite: "INV007",
+          schedule: {
+            lun: "16-18",
+            mar: "16-18",
+            mie: "16-18"
+          },
+          classroom: "ING-402",
+          teacher: "ZUÑIGA ROJAS GABRIELA",
+          type: "PRESENCIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS093",
+          section: "9A",
+          cycle: "09",
+          name: "SISTEMAS DE INFORMACION GERENCIAL",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "145 Cred.",
+          schedule: {
+            lun: "14-16",
+            mar: "14-16",
+            mie: "14-16"
+          },
+          classroom: "LABORATORIO COMPUTO 4 SISTEMAS,ING-302",
+          teacher: "DE LA VEGA BELLIDO VIVIAN LUZ",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS093",
+          section: "9B",
+          cycle: "09",
+          name: "SISTEMAS DE INFORMACION GERENCIAL",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "145 Cred.",
+          schedule: {
+            lun: "20-22",
+            mar: "20-22",
+            mie: "20-22"
+          },
+          classroom: "LABORATORIO COMPUTO 4 SISTEMAS, ING-204",
+          teacher: "QUISPE SOTA JULIO VLADIMIR",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS095",
+          section: "10A",
+          cycle: "10",
+          name: "CALIDAD DE SISTEMAS DE INFORMACION",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "SIS093",
+          schedule: {
+            lun: "14-16",
+            mar: "14-16",
+            mie: "14-16"
+          },
+          classroom: "ING-301,ING-402",
+          teacher: "CHAVEZ ESPINOZA WILLIAM ALBERTO",
+          type: "PRESENCIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS027",
+          section: "10A",
+          cycle: "10",
+          name: "CONTROL Y AUDITORIA DE SISTEMAS",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "165 Cred.",
+          schedule: {
+            lun: "18-20",
+            mar: "18-20",
+            mie: "18-20"
+          },
+          classroom: "TA ING-208",
+          teacher: "PALOMINO OLIVERA EMILIO",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS027",
+          section: "10B",
+          cycle: "10",
+          name: "CONTROL Y AUDITORIA DE SISTEMAS",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "165 Cred.",
+          schedule: {
+            lun: "18-20",
+            mar: "18-20",
+            mie: "18-20"
+          },
+          classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS",
+          teacher: "CONZA BALBIN CARLOS HERNAN",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS070",
+          section: "10A",
+          cycle: "10",
+          name: "INTELIGENCIA ARTIFICIAL",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "165 Cred.",
+          schedule: {
+            lun: "14-16",
+            mar: "14-16",
+            mie: "14-16"
+          },
+          classroom: "LABORATORIO COMPUTO 1 SISTEMAS,ING-202",
+          teacher: "ESPETTA HUAMANGA HUGO",
+          type: "PRESENCIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS096",
+          section: "10A",
+          cycle: "10",
+          name: "SEGURIDAD EN TECNOLOGIAS DE INFORMACION",
+          category: "EFE",
+          credits: 4.00,
+          prerequisite: "SIS094",
+          schedule: {
+            lun: "20-22",
+            mar: "20-22",
+            mie: "20-22"
+          },
+          classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
+          teacher: "ZAMALLOA PARO WILLIAN",
+          type: "PRESENCIAL",
+          plan: "2016"
+        },
+        {
+          code: "INV004",
+          section: "10A",
+          cycle: "10",
+          name: "SEMINARIO TALLER DE TESIS II",
+          category: "EFE",
+          credits: 3.00,
+          prerequisite: "INV003",
+          schedule: {
+            lun: "16-18",
+            mar: "16-18",
+            mie: "16-18"
+          },
+          classroom: "ING-302,ING-401",
+          teacher: "COSIO OBLEA JOHAN EDWIN",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
+        {
+          code: "INV004",
+          section: "10B",
+          cycle: "10",
+          name: "SEMINARIO TALLER DE TESIS II",
+          category: "EFE",
+          credits: 3.00,
+          prerequisite: "INV003",
+          schedule: {
+            lun: "16-18",
+            mar: "16-18",
+            mie: "16-18"
+          },
+          classroom: "ING-301,ING-302",
+          teacher: "VERA OLIVERA HARLEY",
+          type: "ESPECIAL",
+          plan: "2016"
+        },
 
-            <!-- Polynomial Regression Tab -->
-            <div id="polynomial-tab" class="tab-content">
-                <div class="tab-model-card">
-                    <h2 class="tab-model-title">
-                        <div class="tab-model-icon">📊</div>
-                        Regresión Polinomial
-                    </h2>
-                    
-                    <div class="tab-dataset-info">
-                        <div class="tab-dataset-name">Dataset: Students Performance in Exams</div>
-                        <p>Predicción de puntuación en matemáticas usando características polinomiales de grado 3. Este modelo captura relaciones no lineales complejas entre las puntuaciones de diferentes materias y factores socioeconómicos.</p>
-                        <p><strong>Variables:</strong> Puntuaciones en lectura y escritura, nivel educativo de padres, almuerzo, curso de preparación</p>
-                        <p><strong>Target:</strong> Puntuación en matemáticas (math_score)</p>
-                    </div>
+        // ELECTIVAS - Página 5
+        {
+          code: "SIS098",
+          section: "9A",
+          cycle: "00",
+          name: "DESARROLLO DE VIDEO JUEGOS",
+          category: "EFE",
+          credits: 3.00,
+          prerequisite: "150 Cred.",
+          schedule: {
+            lun: "11-13",
+            mar: "11-13"
+          },
+          classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
+          teacher: "VARGAS QUISPE FELIX ESTANISLAO",
+          type: "PRESENCIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS038",
+          section: "10A",
+          cycle: "00",
+          name: "DINÁMICA DE SISTEMAS",
+          category: "EFE",
+          credits: 3.00,
+          prerequisite: "130 Cred.",
+          schedule: {
+            lun: "16-18",
+            mar: "16-18",
+            mie: "16-18"
+          },
+          classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-302",
+          teacher: "VARGAS NORIEGA CAMILA JIMENA",
+          type: "PRESENCIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS073",
+          section: "8A",
+          cycle: "00",
+          name: "FUNDAMENTOS DE BIONFORMATICA",
+          category: "EFE",
+          credits: 3.00,
+          prerequisite: "130 Cred.",
+          schedule: {
+            lun: "09-11",
+            mar: "09-11"
+          },
+          classroom: "ING-302",
+          teacher: "SERNAQUE FERNANDEZ PAULA BENANCIA",
+          type: "PRESENCIAL",
+          plan: "2016"
+        },
+        {
+          code: "MKT012",
+          section: "8A",
+          cycle: "00",
+          name: "MARKETING DIGITAL",
+          category: "EFE",
+          credits: 3.00,
+          prerequisite: "130 Cred.",
+          schedule: {
+            lun: "20-22",
+            mar: "20-22"
+          },
+          classroom: "ING-301",
+          teacher: "ASTETE VALCARCEL HENRY",
+          type: "PRESENCIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS032",
+          section: "9A",
+          cycle: "00",
+          name: "REALIDAD VIRTUAL",
+          category: "EFE",
+          credits: 3.00,
+          prerequisite: "130 Cred.",
+          schedule: {
+            lun: "20-22",
+            mar: "20-22"
+          },
+          classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
+          teacher: "VERA OLIVERA HARLEY",
+          type: "PRESENCIAL",
+          plan: "2016"
+        },
+        {
+          code: "SIS097",
+          section: "8A",
+          cycle: "00",
+          name: "SISTEMAS DIGITALES EMBEBIDOS",
+          category: "EFE",
+          credits: 3.00,
+          prerequisite: "130 Cred.",
+          schedule: {
+            lun: "16-18",
+            mar: "16-18"
+          },
+          classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
+          teacher: "CARRASCO POBLETE EDWIN",
+          type: "PRESENCIAL",
+          plan: "2016"
+        },
 
-                    <div class="tab-metrics-section">
-                        <div class="metrics-grid">
-                            <div class="metric-item">
-                                <div class="metric-value">0.8815</div>
-                                <div class="metric-label">R²</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">5.37</div>
-                                <div class="metric-label">RMSE</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">28.84</div>
-                                <div class="metric-label">MSE</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">88.15%</div>
-                                <div class="metric-label">Varianza Explicada</div>
-                            </div>
-                        </div>
-
-                        <div class="tab-equation-large">
-                            <div class="tab-equation-title">📊 Ecuación Polinomial (Grado 3)</div>
-                            <div class="tab-equation-formula">
-                                math_score = 8.9 + 0.90×escritura - 0.07×lectura<br>
-                                + 0.010×lectura² - 0.010×lectura×escritura<br>
-                                + 0.001×escritura² + términos cúbicos
-                            </div>
-                            <div class="tab-equation-interpretation">
-                                <strong>Características:</strong><br>
-                                • Captura relaciones no lineales complejas<br>
-                                • Interacciones entre variables académicas<br>
-                                • Términos cuadráticos y cúbicos<br>
-                                • El mejor rendimiento de los tres modelos
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="code-section">
-                        <div class="code-title">
-                            💻 Código Principal - Regresión Polinomial
-                        </div>
-                        
-                        <div class="code-tabs">
-                            <div class="code-tab active" onclick="showCodeTab(event, 'poly-imports')">Imports & Data</div>
-                            <div class="code-tab" onclick="showCodeTab(event, 'poly-features')">Características Polinomiales</div>
-                            <div class="code-tab" onclick="showCodeTab(event, 'poly-model')">Modelo & Resultados</div>
-                        </div>
-
-                        <div id="poly-imports" class="code-content active">
-                            <div class="code-block">
-                                <div class="code-python">
-<span class="code-comment"># Imports para regresión polinomial</span>
-<span class="code-keyword">import</span> pandas <span class="code-keyword">as</span> pd
-<span class="code-keyword">from</span> sklearn.preprocessing <span class="code-keyword">import</span> <span class="code-function">PolynomialFeatures</span>
-<span class="code-keyword">from</span> sklearn.linear_model <span class="code-keyword">import</span> <span class="code-function">LinearRegression</span>
-<span class="code-keyword">from</span> sklearn.pipeline <span class="code-keyword">import</span> <span class="code-function">Pipeline</span>
-
-<span class="code-comment"># Cargar datos de estudiantes</span>
-df = pd.<span class="code-function">read_csv</span>(<span class="code-string">"Data/StudentsPerformance.csv"</span>)
-df.columns = [c.strip().lower().replace(<span class="code-string">" "</span>, <span class="code-string">"_"</span>) <span class="code-keyword">for</span> c <span class="code-keyword">in</span> df.columns]
-
-<span class="code-comment"># Variables objetivo</span>
-y = df[<span class="code-string">"math_score"</span>]
-X = df.<span class="code-function">drop</span>(columns=[<span class="code-string">"math_score"</span>])
-                                </div>
-                                <div class="code-description">
-                                    Configuración para regresión polinomial con el dataset de rendimiento estudiantil.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="poly-features" class="code-content">
-                            <div class="code-block">
-                                <div class="code-python">
-<span class="code-comment"># Características polinomiales de grado 3</span>
-<div class="highlight-line">poly_features = <span class="code-function">PolynomialFeatures</span>(
-    degree=<span class="code-number">3</span>, 
-    include_bias=<span class="code-keyword">False</span>
-)</div>
-
-<span class="code-comment"># Pipeline de preprocesamiento</span>
-numeric_pipe = <span class="code-function">Pipeline</span>([
-    (<span class="code-string">"scaler"</span>, <span class="code-function">StandardScaler</span>()),
-    (<span class="code-string">"poly"</span>, poly_features)
-])
-
-<span class="code-comment"># Separar variables numéricas y categóricas</span>
-num_cols = [c <span class="code-keyword">for</span> c <span class="code-keyword">in</span> X.columns <span class="code-keyword">if</span> <span class="code-string">"score"</span> <span class="code-keyword">in</span> c]
-cat_cols = [c <span class="code-keyword">for</span> c <span class="code-keyword">in</span> X.columns <span class="code-keyword">if</span> c <span class="code-keyword">not in</span> num_cols]
-                                </div>
-                                <div class="code-description">
-                                    Creación de características polinomiales de grado 3 para capturar relaciones no lineales.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="poly-model" class="code-content">
-                            <div class="code-block">
-                                <div class="code-python">
-<span class="code-comment"># Modelo completo con características polinomiales</span>
-<div class="highlight-line">model = <span class="code-function">Pipeline</span>([
-    (<span class="code-string">"preprocessor"</span>, preprocessor),
-    (<span class="code-string">"regressor"</span>, <span class="code-function">LinearRegression</span>())
-])</div>
-
-<span class="code-comment"># Entrenamiento</span>
-model.<span class="code-function">fit</span>(X_train, y_train)
-
-<span class="code-comment"># Evaluación</span>
-y_pred = model.<span class="code-function">predict</span>(X_test)
-<div class="highlight-line">r2 = <span class="code-function">r2_score</span>(y_test, y_pred)  <span class="code-comment"># 0.8815</span>
-rmse = np.<span class="code-function">sqrt</span>(<span class="code-function">mean_squared_error</span>(y_test, y_pred))</div>
-
-<span class="code-function">print</span>(<span class="code-string">f"R² Score: {r2:.4f}"</span>)  
-<span class="code-function">print</span>(<span class="code-string">f"Características generadas: {X_transformed.shape[1]}"</span>)
-                                </div>
-                                <div class="code-description">
-                                    El modelo polinomial logra un R² de 0.8815, capturando relaciones complejas entre variables.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Logistic Regression Tab -->
-            <div id="logistic-tab" class="tab-content">
-                <div class="tab-model-card">
-                    <h2 class="tab-model-title">
-                        <div class="tab-model-icon">🎯</div>
-                        Regresión Logística
-                    </h2>
-                    
-                    <div class="tab-dataset-info">
-                        <div class="tab-dataset-name">Dataset: Breast Cancer Wisconsin (Diagnostic)</div>
-                        <p>Clasificación binaria para determinar si un tumor es maligno o benigno. Este modelo utiliza la función logística para calcular probabilidades de malignidad basándose en características morfológicas de núcleos celulares.</p>
-                        <p><strong>Variables:</strong> Radio, textura, perímetro, área, suavidad, compacidad, concavidad, puntos cóncavos, simetría, dimensión fractal</p>
-                        <p><strong>Target:</strong> Diagnóstico (Maligno/Benigno)</p>
-                    </div>
-
-                    <div class="tab-metrics-section">
-                        <div class="metrics-grid">
-                            <div class="metric-item">
-                                <div class="metric-value">96.49%</div>
-                                <div class="metric-label">Accuracy</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">97.50%</div>
-                                <div class="metric-label">Precision</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">92.86%</div>
-                                <div class="metric-label">Recall</div>
-                            </div>
-                            <div class="metric-item">
-                                <div class="metric-value">99.60%</div>
-                                <div class="metric-label">ROC-AUC</div>
-                            </div>
-                        </div>
-
-                        <div class="tab-equation-large">
-                            <div class="tab-equation-title">🎯 Ecuación Logística</div>
-                            <div class="tab-equation-formula">
-                                P(Maligno) = 1 / (1 + e^(-logit(P)))<br><br>
-                                logit(P) = -0.71 + 1.13×radio + 1.34×textura<br>
-                                + 1.70×perímetro + 1.39×área + 1.64×suavidad
-                            </div>
-                            <div class="tab-equation-interpretation">
-                                <strong>Función Sigmoide:</strong><br>
-                                • Probabilidad entre 0 y 1<br>
-                                • Clasificación binaria médica<br>
-                                • Interpretación probabilística<br>
-                                • Excelente precisión diagnóstica (96.49%)
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="code-section">
-                        <div class="code-title">
-                            💻 Código Principal - Regresión Logística
-                        </div>
-                        
-                        <div class="code-tabs">
-                            <div class="code-tab active" onclick="showCodeTab(event, 'logistic-imports')">Imports & Data</div>
-                            <div class="code-tab" onclick="showCodeTab(event, 'logistic-preprocessing')">Preprocesamiento</div>
-                            <div class="code-tab" onclick="showCodeTab(event, 'logistic-model')">Clasificación & Métricas</div>
-                        </div>
-
-                        <div id="logistic-imports" class="code-content active">
-                            <div class="code-block">
-                                <div class="code-python">
-<span class="code-comment"># Imports para clasificación</span>
-<span class="code-keyword">import</span> pandas <span class="code-keyword">as</span> pd
-<span class="code-keyword">from</span> sklearn.linear_model <span class="code-keyword">import</span> <span class="code-function">LogisticRegression</span>
-<span class="code-keyword">from</span> sklearn.preprocessing <span class="code-keyword">import</span> <span class="code-function">StandardScaler</span>
-<span class="code-keyword">from</span> sklearn.metrics <span class="code-keyword">import</span> accuracy_score, precision_score, 
-                                recall_score, roc_auc_score
-
-<span class="code-comment"># Cargar datos de cáncer de mama</span>
-df = pd.<span class="code-function">read_csv</span>(<span class="code-string">"Data/data.csv"</span>)
-
-<span class="code-comment"># Limpiar datos</span>
-<span class="code-keyword">if</span> <span class="code-string">"id"</span> <span class="code-keyword">in</span> df.columns:
-    df = df.<span class="code-function">drop</span>(columns=[<span class="code-string">"id"</span>])
-                                </div>
-                                <div class="code-description">
-                                    Configuración para clasificación binaria con el dataset de cáncer de mama de Wisconsin.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="logistic-preprocessing" class="code-content">
-                            <div class="code-block">
-                                <div class="code-python">
-<span class="code-comment"># Preparar variables objetivo</span>
-<div class="highlight-line">y = df[<span class="code-string">"diagnosis"</span>].<span class="code-function">map</span>({<span class="code-string">"M"</span>: <span class="code-number">1</span>, <span class="code-string">"B"</span>: <span class="code-number">0</span>})  <span class="code-comment"># Maligno=1, Benigno=0</span></div>
-X = df.<span class="code-function">drop</span>(columns=[<span class="code-string">"diagnosis"</span>])
-
-<span class="code-comment"># Pipeline con escalado</span>
-<div class="highlight-line">model = <span class="code-function">Pipeline</span>([
-    (<span class="code-string">"scaler"</span>, <span class="code-function">StandardScaler</span>()),
-    (<span class="code-string">"logreg"</span>, <span class="code-function">LogisticRegression</span>(max_iter=<span class="code-number">1000</span>))
-])</div>
-
-<span class="code-comment"># División de datos</span>
-X_train, X_test, y_train, y_test = <span class="code-function">train_test_split</span>(
-    X, y, test_size=<span class="code-number">0.2</span>, random_state=<span class="code-number">42</span>
-)
-                                </div>
-                                <div class="code-description">
-                                    Codificación de la variable objetivo y escalado de características para optimizar la convergencia.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div id="logistic-model" class="code-content">
-                            <div class="code-block">
-                                <div class="code-python">
-<span class="code-comment"># Entrenamiento del modelo</span>
-model.<span class="code-function">fit</span>(X_train, y_train)
-
-<span class="code-comment"># Predicciones</span>
-y_pred = model.<span class="code-function">predict</span>(X_test)
-y_pred_proba = model.<span class="code-function">predict_proba</span>(X_test)[:, <span class="code-number">1</span>]
-
-<span class="code-comment"># Métricas de clasificación</span>
-<div class="highlight-line">accuracy = <span class="code-function">accuracy_score</span>(y_test, y_pred)      <span class="code-comment"># 96.49%</span>
-precision = <span class="code-function">precision_score</span>(y_test, y_pred)    <span class="code-comment"># 97.50%</span>
-recall = <span class="code-function">recall_score</span>(y_test, y_pred)         <span class="code-comment"># 92.86%</span>
-roc_auc = <span class="code-function">roc_auc_score</span>(y_test, y_pred_proba)  <span class="code-comment"># 99.60%</span></div>
-
-<span class="code-function">print</span>(<span class="code-string">f"Accuracy: {accuracy:.4f}"</span>)
-<span class="code-function">print</span>(<span class="code-string">f"ROC-AUC: {roc_auc:.4f}"</span>)
-                                </div>
-                                <div class="code-description">
-                                    Excelente rendimiento en clasificación médica con 96.49% de precisión diagnóstica.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Equations Summary -->
-        <section class="equations-summary">
-            <h2 class="section-title">📐 Resumen de Ecuaciones Matemáticas</h2>
-            <p style="text-align: center; margin-bottom: 2rem; color: #666; font-size: 1.1rem;">
-                Ecuaciones resultantes de cada modelo de aprendizaje supervisado
-            </p>
-            
-            <div class="equations-grid">
-                <div class="equation-card">
-                    <div class="equation-card-title">
-                        📈 Regresión Lineal
-                    </div>
-                    <div class="equation-content">
-                        <div class="equation-main">
-                            charges = -6,118 + 221×edad + 332×IMC + 563×hijos
-                        </div>
-                        <div class="equation-details">
-                            <strong>Interpretación:</strong><br>
-                            • Por cada año adicional de edad: +$221<br>
-                            • Por cada punto de IMC: +$332<br>
-                            • Por cada hijo adicional: +$563<br>
-                            • R² = 0.7836 (78.36% de varianza explicada)
-                        </div>
-                    </div>
-                </div>
-
-                <div class="equation-card">
-                    <div class="equation-card-title">
-                        📊 Regresión Polinomial
-                    </div>
-                    <div class="equation-content">
-                        <div class="equation-main">
-                            math_score = 8.9 + 0.90×escritura - 0.07×lectura
-                        </div>
-                        <div class="equation-details">
-                            + 0.010×lectura² - 0.010×lectura×escritura + 0.001×escritura²<br>
-                            <strong>Características:</strong><br>
-                            • Captura relaciones no lineales (grado 3)<br>
-                            • Interacciones entre variables<br>
-                            • R² = 0.8815 (88.15% de varianza explicada)
-                        </div>
-                    </div>
-                </div>
-
-                <div class="equation-card">
-                    <div class="equation-card-title">
-                        🎯 Regresión Logística
-                    </div>
-                    <div class="equation-content">
-                        <div class="equation-main">
-                            P(Maligno) = 1 / (1 + e^(-logit(P)))
-                        </div>
-                        <div class="equation-details">
-                            logit(P) = -0.71 + 1.13×radio + 1.34×textura + 1.70×perímetro<br>
-                            <strong>Función Sigmoide:</strong><br>
-                            • Probabilidad entre 0 y 1<br>
-                            • Clasificación binaria (Maligno/Benigno)<br>
-                            • Accuracy = 96.49%
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Comparison Table -->
-        <section class="comparison-section">
-            <h2 class="section-title">Comparación de Modelos</h2>
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th>Modelo</th>
-                        <th>Dataset</th>
-                        <th>Tipo de Problema</th>
-                        <th>Métrica Principal</th>
-                        <th>Rendimiento</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Regresión Lineal</strong></td>
-                        <td>Insurance</td>
-                        <td>Regresión</td>
-                        <td>R² Score</td>
-                        <td>0.7836</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Regresión Polinomial</strong></td>
-                        <td>Students Performance</td>
-                        <td>Regresión</td>
-                        <td>R² Score</td>
-                        <td>0.8815</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Regresión Logística</strong></td>
-                        <td>Breast Cancer Wisconsin</td>
-                        <td>Clasificación</td>
-                        <td>Accuracy</td>
-                        <td>96.49%</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <!-- Key Insights -->
-        <section class="insights-section">
-            <div class="insight-card">
-                <div class="insight-icon">🚀</div>
-                <h3>Mejor Rendimiento</h3>
-                <p>La <strong>Regresión Polinomial</strong> obtuvo el mejor R² (0.8815) en problemas de regresión, capturando relaciones no lineales complejas en datos académicos.</p>
-            </div>
-            <div class="insight-card">
-                <div class="insight-icon">🎯</div>
-                <h3>Alta Precisión</h3>
-                <p>La <strong>Regresión Logística</strong> demostró excelente capacidad de clasificación con 96.49% de accuracy y 99.60% de ROC-AUC en diagnóstico médico.</p>
-            </div>
-            <div class="insight-card">
-                <div class="insight-icon">⚖</div>
-                <h3>Equilibrio Eficacia</h3>
-                <p>La <strong>Regresión Lineal</strong> ofreció un rendimiento sólido (R²=0.7836) con simplicidad interpretativa para predicciones de costos médicos.</p>
-            </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Equipo Blinders | Universidad Andina del Cusco</p>
-            <p>Taller 2: Modelos de Aprendizaje Supervisado | Inteligencia Artificial</p>
-        </div>
-    </footer>
-
-    <script>
-        // Tab functionality
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            
-            // Hide all tab contents
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].classList.remove("active");
-            }
-            
-            // Remove active class from all tab buttons
-            tablinks = document.getElementsByClassName("tab-button");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
-            }
-            
-            // Show the selected tab and mark button as active
-            document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
+        // PLAN 2025 - Página 6
+        {
+          code: "SIS006",
+          section: "1A",
+          cycle: "01",
+          name: "INTRODUCCION A LA INGENIERIA DE SISTEMAS",
+          category: "EBE",
+          credits: 3.00,
+          prerequisite: "",
+          schedule: {
+            lun: "07-09",
+            mar: "07-09",
+            mie: "07-09",
+            jue: "07-09"
+          },
+          classroom: "ING-302",
+          teacher: "GONZALES CONDORI HARRY YEISON",
+          type: "ESPECIAL",
+          plan: "2025"
+        },
+        {
+          code: "SIS006",
+          section: "1B",
+          cycle: "01",
+          name: "INTRODUCCION A LA INGENIERIA DE SISTEMAS",
+          category: "EBE",
+          credits: 3.00,
+          prerequisite: "",
+          schedule: {
+            lun: "14-16",
+            mar: "14-16",
+            mie: "14-16"
+          },
+          classroom: "ING-401,ING-402",
+          teacher: "VARGAS NORIEGA CAMILA JIMENA",
+          type: "ESPECIAL",
+          plan: "2025"
+        },
+        {
+          code: "SIS056",
+          section: "2A",
+          cycle: "02",
+          name: "ALGORTMICA Y LENGUAJE DE PROGRAMACION ESTRUCTURADA",
+          category: "EBE",
+          credits: 3.00,
+          prerequisite: "10 Cred.",
+          schedule: {
+            lun: "07-09",
+            mar: "07-09",
+            mie: "07-09"
+          },
+          classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
+          teacher: "ACURIO GUTIERREZ MARIA ISABEL",
+          type: "ESPECIAL",
+          plan: "2025"
+        },
+        {
+          code: "SIS056",
+          section: "2B",
+          cycle: "02",
+          name: "ALGORTMICA Y LENGUAJE DE PROGRAMACION ESTRUCTURADA",
+          category: "EBE",
+          credits: 3.00,
+          prerequisite: "10 Cred.",
+          schedule: {
+            lun: "14-16",
+            mar: "14-16"
+          },
+          classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS",
+          teacher: "VILLENA LEON OLMER CLAUDIO",
+          type: "PRESENCIAL",
+          plan: "2025"
+        },
+        {
+          code: "SIS007",
+          section: "2A",
+          cycle: "02",
+          name: "INGENIERIA DE SISTEMAS",
+          category: "EBE",
+          credits: 3.00,
+          prerequisite: "SIS006",
+          schedule: {
+            lun: "07-09",
+            mar: "07-09",
+            mie: "07-09"
+          },
+          classroom: "ING-301",
+          teacher: "GANVINI VALCARCEL CRISTHIAN EDUARDO",
+          type: "ESPECIAL",
+          plan: "2025"
+        },
+        {
+          code: "SIS007",
+          section: "2B",
+          cycle: "02",
+          name: "INGENIERIA DE SISTEMAS",
+          category: "EBE",
+          credits: 3.00,
+          prerequisite: "SIS006",
+          schedule: {
+            lun: "14-16",
+            mar: "14-16"
+          },
+          classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-301",
+          teacher: "DE LA VEGA BELLIDO VIVIAN LUZ",
+          type: "ESPECIAL",
+          plan: "2025"
         }
+      ];
+    // Colores para diferenciar visualmente los cursos
+    const courseColors = [
+        "#3498db", "#2ecc71", "#e74c3c", "#f39c12",
+        "#9b59b6", "#1abc9c", "#d35400", "#34495e",
+        "#16a085", "#27ae60", "#2980b9", "#8e44ad",
+        "#f1c40f", "#e67e22", "#c0392b", "#7f8c8d",
+        "#2c3e50", "#d35400", "#c0392b", "#8e44ad",
+        "#27ae60", "#16a085", "#2980b9", "#f39c12"
+      ];
+    // Mapeo de días en español a inglés para coincidir con los datos
+    const dayMapping = {
+      "lun": "lun",
+      "mar": "mar",
+      "mie": "mie",
+      "jue": "jue",
+      "vie": "vie",
+      "sab": "sab"
+    };
 
-        // Code tab functionality
-        function showCodeTab(evt, tabName) {
-            // Get the parent code section
-            const codeSection = evt.target.closest('.code-section');
-            
-            // Hide all code contents in this section
-            const codeContents = codeSection.querySelectorAll('.code-content');
-            codeContents.forEach(content => content.classList.remove('active'));
-            
-            // Remove active class from all code tabs in this section
-            const codeTabs = codeSection.querySelectorAll('.code-tab');
-            codeTabs.forEach(tab => tab.classList.remove('active'));
-            
-            // Show selected content and mark tab as active
-            document.getElementById(tabName).classList.add('active');
-            evt.currentTarget.classList.add('active');
-        }
+    // Función para renderizar los cursos en el horario
+    function renderSchedule() {
+      // Limpiar el horario
+      document.querySelectorAll('.schedule-cell').forEach(cell => {
+        cell.innerHTML = '';
+      });
 
-        // Smooth scroll animation
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.model-card, .insight-card, .equation-card, .tab-model-card');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            });
+      // Obtener filtros
+      const planFilter = document.getElementById('plan').value;
+      const cycleFilter = document.getElementById('ciclo').value;
+      const searchFilter = document.getElementById('search').value.toLowerCase();
 
-            cards.forEach((card) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(50px)';
-                observer.observe(card);
-            });
+      // Filtrar cursos
+      const filteredCourses = courses.filter(course => {
+        const matchesPlan = planFilter === 'all' || course.plan === planFilter;
+        const matchesCycle = cycleFilter === 'all' || course.cycle === cycleFilter;
+        const matchesSearch = searchFilter === '' ||
+          course.code.toLowerCase().includes(searchFilter) ||
+          course.name.toLowerCase().includes(searchFilter);
 
-            // Add hover effects to metric items
-            const metricItems = document.querySelectorAll('.metric-item');
-            metricItems.forEach(item => {
-                item.addEventListener('mouseenter', function() {
-                    this.style.background = 'rgba(103, 126, 234, 0.1)';
-                });
-                item.addEventListener('mouseleave', function() {
-                    this.style.background = 'rgba(255, 255, 255, 0.8)';
-                });
-            });
+        return matchesPlan && matchesCycle && matchesSearch;
+      });
 
-            // Add hover effects to equation sections
-            const equationSections = document.querySelectorAll('.equation-section, .equation-card, .tab-equation-large');
-            equationSections.forEach(section => {
-                section.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-3px)';
-                    this.style.boxShadow = '0 8px 20px rgba(103, 126, 234, 0.15)';
-                });
-                section.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                    this.style.boxShadow = '';
-                });
-            });
+      // Asignar colores a los cursos
+      const courseColorMap = {};
+      filteredCourses.forEach((course, index) => {
+        courseColorMap[course.code + course.section] = courseColors[index % courseColors.length];
+      });
 
-            // Add keyboard navigation for tabs
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-                    const activeTab = document.querySelector('.tab-button.active');
-                    const allTabs = Array.from(document.querySelectorAll('.tab-button'));
-                    const currentIndex = allTabs.indexOf(activeTab);
-                    
-                    let nextIndex;
-                    if (e.key === 'ArrowRight') {
-                        nextIndex = (currentIndex + 1) % allTabs.length;
-                    } else {
-                        nextIndex = (currentIndex - 1 + allTabs.length) % allTabs.length;
-                    }
-                    
-                    allTabs[nextIndex].click();
-                }
-            });
+      // Colocar cursos en el horario
+      filteredCourses.forEach(course => {
+        const color = courseColorMap[course.code + course.section];
+
+        Object.entries(course.schedule).forEach(([day, time]) => {
+          const cell = document.querySelector(`.schedule-cell[data-day="${dayMapping[day]}"][data-time="${time}"]`);
+
+          if (cell) {
+            const courseElement = document.createElement('div');
+            courseElement.className = 'course';
+            courseElement.style.backgroundColor = color;
+            courseElement.setAttribute('data-course', JSON.stringify(course));
+
+            courseElement.innerHTML = `
+                            <div class="course-code">${course.code} - ${course.section}</div>
+                            <div class="course-name">${course.name}</div>
+                            <div class="course-time">${time}</div>
+                        `;
+
+            courseElement.addEventListener('click', showCourseDetails);
+            cell.appendChild(courseElement);
+          }
         });
-    </script>
+      });
+
+      // Mostrar celdas vacías
+      document.querySelectorAll('.schedule-cell').forEach(cell => {
+        if (cell.children.length === 0) {
+          cell.innerHTML = '<div class="empty-cell">Sin clases</div>';
+        }
+      });
+    }
+
+    // Función para mostrar detalles del curso
+    function showCourseDetails(event) {
+      const courseData = JSON.parse(event.currentTarget.getAttribute('data-course'));
+      const modal = document.getElementById('courseModal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalBody = document.getElementById('modalBody');
+
+      modalTitle.textContent = `${courseData.code} - ${courseData.name}`;
+
+      let scheduleText = '';
+      Object.entries(courseData.schedule).forEach(([day, time]) => {
+        const dayNames = {
+          "lun": "Lunes",
+          "mar": "Martes",
+          "mie": "Miércoles",
+          "jue": "Jueves",
+          "vie": "Viernes",
+          "sab": "Sábado"
+        };
+        scheduleText += `${dayNames[day]}: ${time}<br>`;
+      });
+
+      modalBody.innerHTML = `
+                <div class="course-detail"><strong>Código:</strong> ${courseData.code}</div>
+                <div class="course-detail"><strong>Sección:</strong> ${courseData.section}</div>
+                <div class="course-detail"><strong>Ciclo:</strong> ${courseData.cycle}</div>
+                <div class="course-detail"><strong>Nombre:</strong> ${courseData.name}</div>
+                <div class="course-detail"><strong>Categoría:</strong> ${courseData.category}</div>
+                <div class="course-detail"><strong>Créditos:</strong> ${courseData.credits}</div>
+                <div class="course-detail"><strong>Prerrequisito:</strong> ${courseData.prerequisite}</div>
+                <div class="course-detail"><strong>Horario:</strong><br>${scheduleText}</div>
+                <div class="course-detail"><strong>Aula:</strong> ${courseData.classroom}</div>
+                <div class="course-detail"><strong>Docente:</strong> ${courseData.teacher}</div>
+                <div class="course-detail"><strong>Tipo de Dictado:</strong> ${courseData.type}</div>
+                <div class="course-detail"><strong>Plan de Estudios:</strong> ${courseData.plan}</div>
+            `;
+
+      modal.style.display = 'flex';
+    }
+
+    // Event listeners
+    document.getElementById('plan').addEventListener('change', renderSchedule);
+    document.getElementById('ciclo').addEventListener('change', renderSchedule);
+    document.getElementById('search').addEventListener('input', renderSchedule);
+
+    document.querySelector('.close-modal').addEventListener('click', function () {
+      document.getElementById('courseModal').style.display = 'none';
+    });
+
+    // Cerrar modal al hacer clic fuera del contenido
+    window.addEventListener('click', function (event) {
+      const modal = document.getElementById('courseModal');
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    // Inicializar el horario
+    renderSchedule();
+  </script>
 </body>
+
 </html>
