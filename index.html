@@ -1,2244 +1,477 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Horarios Académicos - Ingeniería de Sistemas</title>
-  <style>
-    :root {
-      --primary-color: #2c3e50;
-      --secondary-color: #3498db;
-      --light-color: #ecf0f1;
-      --border-color: #bdc3c7;
-      --hover-color: #f1f2f6;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    body {
-      background-color: #f5f7fa;
-      color: #333;
-      line-height: 1.6;
-    }
-
-    header {
-      background-color: var(--primary-color);
-      color: white;
-      padding: 1rem 2rem;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 1rem;
-    }
-
-    .filters {
-      background-color: white;
-      padding: 1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-      margin-bottom: 1.5rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .filter-group {
-      flex: 1;
-      min-width: 200px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-      color: var(--primary-color);
-    }
-
-    select,
-    input {
-      width: 100%;
-      padding: 0.5rem;
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      font-size: 1rem;
-    }
-
-    .schedule-container {
-      background-color: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    }
-
-    .days-header {
-      display: grid;
-      grid-template-columns: 80px repeat(6, 1fr);
-      background-color: var(--primary-color);
-      color: white;
-      font-weight: 600;
-    }
-
-    .day-header {
-      padding: 0.75rem;
-      text-align: center;
-      border-right: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .time-slots {
-      display: grid;
-      grid-template-columns: 80px repeat(6, 1fr);
-    }
-
-    .time-slot {
-      padding: 0.5rem;
-      text-align: center;
-      border-bottom: 1px solid var(--border-color);
-      border-right: 1px solid var(--border-color);
-      background-color: var(--light-color);
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .schedule-grid {
-      display: grid;
-      grid-template-columns: 80px repeat(6, 1fr);
-    }
-
-    .schedule-cell {
-      min-height: 80px;
-      border-bottom: 1px solid var(--border-color);
-      border-right: 1px solid var(--border-color);
-      padding: 0.25rem;
-      position: relative;
-    }
-
-    .course {
-      background-color: var(--secondary-color);
-      color: white;
-      border-radius: 4px;
-      padding: 0.5rem;
-      margin-bottom: 0.25rem;
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .course:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    .course-code {
-      font-weight: 600;
-      margin-bottom: 0.2rem;
-    }
-
-    .course-name {
-      font-size: 0.75rem;
-      opacity: 0.9;
-    }
-
-    .course-time {
-      position: absolute;
-      top: 0.25rem;
-      right: 0.5rem;
-      font-size: 0.7rem;
-      background-color: rgba(0, 0, 0, 0.2);
-      padding: 0.1rem 0.3rem;
-      border-radius: 3px;
-    }
-
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-content {
-      background-color: white;
-      border-radius: 8px;
-      padding: 2rem;
-      max-width: 600px;
-      width: 90%;
-      max-height: 80vh;
-      overflow-y: auto;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 1rem;
-    }
-
-    .close-modal {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--primary-color);
-    }
-
-    .course-detail {
-      margin-bottom: 1rem;
-    }
-
-    .course-detail strong {
-      color: var(--primary-color);
-    }
-
-    .empty-cell {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #95a5a6;
-      font-style: italic;
-      font-size: 0.9rem;
-    }
-
-    @media (max-width: 1200px) {
-
-      .days-header,
-      .time-slots,
-      .schedule-grid {
-        grid-template-columns: 60px repeat(6, 1fr);
-      }
-
-      .time-slot {
-        padding: 0.25rem;
-        font-size: 0.9rem;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .filters {
-        flex-direction: column;
-      }
-
-      .days-header,
-      .time-slots,
-      .schedule-grid {
-        grid-template-columns: 50px repeat(6, 1fr);
-      }
-
-      .day-header,
-      .time-slot {
-        font-size: 0.8rem;
-        padding: 0.5rem 0.25rem;
-      }
-
-      .course {
-        padding: 0.25rem;
-        font-size: 0.7rem;
-      }
-
-      .course-name {
-        display: none;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <header
-    style="background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%); color: white; padding: 1rem 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
-      <h1 style="margin: 0; font-size: 1.8rem; font-weight: 600;">Horarios Académicos - Ingeniería de Sistemas</h1>
-      <p style="margin: 0.5rem 0 0 0; opacity: 0.9; font-size: 1rem;">
-        Universidad Andina del Cusco - Semestre 2025-2
-      </p>
-    </div>
-  </header>
-
-  <div class="container">
-    <div class="filters">
-      <div class="filter-group">
-        <label for="plan">Plan de Estudios</label>
-        <select id="plan">
-          <option value="all">Todos los planes</option>
-          <option value="2016">Plan 2016</option>
-          <option value="2020">Plan 2020</option>
-          <option value="2025">Plan 2025</option>
-        </select>
-      </div>
-      <div class="filter-group">
-        <label for="ciclo">Ciclo</label>
-        <select id="ciclo">
-          <option value="all">Todos los ciclos</option>
-          <option value="01">Ciclo 01</option>
-          <option value="02">Ciclo 02</option>
-          <option value="03">Ciclo 03</option>
-          <option value="04">Ciclo 04</option>
-          <option value="05">Ciclo 05</option>
-          <option value="06">Ciclo 06</option>
-          <option value="07">Ciclo 07</option>
-          <option value="08">Ciclo 08</option>
-          <option value="09">Ciclo 09</option>
-          <option value="10">Ciclo 10</option>
-          <option value="00">Electivas</option>
-        </select>
-      </div>
-      <div class="filter-group">
-        <label for="search">Buscar por código o nombre</label>
-        <input type="text" id="search" placeholder="Ej: SIS072, Cálculo...">
-      </div>
-    </div>
-
-    <div class="schedule-container">
-      <div class="days-header">
-        <div class="day-header">Hora</div>
-        <div class="day-header">Lunes</div>
-        <div class="day-header">Martes</div>
-        <div class="day-header">Miércoles</div>
-        <div class="day-header">Jueves</div>
-        <div class="day-header">Viernes</div>
-        <div class="day-header">Sábado</div>
-      </div>
-
-      <div class="time-slots">
-        <div class="time-slot">07:00 - 09:00</div>
-        <div class="schedule-cell" data-day="lun" data-time="07-09"></div>
-        <div class="schedule-cell" data-day="mar" data-time="07-09"></div>
-        <div class="schedule-cell" data-day="mie" data-time="07-09"></div>
-        <div class="schedule-cell" data-day="jue" data-time="07-09"></div>
-        <div class="schedule-cell" data-day="vie" data-time="07-09"></div>
-        <div class="schedule-cell" data-day="sab" data-time="07-09"></div>
-      </div>
-
-      <div class="time-slots">
-        <div class="time-slot">09:00 - 11:00</div>
-        <div class="schedule-cell" data-day="lun" data-time="09-11"></div>
-        <div class="schedule-cell" data-day="mar" data-time="09-11"></div>
-        <div class="schedule-cell" data-day="mie" data-time="09-11"></div>
-        <div class="schedule-cell" data-day="jue" data-time="09-11"></div>
-        <div class="schedule-cell" data-day="vie" data-time="09-11"></div>
-        <div class="schedule-cell" data-day="sab" data-time="09-11"></div>
-      </div>
-
-      <div class="time-slots">
-        <div class="time-slot">11:00 - 13:00</div>
-        <div class="schedule-cell" data-day="lun" data-time="11-13"></div>
-        <div class="schedule-cell" data-day="mar" data-time="11-13"></div>
-        <div class="schedule-cell" data-day="mie" data-time="11-13"></div>
-        <div class="schedule-cell" data-day="jue" data-time="11-13"></div>
-        <div class="schedule-cell" data-day="vie" data-time="11-13"></div>
-        <div class="schedule-cell" data-day="sab" data-time="11-13"></div>
-      </div>
-
-      <div class="time-slots">
-        <div class="time-slot">14:00 - 16:00</div>
-        <div class="schedule-cell" data-day="lun" data-time="14-16"></div>
-        <div class="schedule-cell" data-day="mar" data-time="14-16"></div>
-        <div class="schedule-cell" data-day="mie" data-time="14-16"></div>
-        <div class="schedule-cell" data-day="jue" data-time="14-16"></div>
-        <div class="schedule-cell" data-day="vie" data-time="14-16"></div>
-        <div class="schedule-cell" data-day="sab" data-time="14-16"></div>
-      </div>
-
-      <div class="time-slots">
-        <div class="time-slot">16:00 - 18:00</div>
-        <div class="schedule-cell" data-day="lun" data-time="16-18"></div>
-        <div class="schedule-cell" data-day="mar" data-time="16-18"></div>
-        <div class="schedule-cell" data-day="mie" data-time="16-18"></div>
-        <div class="schedule-cell" data-day="jue" data-time="16-18"></div>
-        <div class="schedule-cell" data-day="vie" data-time="16-18"></div>
-        <div class="schedule-cell" data-day="sab" data-time="16-18"></div>
-      </div>
-
-      <div class="time-slots">
-        <div class="time-slot">18:00 - 20:00</div>
-        <div class="schedule-cell" data-day="lun" data-time="18-20"></div>
-        <div class="schedule-cell" data-day="mar" data-time="18-20"></div>
-        <div class="schedule-cell" data-day="mie" data-time="18-20"></div>
-        <div class="schedule-cell" data-day="jue" data-time="18-20"></div>
-        <div class="schedule-cell" data-day="vie" data-time="18-20"></div>
-        <div class="schedule-cell" data-day="sab" data-time="18-20"></div>
-      </div>
-
-      <div class="time-slots">
-        <div class="time-slot">20:00 - 22:00</div>
-        <div class="schedule-cell" data-day="lun" data-time="20-22"></div>
-        <div class="schedule-cell" data-day="mar" data-time="20-22"></div>
-        <div class="schedule-cell" data-day="mie" data-time="20-22"></div>
-        <div class="schedule-cell" data-day="jue" data-time="20-22"></div>
-        <div class="schedule-cell" data-day="vie" data-time="20-22"></div>
-        <div class="schedule-cell" data-day="sab" data-time="20-22"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="courseModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 id="modalTitle">Detalles del Curso</h2>
-        <button class="close-modal">&times;</button>
-      </div>
-      <div id="modalBody">
-        <!-- Los detalles del curso se cargarán aquí -->
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Datos de ejemplo extraídos del PDF (solo algunos para demostración)
-    const courses = [
-      {
-        code: "SIS072",
-        section: "7A",
-        cycle: "07",
-        name: "MODELOS ESTOCASTICOS",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "STD008",
-        schedule: {
-          mar: "09-11",
-        },
-        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
-        teacher: "SERNAQUE FERNANDEZ PAULA BENANCIA",
-        type: "DIRIGIDO",
-        plan: "2016"
-      },
-      {
-        code: "SIS018",
-        section: "8A",
-        cycle: "08",
-        name: "MODELACION Y SIMULACION DE SISTEMAS",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS072",
-        schedule: {
-          lun: "09-11",
-        },
-        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
-        teacher: "MEZA APARICIO ROXANA",
-        type: "DIRIGIDO",
-        plan: "2016"
-      },
-      {
-        code: "SIS074",
-        section: "9A",
-        cycle: "09",
-        name: "GESTION DE PROYECTOS DE SISTEMAS",
-        category: "EFE",
-        credits: 3.0,
-        prerequisite: "SIS022",
-        schedule: {
-          lun: "14-16",
-        },
-        classroom: "",
-        teacher: "MOREANO CORDOVA JAVIER",
-        type: "DIRIGIDO",
-        plan: "2016"
-      },
-      {
-        code: "SIS064",
-        section: "10A",
-        cycle: "10",
-        name: "INGENIERIA DE LA INFORMACION",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "170 Cred.",
-        schedule: {
-          lun: "07-09",
-        },
-        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
-        teacher: "ARDILES ROMERO VELIA",
-        type: "DIRIGIDO",
-        plan: "2016"
-      },
-      {
-        code: "SIS075",
-        section: "10A",
-        cycle: "10",
-        name: "TOPICOS DE CIENCIA DE DATOS",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "170 Cred.",
-        schedule: {
-          lun: "18-20",
-          mie: "18-20",
-          vie: "18-20",
-        },
-        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-302",
-        teacher: "CHULLO LLAVE BORIS",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS082",
-        section: "3A",
-        cycle: "03",
-        name: "ALGORITMICA Y LENGUAJE DE PROGRAMACION ORIENTADA A OBJETOS",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "SIS056",
-        schedule: {
-          lun: "09-11",
-          mie: "09-11",
-          vie: "09-11",
-        },
-        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS ,ING-301",
-        teacher: "CHAVEZ ESPINOZA WILLIAM ALBERTO",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "BIO006",
-        section: "3A",
-        cycle: "03",
-        name: "BIOLOGIA",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "25 Cred.",
-        schedule: {
-          mar: "09-11",
-          jue: "09-11",
-        },
-        classroom: "ING-301",
-        teacher: "HUANCA POLIAR MARIA CLEOFE",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "MAT005",
-        section: "3A",
-        cycle: "03",
-        name: "CALCULO II",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "MAT004",
-        schedule: {
-          lun: "11-13",
-          mie: "11-13",
-          vie: "11-13",
-        },
-        classroom: "ING-301",
-        teacher: "CORNEJO LAZO CONNIE YASSHYRA",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "MAT005",
-        section: "3B",
-        cycle: "03",
-        name: "CALCULO II",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "MAT004",
-        schedule: {
-          lun: "18-20",
-          mie: "18-20",
-          vie: "18-20",
-        },
-        classroom: "ING-409",
-        teacher: "VELASQUEZ HACHA IGNACIO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "STD005",
-        section: "3A",
-        cycle: "03",
-        name: "ESTADISTICA II",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "STD004",
-        schedule: {
-          lun: "07-09",
-          mie: "07-09",
-          vie: "07-09",
-        },
-        classroom: "ING-301",
-        teacher: "VARGAS AÑAMACO LUIS ALBERTO",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "FIS001",
-        section: "3A",
-        cycle: "03",
-        name: "FISICA I",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "MAT004",
-        schedule: {
-          mar: "11-13",
-          jue: "11-13",
-        },
-        classroom: "ING-409",
-        teacher: "PALOMINO GAMARRA MARIBEL",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "FIL005",
-        section: "3A",
-        cycle: "03",
-        name: "PENSAMIENTO FILOSOFICO Y CIUDADANIA",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "25 Cred.",
-        schedule: {
-          mar: "07-09",
-          jue: "07-09",
-        },
-        classroom: "ING-402",
-        teacher: "ROJO SOLORZANO HENRY CHARLES",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "MAT011",
-        section: "4A",
-        cycle: "04",
-        name: "ALGEBRA LINEAL",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "45 Cred.",
-        schedule: {
-          mar: "07-09",
-          jue: "07-09",
-        },
-        classroom: "ING-409",
-        teacher: "HOLGUIN SEGOVIA ALEJANDRINO DONATO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "MAT011",
-        section: "4B",
-        cycle: "04",
-        name: "ALGEBRA LINEAL",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "45 Cred.",
-        schedule: {
-          mar: "16-18",
-          jue: "16-18",
-        },
-        classroom: "ING-401,ING-409",
-        teacher: "VELASQUEZ HACHA IGNACIO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "MAT006",
-        section: "4A",
-        cycle: "04",
-        name: "CALCULO III",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "MAT005",
-        schedule: {
-          lun: "09-11",
-          mie: "09-11",
-          vie: "09-11",
-        },
-        classroom: "ING-409",
-        teacher: "ALMANZA HUALLPA DANNY JAVIER",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS062",
-        section: "4A",
-        cycle: "04",
-        name: "ESTRUCTURA DE DATOS",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "SIS082",
-        schedule: {
-          lun: "07-09",
-          mie: "07-09",
-          vie: "07-09",
-        },
-        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS",
-        teacher: "VARGAS VERA LIZET",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS062",
-        section: "4B",
-        cycle: "04",
-        name: "ESTRUCTURA DE DATOS",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "SIS082",
-        schedule: {
-          lun: "14-16",
-          mie: "14-16",
-          vie: "14-16",
-        },
-        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-205 LABORATORIO COMPUTO 5              SISTEMAS,ING-302",
-        teacher: "LEON NUÑEZ LIDA",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "FIS002",
-        section: "4A",
-        cycle: "04",
-        name: "FISICA II",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "FIS001",
-        schedule: {
-          mar: "11-13",
-          jue: "11-13",
-        },
-        classroom: "ING-401",
-        teacher: "SUAREZ PAUCAR HECTOR JUAN",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "FIS002",
-        section: "4B",
-        cycle: "04",
-        name: "FISICA II",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "FIS001",
-        schedule: {
-          mar: "18-20",
-          jue: "18-20",
-        },
-        classroom: "ING-302",
-        teacher: "ATAU ENRIQUEZ EDILBERTO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS083",
-        section: "4A",
-        cycle: "04",
-        name: "INGENIERIA DE COSTOS",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "45 Cred.",
-        schedule: {
-          mar: "09-11",
-          jue: "09-11",
-        },
-        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-401",
-        teacher: "DEL CARPIO CUENTAS LUIS ENRIQUE",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS083",
-        section: "4B",
-        cycle: "04",
-        name: "INGENIERIA DE COSTOS",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "45 Cred.",
-        schedule: {
-          mar: "14-16",
-          jue: "14-16",
-        },
-        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-302",
-        teacher: "DEL CARPIO CUENTAS LUIS ENRIQUE",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS084",
-        section: "4A",
-        cycle: "04",
-        name: "ORGANIZACION Y ADMINISTRACION DE SISTEMAS DE INFORMACION",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "45 Cred.",
-        schedule: {
-          lun: "11-13",
-          mie: "11-13",
-        },
-        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-302",
-        teacher: "CONZA BALBIN CARLOS HERNAN",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS084",
-        section: "4B",
-        cycle: "04",
-        name: "ORGANIZACION Y ADMINISTRACION DE SISTEMAS DE INFORMACION",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "45 Cred.",
-        schedule: {
-          lun: "16-18",
-          mie: "16-18",
-        },
-        classroom: "ING-401,TA ING-208",
-        teacher: "COSIO OBLEA JOHAN EDWIN",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS086",
-        section: "5A",
-        cycle: "05",
-        name: "ETICA Y DEONTOLOGIA PROFESIONAL EN INGENIERIA DE SISTEMAS",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "65 Cred.",
-        schedule: {
-          lun: "11-13",
-          mie: "11-13",
-        },
-        classroom: "ING-402,ING-409",
-        teacher: "LEON NUÑEZ LIDA",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS086",
-        section: "5B",
-        cycle: "05",
-        name: "ETICA Y DEONTOLOGIA PROFESIONAL EN INGENIERIA DE SISTEMAS",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "65 Cred.",
-        schedule: {
-          mie: "20-22",
-          vie: "20-22",
-        },
-        classroom: "ING-402",
-        teacher: "LAZO MAMANI JUAN CARLOS",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "FIS007",
-        section: "5A",
-        cycle: "05",
-        name: "FISICA III",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "FIS002",
-        schedule: {
-          mie: "07-09",
-          vie: "07-09",
-        },
-        classroom: "ING-302",
-        teacher: "LOZANO CUSI ROLANDO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "FIS007",
-        section: "5B",
-        cycle: "05",
-        name: "FISICA III",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "FIS002",
-        schedule: {
-          mar: "18-20",
-          jue: "18-20",
-        },
-        classroom: "ING-401",
-        teacher: "LOZANO CUSI ROLANDO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS088",
-        section: "5A",
-        cycle: "05",
-        name: "GESTION DE PROCESOS DE NEGOCIO",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "SIS084",
-        schedule: {
-          mar: "09-11",
-          jue: "09-11",
-        },
-        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-302",
-        teacher: "CUBA DEL CASTILLO MARIA YORNET",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "STD007",
-        section: "5A",
-        cycle: "05",
-        name: "INVESTIGACION OPERATIVA I",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "65 Cred.",
-        schedule: {
-          mar: "11-13",
-          jue: "11-13",
-        },
-        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
-        teacher: "ZAMBRANO INCHAUSTEGUI CARLOS ALBERTO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "STD007",
-        section: "5B",
-        cycle: "05",
-        name: "INVESTIGACION OPERATIVA I",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "65 Cred.",
-        schedule: {
-          lun: "16-18",
-          mie: "16-18",
-        },
-        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-301",
-        teacher: "VENGOA FIGUEROA BONY DUGLAS",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "MAT021",
-        section: "5A",
-        cycle: "05",
-        name: "MATEMATICA DISCRETA I",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "MAT011",
-        schedule: {
-          mar: "07-09",
-          jue: "07-09",
-        },
-        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS ,ING-401",
-        teacher: "BERNALES GUZMAN YESSENIA",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS085",
-        section: "5A",
-        cycle: "05",
-        name: "MODELADO DE BASE DE DATOS",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "SIS062",
-        schedule: {
-          lun: "09-11",
-          mie: "09-11",
-          vie: "09-11",
-        },
-        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-401",
-        teacher: "PALOMINO CAHUAYA ARIADNA",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS085",
-        section: "5B",
-        cycle: "05",
-        name: "MODELADO DE BASE DE DATOS",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "SIS062",
-        schedule: {
-          lun: "11-13",
-          mie: "11-13",
-          vie: "11-13",
-        },
-        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS",
-        teacher: "ESPETIA HUAMANGA HUGO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS089",
-        section: "6A",
-        cycle: "06",
-        name: "ADMINISTRACION Y ORGANIZACION DE BASE DE DATOS",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS085",
-        schedule: {
-          lun: "11-13",
-          mie: "11-13",
-          vie: "11-13",
-        },
-        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS ,ING-409",
-        teacher: "PUMASUPA PARO NICK EUGENY",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS089",
-        section: "6B",
-        cycle: "06",
-        name: "ADMINISTRACION Y ORGANIZACION DE BASE DE DATOS",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS085",
-        schedule: {
-          lun: "18-20",
-          mie: "18-20",
-          vie: "18-20",
-        },
-        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
-        teacher: "MONZON CONDORI LUIS ALVARO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS011",
-        section: "6A",
-        cycle: "06",
-        name: "ANALISIS Y DISEÑO DE SISTEMAS DE INFORMACION I",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS088",
-        schedule: {
-          lun: "07-09",
-          mie: "07-09",
-          vie: "07-09",
-        },
-        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-401",
-        teacher: "MARCA AIMA MONICA",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS011",
-        section: "6B",
-        cycle: "06",
-        name: "ANALISIS Y DISEÑO DE SISTEMAS DE INFORMACION I",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS088",
-        schedule: {
-          lun: "07-09",
-          mie: "07-09",
-          vie: "07-09",
-        },
-        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-402",
-        teacher: "CUBA DEL CASTILLO MARIA YORNET",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS047",
-        section: "6A",
-        cycle: "06",
-        name: "DESARROLLO DE SOFTWARE I",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "85 Cred.",
-        schedule: {
-          lun: "09-11",
-          mie: "09-11",
-          vie: "09-11",
-        },
-        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-302",
-        teacher: "PUMASUPA PARO NICK EUGENY",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS047",
-        section: "6B",
-        cycle: "06",
-        name: "DESARROLLO DE SOFTWARE I",
-        category: "EBE",
-        credits: 4.0,
-        prerequisite: "85 Cred.",
-        schedule: {
-          mar: "07-09",
-          jue: "07-09",
-          sab: "07-09",
-        },
-        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS",
-        teacher: "HUAMAN ATAULLUCO FELIX ENRIQUE",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "STD008",
-        section: "6A",
-        cycle: "06",
-        name: "INVESTIGACION OPERATIVA II",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "STD007",
-        schedule: {
-          mar: "09-11",
-          jue: "09-11",
-        },
-        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS ,ING-402",
-        teacher: "ZAMBRANO INCHAUSTEGUI CARLOS ALBERTO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "STD008",
-        section: "6B",
-        cycle: "06",
-        name: "INVESTIGACION OPERATIVA II",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "STD007",
-        schedule: {
-          mar: "18-20",
-          jue: "18-20",
-        },
-        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS",
-        teacher: "COSIO OBLEA JOHAN EDWIN",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "MAT022",
-        section: "6A",
-        cycle: "06",
-        name: "MATEMATICA DISCRETA II",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "MAT021",
-        schedule: {
-          mar: "11-13",
-          jue: "11-13",
-        },
-        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-402",
-        teacher: "RAMIREZ VARGAS ADRIEL",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "MAT022",
-        section: "6B",
-        cycle: "06",
-        name: "MATEMATICA DISCRETA II",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "MAT021",
-        schedule: {
-          mar: "14-16",
-          jue: "14-16",
-        },
-        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-302",
-        teacher: "VENGOA FIGUEROA BONY DUGLAS",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS090",
-        section: "6A",
-        cycle: "06",
-        name: "ORGANIZACION Y ARQUITECTURA DEL COMPUTADOR",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "85 Cred.",
-        schedule: {
-          lun: "18-20",
-          mie: "18-20",
-          vie: "18-20",
-        },
-        classroom: "ING-301,TA ING-208",
-        teacher: "PALOMINO OLIVERA EMILIO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS090",
-        section: "6B",
-        cycle: "06",
-        name: "ORGANIZACION Y ARQUITECTURA DEL COMPUTADOR",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "85 Cred.",
-        schedule: {
-          lun: "11-13",
-          mie: "11-13",
-          vie: "11-13",
-        },
-        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
-        teacher: "RAMIREZ VARGAS ADRIEL",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS012",
-        section: "7A",
-        cycle: "07",
-        name: "ANALISIS Y DISEÑO DE SISTEMAS DE INFORMACION II",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS011",
-        schedule: {
-          lun: "11-13",
-          mie: "11-13",
-          vie: "11-13",
-        },
-        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-302",
-        teacher: "ALCCA ZELA ERICK",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS012",
-        section: "7B",
-        cycle: "07",
-        name: "ANALISIS Y DISEÑO DE SISTEMAS DE INFORMACION II",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS011",
-        schedule: {
-          lun: "07-09",
-          mie: "07-09",
-          vie: "07-09",
-        },
-        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS ,ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-402",
-        teacher: "VILLENA LEON OLMER CLAUDIO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "ADM071",
-        section: "7A",
-        cycle: "07",
-        name: "ARQUITECTURA EMPRESARIAL",
-        category: "EFE",
-        credits: 3.0,
-        prerequisite: "105 Cred.",
-        schedule: {
-          mar: "18-20",
-          jue: "18-20",
-        },
-        classroom: "ING-301",
-        teacher: "LAZO MAMANI JUAN CARLOS",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "ADM071",
-        section: "7B",
-        cycle: "07",
-        name: "ARQUITECTURA EMPRESARIAL",
-        category: "EFE",
-        credits: 3.0,
-        prerequisite: "105 Cred.",
-        schedule: {
-          mar: "07-09",
-          jue: "07-09",
-        },
-        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS ,ING-401",
-        teacher: "PUMASUPA PARO NICK EUGENY",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS048",
-        section: "7A",
-        cycle: "07",
-        name: "DESARROLLO DE SOFTWARE II",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS047",
-        schedule: {
-          mar: "16-18",
-          jue: "16-18",
-          sab: "09-11",
-        },
-        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
-        teacher: "COLLANTES VALER YOVER",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS048",
-        section: "7B",
-        cycle: "07",
-        name: "DESARROLLO DE SOFTWARE II",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS047",
-        schedule: {
-          mar: "14-16",
-          jue: "14-16",
-          sab: "11-13",
-        },
-        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
-        teacher: "ZUÑIGA ROJAS GABRIELA",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS067",
-        section: "7A",
-        cycle: "07",
-        name: "GESTION ESTRATEGICA DE TECNOLOGIA DE INFORMACION",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "105 Cred.",
-        schedule: {
-          lun: "18-20",
-          mie: "18-20",
-          vie: "18-20",
-        },
-        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-301",
-        teacher: "QUISPE ONOFRE CARLOS RAMON",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS067",
-        section: "7B",
-        cycle: "07",
-        name: "GESTION ESTRATEGICA DE TECNOLOGIA DE INFORMACION",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "105 Cred.",
-        schedule: {
-          mar: "20-22",
-          jue: "20-22",
-          vie: "20-22",
-        },
-        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS ,ING-402",
-        teacher: "CONZA BALBIN CARLOS HERNAN",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "ECO056",
-        section: "7A",
-        cycle: "07",
-        name: "INGENIERIA ECONOMICA",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "105 Cred.",
-        schedule: {
-          lun: "14-16",
-          mie: "14-16",
-        },
-        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-301",
-        teacher: "DEL CARPIO CUENTAS LUIS ENRIQUE",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "ECO056",
-        section: "7B",
-        cycle: "07",
-        name: "INGENIERIA ECONOMICA",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "105 Cred.",
-        schedule: {
-          mar: "11-13",
-          jue: "11-13",
-        },
-        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-301",
-        teacher: "DEL CARPIO CUENTAS LUIS ENRIQUE",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS017",
-        section: "7A",
-        cycle: "07",
-        name: "SISTEMAS OPERATIVOS",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS090",
-        schedule: {
-          lun: "16-18",
-          mie: "16-18",
-          vie: "16-18",
-        },
-        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-409",
-        teacher: "PALOMINO OLIVERA EMILIO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS017",
-        section: "7B",
-        cycle: "07",
-        name: "SISTEMAS OPERATIVOS",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS090",
-        schedule: {
-          lun: "09-11",
-          mar: "09-11",
-          jue: "09-11",
-        },
-        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-302",
-        teacher: "CONZA BALBIN CARLOS HERNAN",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS022",
-        section: "8A",
-        cycle: "08",
-        name: "FORMULACION DE PROYECTOS DE SISTEMAS",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "ECO056",
-        schedule: {
-          lun: "18-20",
-          mie: "18-20",
-          vie: "18-20",
-        },
-        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-302",
-        teacher: "COSIO OBLEA JOHAN EDWIN",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS022",
-        section: "8B",
-        cycle: "08",
-        name: "FORMULACION DE PROYECTOS DE SISTEMAS",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "ECO056",
-        schedule: {
-          lun: "18-20",
-          mie: "18-20",
-          vie: "18-20",
-        },
-        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-401",
-        teacher: "CONZA BALBIN CARLOS HERNAN",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS092",
-        section: "8A",
-        cycle: "08",
-        name: "INFRAESTRUCTURA DE REDES",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS017",
-        schedule: {
-          lun: "16-18",
-          mie: "16-18",
-          vie: "16-18",
-        },
-        classroom: "ING-402,TA ING-208",
-        teacher: "CARRASCO POBLETE EDWIN",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS092",
-        section: "8B",
-        cycle: "08",
-        name: "INFRAESTRUCTURA DE REDES",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS017",
-        schedule: {
-          lun: "14-16",
-          mie: "14-16",
-          vie: "14-16",
-        },
-        classroom: "ING-401,TA ING-208",
-        teacher: "SOTA ORELLANA LUIS ALBERTO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS021",
-        section: "8A",
-        cycle: "08",
-        name: "INGENIERIA DE SOFTWARE",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS012",
-        schedule: {
-          mar: "20-22",
-          jue: "20-22",
-        },
-        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-401",
-        teacher: "QUISPE SOTA JULIO VLADIMIR",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS021",
-        section: "8B",
-        cycle: "08",
-        name: "INGENIERIA DE SOFTWARE",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS012",
-        schedule: {
-          lun: "20-22",
-          mie: "20-22",
-        },
-        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
-        teacher: "CHULLO LLAVE BORIS",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "INV007",
-        section: "8A",
-        cycle: "08",
-        name: "METODOLOGIA DE LA INVESTIGACION EN INGENIERIA",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "125 Cred.",
-        schedule: {
-          mar: "18-20",
-          jue: "18-20",
-        },
-        classroom: "ING-402",
-        teacher: "ZUÑIGA ROJAS GABRIELA",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "INV007",
-        section: "8B",
-        cycle: "08",
-        name: "METODOLOGIA DE LA INVESTIGACION EN INGENIERIA",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "125 Cred.",
-        schedule: {
-          mar: "18-20",
-          jue: "18-20",
-        },
-        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
-        teacher: "VERA OLIVERA HARLEY",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS091",
-        section: "8A",
-        cycle: "08",
-        name: "PLATAFORMAS PARA EL DESARROLLO DE APLICACIONES",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS048",
-        schedule: {
-          lun: "14-16",
-          mie: "14-16",
-          vie: "14-16",
-        },
-        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
-        teacher: "VARGAS QUISPE FELIX ESTANISLAO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS091",
-        section: "8B",
-        cycle: "08",
-        name: "PLATAFORMAS PARA EL DESARROLLO DE APLICACIONES",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS048",
-        schedule: {
-          mar: "14-16",
-          jue: "14-16",
-          sab: "09-11",
-        },
-        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
-        teacher: "VARGAS QUISPE FELIX ESTANISLAO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS094",
-        section: "9A",
-        cycle: "09",
-        name: "ADMINISTRACION DE SERVICIOS DE REDES",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS092",
-        schedule: {
-          lun: "18-20",
-          mie: "18-20",
-          vie: "18-20",
-        },
-        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-402",
-        teacher: "CARRASCO POBLETE EDWIN",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS094",
-        section: "9B",
-        cycle: "09",
-        name: "ADMINISTRACION DE SERVICIOS DE REDES",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS092",
-        schedule: {
-          lun: "18-20",
-          mie: "18-20",
-          vie: "18-20",
-        },
-        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS ,ING-401",
-        teacher: "ZAMALLOA PARO WILLIAN",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS033",
-        section: "9A",
-        cycle: "09",
-        name: "GESTION DE LA INNOVACION Y EMPRENDIMIENTO",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS022",
-        schedule: {
-          mar: "18-20",
-          jue: "18-20",
-        },
-        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
-        teacher: "ALCCA ZELA ERICK",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS033",
-        section: "9B",
-        cycle: "09",
-        name: "GESTION DE LA INNOVACION Y EMPRENDIMIENTO",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS022",
-        schedule: {
-          mar: "20-22",
-          jue: "20-22",
-        },
-        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-301",
-        teacher: "COSIO OBLEA JOHAN EDWIN",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS058",
-        section: "9A",
-        cycle: "09",
-        name: "INTELIGENCIA DE NEGOCIOS",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "145 Cred.",
-        schedule: {
-          lun: "16-18",
-          mie: "16-18",
-          vie: "16-18",
-        },
-        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-401",
-        teacher: "QUISPE ONOFRE CARLOS RAMON",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "INV003",
-        section: "9A",
-        cycle: "09",
-        name: "SEMINARIO TALLER DE TESIS I",
-        category: "EFE",
-        credits: 3.0,
-        prerequisite: "INV007",
-        schedule: {
-          mar: "14-16",
-          jue: "14-16",
-        },
-        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-401",
-        teacher: "RIVAS MAGO LORNEL ANTONIO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "INV003",
-        section: "9B",
-        cycle: "09",
-        name: "SEMINARIO TALLER DE TESIS I",
-        category: "EFE",
-        credits: 3.0,
-        prerequisite: "INV007",
-        schedule: {
-          mar: "16-18",
-          jue: "16-18",
-        },
-        classroom: "ING-402",
-        teacher: "ZUÑIGA ROJAS GABRIELA",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS093",
-        section: "9A",
-        cycle: "09",
-        name: "SISTEMAS DE INFORMACION GERENCIAL",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "145 Cred.",
-        schedule: {
-          lun: "14-16",
-          mie: "14-16",
-          vie: "14-16",
-        },
-        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-302",
-        teacher: "DE LA VEGA BELLIDO VIVIAN LUZ",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS093",
-        section: "9B",
-        cycle: "09",
-        name: "SISTEMAS DE INFORMACION GERENCIAL",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "145 Cred.",
-        schedule: {
-          lun: "20-22",
-          mie: "20-22",
-          vie: "20-22",
-        },
-        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS",
-        teacher: "QUISPE SOTA JULIO VLADIMIR",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS095",
-        section: "10A",
-        cycle: "10",
-        name: "CALIDAD DE SISTEMAS DE INFORMACION",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS093",
-        schedule: {
-          mar: "14-16",
-          jue: "14-16",
-        },
-        classroom: "ING-301,ING-402",
-        teacher: "CHAVEZ ESPINOZA WILLIAM ALBERTO",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS027",
-        section: "10A",
-        cycle: "10",
-        name: "CONTROL Y AUDITORIA DE SISTEMAS",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "165 Cred.",
-        schedule: {
-          mar: "18-20",
-          jue: "18-20",
-        },
-        classroom: "TA ING-208",
-        teacher: "PALOMINO OLIVERA EMILIO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS027",
-        section: "10B",
-        cycle: "10",
-        name: "CONTROL Y AUDITORIA DE SISTEMAS",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "165 Cred.",
-        schedule: {
-          mar: "18-20",
-          jue: "18-20",
-        },
-        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS",
-        teacher: "CONZA BALBIN CARLOS HERNAN",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS070",
-        section: "10A",
-        cycle: "10",
-        name: "INTELIGENCIA ARTIFICIAL",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "165 Cred.",
-        schedule: {
-          lun: "14-16",
-          mie: "14-16",
-          vie: "14-16",
-        },
-        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-402",
-        teacher: "ESPETIA HUAMANGA HUGO",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS096",
-        section: "10A",
-        cycle: "10",
-        name: "SEGURIDAD EN TECNOLOGIAS DE INFORMACION",
-        category: "EFE",
-        credits: 4.0,
-        prerequisite: "SIS094",
-        schedule: {
-          lun: "20-22",
-          mie: "20-22",
-          vie: "20-22",
-        },
-        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
-        teacher: "ZAMALLOA PARO WILLIAN",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "INV004",
-        section: "10A",
-        cycle: "10",
-        name: "SEMINARIO TALLER DE TESIS II",
-        category: "EFE",
-        credits: 3.0,
-        prerequisite: "INV003",
-        schedule: {
-          mar: "16-18",
-          jue: "16-18",
-        },
-        classroom: "ING-302,ING-401",
-        teacher: "COSIO OBLEA JOHAN EDWIN",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "INV004",
-        section: "10B",
-        cycle: "10",
-        name: "SEMINARIO TALLER DE TESIS II",
-        category: "EFE",
-        credits: 3.0,
-        prerequisite: "INV003",
-        schedule: {
-          mar: "16-18",
-          jue: "16-18",
-        },
-        classroom: "ING-301,ING-302",
-        teacher: "VERA OLIVERA HARLEY",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS098",
-        section: "9A",
-        cycle: "00",
-        name: "DESARROLLO DE VIDEO JUEGOS",
-        category: "EEE",
-        credits: 3.0,
-        prerequisite: "150 Cred.",
-        schedule: {
-          mar: "11-13",
-          jue: "11-13",
-        },
-        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
-        teacher: "VARGAS QUISPE FELIX ESTANISLAO",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS038",
-        section: "10A",
-        cycle: "00",
-        name: "DINAMICA DE SISTEMAS",
-        category: "EEE",
-        credits: 3.0,
-        prerequisite: "130 Cred.",
-        schedule: {
-          lun: "16-18",
-          mie: "16-18",
-        },
-        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS,ING-302",
-        teacher: "VARGAS NORIEGA CAMILA JIMENA",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS073",
-        section: "8A",
-        cycle: "00",
-        name: "FUNDAMENTOS DE BIOINFORMATICA",
-        category: "EEE",
-        credits: 3.0,
-        prerequisite: "130 Cred.",
-        schedule: {
-          mie: "09-11",
-          vie: "09-11",
-        },
-        classroom: "ING-302",
-        teacher: "SERNAQUE FERNANDEZ PAULA BENANCIA",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "MKT012",
-        section: "8A",
-        cycle: "00",
-        name: "MARKETING DIGITAL",
-        category: "EEE",
-        credits: 3.0,
-        prerequisite: "130 Cred.",
-        schedule: {
-          lun: "20-22",
-          mie: "20-22",
-        },
-        classroom: "ING-301",
-        teacher: "ASTETE VALCARCEL HENRY",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS032",
-        section: "9A",
-        cycle: "00",
-        name: "REALIDAD VIRTUAL",
-        category: "EEE",
-        credits: 3.0,
-        prerequisite: "130 Cred.",
-        schedule: {
-          mar: "20-22",
-          jue: "20-22",
-        },
-        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
-        teacher: "VERA OLIVERA HARLEY",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS097",
-        section: "8A",
-        cycle: "00",
-        name: "SISTEMAS DIGITALES EMBEBIDOS",
-        category: "EEE",
-        credits: 3.0,
-        prerequisite: "130 Cred.",
-        schedule: {
-          mar: "16-18",
-          jue: "16-18",
-        },
-        classroom: "ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
-        teacher: "CARRASCO POBLETE EDWIN",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS006",
-        section: "1A",
-        cycle: "01",
-        name: "INTRODUCCION A LA INGENIERIA DE SISTEMAS",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "",
-        schedule: {
-          mar: "07-09",
-          jue: "07-09",
-        },
-        classroom: "ING-302",
-        teacher: "GONZALES CONDORI HARRY YEISON",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS006",
-        section: "1B",
-        cycle: "01",
-        name: "INTRODUCCION A LA INGENIERIA DE SISTEMAS",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "",
-        schedule: {
-          mar: "14-16",
-          jue: "14-16",
-        },
-        classroom: "ING-401,ING-402",
-        teacher: "VARGAS NORIEGA CAMILA JIMENA",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS056",
-        section: "2A",
-        cycle: "02",
-        name: "ALGORITMICA Y LENGUAJE DE PROGRAMACION ESTRUCTURADA",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "10 Cred.",
-        schedule: {
-          lun: "07-09",
-          mie: "07-09",
-        },
-        classroom: "ING-203 LABORATORIO COMPUTO 3 SISTEMAS",
-        teacher: "ACURIO GUTIERREZ MARIA ISABEL",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS056",
-        section: "2B",
-        cycle: "02",
-        name: "ALGORITMICA Y LENGUAJE DE PROGRAMACION ESTRUCTURADA",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "10 Cred.",
-        schedule: {
-          lun: "14-16",
-          mie: "14-16",
-        },
-        classroom: "ING-201 LABORATORIO COMPUTO 1 SISTEMAS ,ING-205 LABORATORIO COMPUTO 5 SISTEMAS",
-        teacher: "VILLENA LEON OLMER CLAUDIO",
-        type: "PRESENCIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS007",
-        section: "2A",
-        cycle: "02",
-        name: "INGENIERIA DE SISTEMAS",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "SIS006",
-        schedule: {
-          mar: "07-09",
-          jue: "07-09",
-        },
-        classroom: "ING-301",
-        teacher: "GANVINI VALCARCEL CRISTHIAN EDUARDO",
-        type: "ESPECIAL",
-        plan: "2016"
-      },
-      {
-        code: "SIS007",
-        section: "2B",
-        cycle: "02",
-        name: "INGENIERIA DE SISTEMAS",
-        category: "EBE",
-        credits: 3.0,
-        prerequisite: "SIS006",
-        schedule: {
-          mar: "14-16",
-          jue: "14-16",
-        },
-        classroom: "ING-204 LABORATORIO COMPUTO 4 SISTEMAS,ING-301",
-        teacher: "DE LA VEGA BELLIDO VIVIAN LUZ",
-        type: "ESPECIAL",
-        plan: "2016"
-      }
-    ];
-    // Colores para diferenciar visualmente los cursos
-    const courseColors = [
-      "#3498db", "#2ecc71", "#e74c3c", "#f39c12",
-      "#9b59b6", "#1abc9c", "#d35490", "#34495e",
-      "#16a085", "#27ae60", "#2980b9", "#8e44ad",
-      "#f1c40f", "#e67e22", "#c0392b", "#7f8c8d",
-      "#2c3e50", "#d35400", "#c0392b", "#8e44ad",
-      "#27ae60", "#16a085", "#2980b9", "#f39c12",
-      "#e74cfc", "#2ecc71", "#3498db", "#9b59b6"
-    ];
-    // Mapeo de días en español a inglés para coincidir con los datos
-    const dayMapping = {
-      "lun": "lun",
-      "mar": "mar",
-      "mie": "mie",
-      "jue": "jue",
-      "vie": "vie",
-      "sab": "sab"
-    };
-
-    // Función para renderizar los cursos en el horario
-    function renderSchedule() {
-      // Limpiar el horario
-      document.querySelectorAll('.schedule-cell').forEach(cell => {
-        cell.innerHTML = '';
-      });
-
-      // Obtener filtros
-      const planFilter = document.getElementById('plan').value;
-      const cycleFilter = document.getElementById('ciclo').value;
-      const searchFilter = document.getElementById('search').value.toLowerCase();
-
-      // Filtrar cursos
-      const filteredCourses = courses.filter(course => {
-        const matchesPlan = planFilter === 'all' || course.plan === planFilter;
-        const matchesCycle = cycleFilter === 'all' || course.cycle === cycleFilter;
-        const matchesSearch = searchFilter === '' ||
-          course.code.toLowerCase().includes(searchFilter) ||
-          course.name.toLowerCase().includes(searchFilter);
-
-        return matchesPlan && matchesCycle && matchesSearch;
-      });
-
-      // Asignar colores a los cursos
-      const courseColorMap = {};
-      filteredCourses.forEach((course, index) => {
-        courseColorMap[course.code + course.section] = courseColors[index % courseColors.length];
-      });
-
-      // Colocar cursos en el horario
-      filteredCourses.forEach(course => {
-        const color = courseColorMap[course.code + course.section];
-
-        Object.entries(course.schedule).forEach(([day, time]) => {
-          const cell = document.querySelector(`.schedule-cell[data-day="${dayMapping[day]}"][data-time="${time}"]`);
-
-          if (cell) {
-            const courseElement = document.createElement('div');
-            courseElement.className = 'course';
-            courseElement.style.backgroundColor = color;
-            courseElement.setAttribute('data-course', JSON.stringify(course));
-
-            courseElement.innerHTML = `
-                            <div class="course-code">${course.code} - ${course.section}</div>
-                            <div class="course-name">${course.name}</div>
-                            <div class="course-time">${time}</div>
-                        `;
-
-            courseElement.addEventListener('click', showCourseDetails);
-            cell.appendChild(courseElement);
-          }
-        });
-      });
-
-      // Mostrar celdas vacías
-      document.querySelectorAll('.schedule-cell').forEach(cell => {
-        if (cell.children.length === 0) {
-          cell.innerHTML = '<div class="empty-cell">Sin clases</div>';
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulación de Conservación Genética (ODS 15)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
         }
-      });
-    }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .flow-box {
+            border: 2px solid;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            flex-grow: 1;
+            min-width: 150px;
+        }
+        
+        .flow-arrow {
+            font-size: 2rem;
+            line-height: 1;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0.5rem 1rem;
+            flex-shrink: 0;
+        }
 
-    // Función para mostrar detalles del curso
-    function showCourseDetails(event) {
-      const courseData = JSON.parse(event.currentTarget.getAttribute('data-course'));
-      const modal = document.getElementById('courseModal');
-      const modalTitle = document.getElementById('modalTitle');
-      const modalBody = document.getElementById('modalBody');
+        @media (max-width: 767px) {
+            .flow-arrow {
+                transform: rotate(90deg);
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#F7F7F7] text-[#333333]">
 
-      modalTitle.textContent = `${courseData.code} - ${courseData.name}`;
-
-      let scheduleText = '';
-      Object.entries(courseData.schedule).forEach(([day, time]) => {
-        const dayNames = {
-          "lun": "Lunes",
-          "mar": "Martes",
-          "mie": "Miércoles",
-          "jue": "Jueves",
-          "vie": "Viernes",
-          "sab": "Sábado"
-        };
-        scheduleText += `${dayNames[day]}: ${time}<br>`;
-      });
-
-      modalBody.innerHTML = `
-                <div class="course-detail"><strong>Código:</strong> ${courseData.code}</div>
-                <div class="course-detail"><strong>Sección:</strong> ${courseData.section}</div>
-                <div class="course-detail"><strong>Ciclo:</strong> ${courseData.cycle}</div>
-                <div class="course-detail"><strong>Nombre:</strong> ${courseData.name}</div>
-                <div class="course-detail"><strong>Categoría:</strong> ${courseData.category}</div>
-                <div class="course-detail"><strong>Créditos:</strong> ${courseData.credits}</div>
-                <div class="course-detail"><strong>Prerrequisito:</strong> ${courseData.prerequisite}</div>
-                <div class="course-detail"><strong>Horario:</strong><br>${scheduleText}</div>
-                <div class="course-detail"><strong>Aula:</strong> ${courseData.classroom}</div>
-                <div class="course-detail"><strong>Docente:</strong> ${courseData.teacher}</div>
-                <div class="course-detail"><strong>Tipo de Dictado:</strong> ${courseData.type}</div>
-                <div class="course-detail"><strong>Plan de Estudios:</strong> ${courseData.plan}</div>
-            `;
-
-      modal.style.display = 'flex';
-    }
-
-    // Event listeners
-    document.getElementById('plan').addEventListener('change', renderSchedule);
-    document.getElementById('ciclo').addEventListener('change', renderSchedule);
-    document.getElementById('search').addEventListener('input', renderSchedule);
-
-    document.querySelector('.close-modal').addEventListener('click', function () {
-      document.getElementById('courseModal').style.display = 'none';
-    });
-
-    // Cerrar modal al hacer clic fuera del contenido
-    window.addEventListener('click', function (event) {
-      const modal = document.getElementById('courseModal');
-      if (event.target === modal) {
-        modal.style.display = 'none';
-      }
-    });
-
-    // Inicializar el horario
-    renderSchedule();
-  </script>
-  <footer style="background-color: #2c3e50; color: white; padding: 2rem 0; margin-top: 3rem;">
-    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-        <!-- Información de la Universidad -->
-        <div>
-          <h3 style="color: #3498db; margin-bottom: 1rem;">Universidad Andina del Cusco</h3>
-          <p style="margin: 0.5rem 0;">Facultad de Ingeniería y Arquitectura</p>
-          <p style="margin: 0.5rem 0;">Escuela Profesional de Ingeniería de Sistemas</p>
-          <p style="margin: 0.5rem 0;">Semestre 2025-2</p>
+    <header class="bg-[#437C90] text-white p-6 shadow-lg">
+        <div class="container mx-auto text-center">
+            <h1 class="text-3xl md:text-4xl font-bold mb-2">Simulación de Conservación Genética</h1>
+            <p class="text-xl text-[#FFC658]">Un Enfoque Computacional para la Protección de la Biodiversidad (ODS 15)</p>
         </div>
+    </header>
 
-        <!-- Contacto -->
-        <div>
-          <h3 style="color: #3498db; margin-bottom: 1rem;">Contacto</h3>
-          <p style="margin: 0.5rem 0;">📍 Av. de la Cultura 733, Cusco</p>
-          <p style="margin: 0.5rem 0;">📞 084 – 605000 – Anexo: 1606</p>
-          <p style="margin: 0.5rem 0;">🌐 www.uandina.edu.pe</p>
+    <main class="container mx-auto p-4 md:p-8">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <section class="md:col-span-2 bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-[#437C90] mb-4">El Desafío: Pérdida de Diversidad Genética</h2>
+                <p class="mb-4 text-gray-700">Las poblaciones pequeñas y aisladas son extremadamente vulnerables a la deriva genética y la endogamia. Esta pérdida de diversidad reduce la capacidad de adaptación de una especie y aumenta drásticamente el riesgo de extinción. Nuestro objetivo es simular intervenciones que puedan mitigar este riesgo, en línea con el Objetivo de Desarrollo Sostenible 15 (Vida de Ecosistemas Terrestres).</p>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+                    <div class="text-center">
+                        <div class="text-7xl font-bold text-[#E17055]">~78%</div>
+                        <p class="text-lg text-gray-700 font-semibold">de poblaciones pequeñas simuladas</p>
+                        <p class="text-gray-600">enfrentan extinción local en 50 generaciones sin intervención.</p>
+                    </div>
+                    <div class="chart-container" style="height:250px; max-height:250px; width:100%; max-width:250px;">
+                        <canvas id="problemDonutChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section class="md:col-span-2 bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-[#437C90] mb-4">Metodología: El Modelo de Simulación</h2>
+                <p class="mb-6 text-gray-700">Utilizamos un modelo computacional en Python para simular la evolución de poblaciones pequeñas bajo cuatro escenarios distintos. El modelo rastrea la heterocigosidad y la supervivencia a lo largo de 100 generaciones, aplicando intervenciones de conservación en momentos clave.</p>
+                <div class="flex flex-col md:flex-row items-stretch justify-between gap-2 flex-wrap">
+                    <div class="flow-box border-[#48A9A6] bg-green-50">Inicio: Población Pequeña (N=50)</div>
+                    <div class="flow-arrow text-[#F6A24D] md:block hidden">→</div>
+                    <div class="flow-arrow text-[#F6A24D] md:hidden">↓</div>
+                    <div class="flow-box border-[#48A9A6] bg-green-50">Ciclo Generacional (Reproducción, Deriva, Mutación)</div>
+                    <div class="flow-arrow text-[#F6A24D] md:block hidden">→</div>
+                    <div class="flow-arrow text-[#F6A24D] md:hidden">↓</div>
+                    <div class="flow-box border-[#E17055] bg-red-50">¿Intervención? (Control, Criopres., Rescate, Combinado)</div>
+                    <div class="flow-arrow text-[#F6A24D] md:block hidden">→</div>
+                    <div class="flow-arrow text-[#F6A24D] md:hidden">↓</div>
+                    <div class="flow-box border-[#437C90] bg-blue-50">Registro de Datos (Diversidad, Extinción)</div>
+                </div>
+            </section>
+
+            <section class="md:col-span-2 bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-[#437C90] mb-4">Resultados: Preservación de la Diversidad Genética</h2>
+                <p class="mb-4 text-gray-700">El análisis temporal muestra cómo decae la diversidad genética (heterocigosidad) en cada escenario. La estrategia combinada de criopreservación y rescate de linajes es notablemente superior, manteniendo niveles de diversidad significativamente más altos a largo plazo.</p>
+                <div class="chart-container" style="height:400px; max-height:400px; width:100%; max-width:900px;">
+                    <canvas id="diversityLineChart"></canvas>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-[#437C90] mb-4">Resultados: Tasa de Supervivencia</h2>
+                <p class="mb-4 text-gray-700">La tasa de extinción después de 100 generaciones varía drásticamente. Mientras que el escenario de control casi garantiza la extinción, la estrategia combinada la reduce a menos del 15%, demostrando su eficacia como herramienta de conservación.</p>
+                <div class="chart-container" style="height:350px; max-height:350px; width:100%; max-width:500px;">
+                    <canvas id="extinctionBarChart"></canvas>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-[#437C90] mb-4">Resultados: Composición Alélica</h2>
+                <p class="mb-4 text-gray-700">El rescate de linajes reintroduce activamente alelos perdidos desde el banco de germoplasma. Este gráfico muestra cómo la estrategia combinada no solo preserva los alelos originales, sino que también recupera la diversidad que se habría perdido permanentemente.</p>
+                <div class="chart-container" style="height:350px; max-height:350px; width:100%; max-width:500px;">
+                    <canvas id="alleleStackedBarChart"></canvas>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-[#437C90] mb-4">Análisis Comparativo de Estrategias</h2>
+                <p class="mb-4 text-gray-700">Comparando las dos estrategias de intervención (Rescate y Combinada) en múltiples ejes, vemos las compensaciones. La estrategia combinada ofrece la máxima eficacia y preservación de la diversidad, aunque a un costo y complejidad logística mayores.</p>
+                <div class="chart-container" style="height:350px; max-height:350px; width:100%; max-width:500px;">
+                    <canvas id="strategyRadarChart"></canvas>
+                </div>
+            </section>
+
+            <section class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-[#437C90] mb-4">Conclusiones y Vínculo con ODS 15</h2>
+                <p class="mb-4 text-gray-700">La simulación demuestra que las intervenciones proactivas son cruciales. La integración de la criopreservación con el rescate genético activo es la estrategia más robusta para la conservación a largo plazo de la biodiversidad en poblaciones amenazadas.</p>
+                <ul class="space-y-2">
+                    <li class="flex items-start"><span class="text-green-500 font-bold mr-2 text-xl">✓</span><span>La inacción (Control) conduce casi inevitablemente a la extinción.</span></li>
+                    <li class="flex items-start"><span class="text-green-500 font-bold mr-2 text-xl">✓</span><span>La criopreservación por sí sola es una póliza de seguro, pero no detiene la deriva en la población viva.</span></li>
+                    <li class="flex items-start"><span class="text-green-500 font-bold mr-2 text-xl">✓</span><span>El rescate de linajes es una herramienta poderosa para revertir la pérdida de diversidad.</span></li>
+                    <li class="flex items-start"><span class="text-green-500 font-bold mr-2 text-xl">✓</span><span>Estas herramientas computacionales apoyan directamente la meta 15.5 del ODS 15 (proteger las especies amenazadas y prevenir su extinción).</span></li>
+                </ul>
+            </section>
+
         </div>
+    </main>
 
-        <!-- Desarrollador -->
-        <div>
-          <h3 style="color: #3498db; margin-bottom: 1rem;">Desarrollado por</h3>
-          <p style="margin: 0.5rem 0;">Est. Luis Marin Salas Challco</p>
-          <p style="margin: 0.5rem 0;">GitHub: DragonKael</p>
-          <p style="margin: 0.5rem 0;">Centro Federado EPIS</p>
-        </div>
-      </div>
+    <footer class="bg-[#437C90] text-white mt-8 p-4 text-center">
+        <p class="text-sm">&copy; 2025 Infografía de Simulación Computacional. Todos los derechos reservados.</p>
+    </footer>
 
-      <!-- Copyright -->
-      <div style="border-top: 1px solid #34495e; margin-top: 2rem; padding-top: 1rem; text-align: center;">
-        <p style="margin: 0; font-size: 0.9rem;">
-          &copy; 2025 Universidad Andina del Cusco - Escuela de Ingeniería de Sistemas.
-          Todos los derechos reservados.
-        </p>
-        <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem; color: #bdc3c7;">
-          Este sitio es un proyecto académico y no es oficial de la universidad.
-          Los horarios mostrados son de referencia.
-        </p>
-      </div>
-    </div>
-  </footer>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+
+            const palette = {
+                yellow: '#FFC658',
+                orange: '#F6A24D',
+                burntOrange: '#E17055',
+                teal: '#48A9A6',
+                darkBlue: '#437C90',
+                text: '#333333',
+                bg: '#F7F7F7'
+            };
+
+            const multiLineTooltipTitle = {
+                callbacks: {
+                    title: function(tooltipItems) {
+                        const item = tooltipItems[0];
+                        let label = item.chart.data.labels[item.dataIndex];
+                        if (Array.isArray(label)) {
+                          return label.join(' ');
+                        } else {
+                          return label;
+                        }
+                    }
+                }
+            };
+
+            function wrapLabels(labels, maxLen = 16) {
+                return labels.map(label => {
+                    if (typeof label === 'string' && label.length > maxLen) {
+                        const words = label.split(' ');
+                        let lines = [];
+                        let currentLine = '';
+                        words.forEach((word, index) => {
+                            const testLine = currentLine + word + ' ';
+                            if (testLine.length > maxLen && index > 0) {
+                                lines.push(currentLine.trim());
+                                currentLine = word + ' ';
+                            } else {
+                                currentLine = testLine;
+                            }
+                        });
+                        lines.push(currentLine.trim());
+                        return lines;
+                    }
+                    return label;
+                });
+            }
+            
+            Chart.defaults.font.family = 'Inter';
+            Chart.defaults.font.size = 12;
+            Chart.defaults.color = palette.text;
+            Chart.defaults.plugins.legend.position = 'bottom';
+
+            function createProblemDonutChart() {
+                const ctx = document.getElementById('problemDonutChart')?.getContext('2d');
+                if (!ctx) return;
+
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Riesgo de Extinción', 'Supervivencia (con intervención)'],
+                        datasets: [{
+                            label: 'Riesgo de Extinción',
+                            data: [78, 22],
+                            backgroundColor: [
+                                palette.burntOrange,
+                                palette.teal,
+                            ],
+                            borderColor: palette.bg,
+                            borderWidth: 4,
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: multiLineTooltipTitle
+                        }
+                    }
+                });
+            }
+
+            function createDiversityLineChart() {
+                const ctx = document.getElementById('diversityLineChart')?.getContext('2d');
+                if (!ctx) return;
+
+                const generations = Array.from({ length: 11 }, (_, i) => i * 10);
+
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: generations.map(g => `Gen ${g}`),
+                        datasets: [
+                            {
+                                label: 'Control (Sin Intervención)',
+                                data: [0.5, 0.45, 0.38, 0.3, 0.22, 0.15, 0.1, 0.05, 0.02, 0.01, 0],
+                                borderColor: palette.burntOrange,
+                                backgroundColor: 'transparent',
+                                tension: 0.1,
+                                borderWidth: 3
+                            },
+                            {
+                                label: 'Solo Criopreservación',
+                                data: [0.5, 0.45, 0.39, 0.31, 0.24, 0.18, 0.13, 0.09, 0.06, 0.04, 0.02],
+                                borderColor: palette.orange,
+                                backgroundColor: 'transparent',
+                                tension: 0.1,
+                                borderWidth: 2,
+                                borderDash: [5, 5]
+                            },
+                            {
+                                label: 'Rescate de Linajes',
+                                data: [0.5, 0.48, 0.45, 0.42, 0.40, 0.38, 0.36, 0.35, 0.34, 0.33, 0.32],
+                                borderColor: palette.yellow,
+                                backgroundColor: 'transparent',
+                                tension: 0.1,
+                                borderWidth: 3
+                            },
+                            {
+                                label: 'Estrategia Combinada',
+                                data: [0.5, 0.49, 0.48, 0.47, 0.46, 0.45, 0.44, 0.43, 0.42, 0.41, 0.40],
+                                borderColor: palette.teal,
+                                backgroundColor: palette.teal.replace(')', ', 0.1)'),
+                                tension: 0.1,
+                                borderWidth: 3,
+                                fill: true
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Heterocigosidad Promedio'
+                                },
+                                min: 0,
+                                max: 0.55
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Generaciones'
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: multiLineTooltipTitle
+                        }
+                    }
+                });
+            }
+
+            function createExtinctionBarChart() {
+                const ctx = document.getElementById('extinctionBarChart')?.getContext('2d');
+                if (!ctx) return;
+
+                const rawLabels = ['Control', 'Solo Criopreservación', 'Rescate de Linajes', 'Estrategia Combinada'];
+                const processedLabels = wrapLabels(rawLabels, 16);
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: processedLabels,
+                        datasets: [{
+                            label: 'Tasa de Extinción (%) tras 100 Gen',
+                            data: [92, 78, 41, 14],
+                            backgroundColor: [
+                                palette.burntOrange,
+                                palette.orange,
+                                palette.yellow,
+                                palette.teal
+                            ],
+                            borderColor: palette.darkBlue,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Tasa de Extinción (%)'
+                                },
+                                min: 0,
+                                max: 100
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: multiLineTooltipTitle
+                        }
+                    }
+                });
+            }
+
+            function createAlleleStackedBarChart() {
+                const ctx = document.getElementById('alleleStackedBarChart')?.getContext('2d');
+                if (!ctx) return;
+
+                const rawLabels = ['Control', 'Solo Criopreservación', 'Rescate de Linajes', 'Estrategia Combinada'];
+                const processedLabels = wrapLabels(rawLabels, 16);
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: processedLabels,
+                        datasets: [
+                            {
+                                label: 'Alelos Perdidos',
+                                data: [85, 70, 35, 10],
+                                backgroundColor: palette.burntOrange
+                            },
+                            {
+                                label: 'Alelos Rescatados',
+                                data: [0, 0, 30, 25],
+                                backgroundColor: palette.yellow
+                            },
+                            {
+                                label: 'Alelos Originales Restantes',
+                                data: [15, 30, 35, 65],
+                                backgroundColor: palette.teal
+                            }
+                        ]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                stacked: true,
+                                title: {
+                                    display: true,
+                                    text: 'Composición Alélica (%)'
+                                },
+                                min: 0,
+                                max: 100
+                            },
+                            y: {
+                                stacked: true
+                            }
+                        },
+                        plugins: {
+                            tooltip: multiLineTooltipTitle
+                        }
+                    }
+                });
+            }
+
+            function createStrategyRadarChart() {
+                const ctx = document.getElementById('strategyRadarChart')?.getContext('2d');
+                if (!ctx) return;
+
+                new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Eficacia (Supervivencia)', 'Preservación Diversidad', 'Costo', 'Complejidad Logística', 'Rapidez de Implementación'],
+                        datasets: [
+                            {
+                                label: 'Rescate de Linajes',
+                                data: [7, 7, 6, 6, 8],
+                                fill: true,
+                                backgroundColor: palette.yellow.replace(')', ', 0.2)'),
+                                borderColor: palette.yellow,
+                                pointBackgroundColor: palette.yellow,
+                                pointBorderColor: '#fff',
+                                pointHoverBackgroundColor: '#fff',
+                                pointHoverBorderColor: palette.yellow
+                            },
+                            {
+                                label: 'Estrategia Combinada',
+                                data: [9, 9, 8, 9, 5],
+                                fill: true,
+                                backgroundColor: palette.teal.replace(')', ', 0.2)'),
+                                borderColor: palette.teal,
+                                pointBackgroundColor: palette.teal,
+                                pointBorderColor: '#fff',
+                                pointHoverBackgroundColor: '#fff',
+                                pointHoverBorderColor: palette.teal
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                angleLines: {
+                                    display: true
+                                },
+                                suggestedMin: 0,
+                                suggestedMax: 10,
+                                ticks: {
+                                    stepSize: 2
+                                },
+                                pointLabels: {
+                                    font: {
+                                        size: 10
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: multiLineTooltipTitle
+                        }
+                    }
+                });
+            }
+            
+            createProblemDonutChart();
+            createDiversityLineChart();
+            createExtinctionBarChart();
+            createAlleleStackedBarChart();
+            createStrategyRadarChart();
+        });
+    </script>
 </body>
-
 </html>
