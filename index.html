@@ -3,475 +3,350 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulación de Conservación Genética (ODS 15)</title>
+    <title>Conservación Genética y Rescate de Linajes</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-        
+      .chart-container {
+        position: relative;
+        width: 100%;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 350px;
+        max-height: 400px;
+      }
+      @media (min-width: 768px) {
         .chart-container {
-            position: relative;
-            width: 100%;
-            margin-left: auto;
-            margin-right: auto;
+          height: 400px;
         }
-        
-        .flow-box {
-            border: 2px solid;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            flex-grow: 1;
-            min-width: 150px;
-        }
-        
-        .flow-arrow {
-            font-size: 2rem;
-            line-height: 1;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0.5rem 1rem;
-            flex-shrink: 0;
-        }
-
-        @media (max-width: 767px) {
-            .flow-arrow {
-                transform: rotate(90deg);
-                margin: 0.5rem 0;
-            }
-        }
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+      }
     </style>
+    
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'primary': '#00C1D4',
+              'secondary': '#F8C822',
+              'accent': '#FF6F59',
+              'dark': '#292E3D',
+              'light': '#FFFFFF',
+              'background': '#F4F7F6'
+            }
+          }
+        }
+      }
+    </script>
 </head>
-<body class="bg-[#F7F7F7] text-[#333333]">
+<body class="bg-background text-dark font-sans leading-relaxed">
 
-    <header class="bg-[#437C90] text-white p-6 shadow-lg">
-        <div class="container mx-auto text-center">
-            <h1 class="text-3xl md:text-4xl font-bold mb-2">Simulación de Conservación Genética</h1>
-            <p class="text-xl text-[#FFC658]">Un Enfoque Computacional para la Protección de la Biodiversidad (ODS 15)</p>
-        </div>
+    <header class="bg-dark text-light p-6 shadow-lg">
+      <div class="container mx-auto max-w-5xl text-center">
+        <h1 class="text-3xl md:text-4xl font-bold text-primary mb-2">Conservación Genética y Rescate de Linajes</h1>
+        <p class="text-lg md:text-xl text-light">Un enfoque computacional para la protección de la biodiversidad en poblaciones pequeñas.</p>
+      </div>
     </header>
 
-    <main class="container mx-auto p-4 md:p-8">
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-            <section class="md:col-span-2 bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-[#437C90] mb-4">El Desafío: Pérdida de Diversidad Genética</h2>
-                <p class="mb-4 text-gray-700">Las poblaciones pequeñas y aisladas son extremadamente vulnerables a la deriva genética y la endogamia. Esta pérdida de diversidad reduce la capacidad de adaptación de una especie y aumenta drásticamente el riesgo de extinción. Nuestro objetivo es simular intervenciones que puedan mitigar este riesgo, en línea con el Objetivo de Desarrollo Sostenible 15 (Vida de Ecosistemas Terrestres).</p>
-                <div class="flex flex-col md:flex-row items-center justify-center gap-6">
-                    <div class="text-center">
-                        <div class="text-7xl font-bold text-[#E17055]">~78%</div>
-                        <p class="text-lg text-gray-700 font-semibold">de poblaciones pequeñas simuladas</p>
-                        <p class="text-gray-600">enfrentan extinción local en 50 generaciones sin intervención.</p>
-                    </div>
-                    <div class="chart-container" style="height:250px; max-height:250px; width:100%; max-width:250px;">
-                        <canvas id="problemDonutChart"></canvas>
-                    </div>
-                </div>
-            </section>
-
-            <section class="md:col-span-2 bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-[#437C90] mb-4">Metodología: El Modelo de Simulación</h2>
-                <p class="mb-6 text-gray-700">Utilizamos un modelo computacional en Python para simular la evolución de poblaciones pequeñas bajo cuatro escenarios distintos. El modelo rastrea la heterocigosidad y la supervivencia a lo largo de 100 generaciones, aplicando intervenciones de conservación en momentos clave.</p>
-                <div class="flex flex-col md:flex-row items-stretch justify-between gap-2 flex-wrap">
-                    <div class="flow-box border-[#48A9A6] bg-green-50">Inicio: Población Pequeña (N=50)</div>
-                    <div class="flow-arrow text-[#F6A24D] md:block hidden">→</div>
-                    <div class="flow-arrow text-[#F6A24D] md:hidden">↓</div>
-                    <div class="flow-box border-[#48A9A6] bg-green-50">Ciclo Generacional (Reproducción, Deriva, Mutación)</div>
-                    <div class="flow-arrow text-[#F6A24D] md:block hidden">→</div>
-                    <div class="flow-arrow text-[#F6A24D] md:hidden">↓</div>
-                    <div class="flow-box border-[#E17055] bg-red-50">¿Intervención? (Control, Criopres., Rescate, Combinado)</div>
-                    <div class="flow-arrow text-[#F6A24D] md:block hidden">→</div>
-                    <div class="flow-arrow text-[#F6A24D] md:hidden">↓</div>
-                    <div class="flow-box border-[#437C90] bg-blue-50">Registro de Datos (Diversidad, Extinción)</div>
-                </div>
-            </section>
-
-            <section class="md:col-span-2 bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-[#437C90] mb-4">Resultados: Preservación de la Diversidad Genética</h2>
-                <p class="mb-4 text-gray-700">El análisis temporal muestra cómo decae la diversidad genética (heterocigosidad) en cada escenario. La estrategia combinada de criopreservación y rescate de linajes es notablemente superior, manteniendo niveles de diversidad significativamente más altos a largo plazo.</p>
-                <div class="chart-container" style="height:400px; max-height:400px; width:100%; max-width:900px;">
-                    <canvas id="diversityLineChart"></canvas>
-                </div>
-            </section>
-
-            <section class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-[#437C90] mb-4">Resultados: Tasa de Supervivencia</h2>
-                <p class="mb-4 text-gray-700">La tasa de extinción después de 100 generaciones varía drásticamente. Mientras que el escenario de control casi garantiza la extinción, la estrategia combinada la reduce a menos del 15%, demostrando su eficacia como herramienta de conservación.</p>
-                <div class="chart-container" style="height:350px; max-height:350px; width:100%; max-width:500px;">
-                    <canvas id="extinctionBarChart"></canvas>
-                </div>
-            </section>
-
-            <section class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-[#437C90] mb-4">Resultados: Composición Alélica</h2>
-                <p class="mb-4 text-gray-700">El rescate de linajes reintroduce activamente alelos perdidos desde el banco de germoplasma. Este gráfico muestra cómo la estrategia combinada no solo preserva los alelos originales, sino que también recupera la diversidad que se habría perdido permanentemente.</p>
-                <div class="chart-container" style="height:350px; max-height:350px; width:100%; max-width:500px;">
-                    <canvas id="alleleStackedBarChart"></canvas>
-                </div>
-            </section>
-
-            <section class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-[#437C90] mb-4">Análisis Comparativo de Estrategias</h2>
-                <p class="mb-4 text-gray-700">Comparando las dos estrategias de intervención (Rescate y Combinada) en múltiples ejes, vemos las compensaciones. La estrategia combinada ofrece la máxima eficacia y preservación de la diversidad, aunque a un costo y complejidad logística mayores.</p>
-                <div class="chart-container" style="height:350px; max-height:350px; width:100%; max-width:500px;">
-                    <canvas id="strategyRadarChart"></canvas>
-                </div>
-            </section>
-
-            <section class="bg-white rounded-lg shadow-md p-6">
-                <h2 class="text-2xl font-bold text-[#437C90] mb-4">Conclusiones y Vínculo con ODS 15</h2>
-                <p class="mb-4 text-gray-700">La simulación demuestra que las intervenciones proactivas son cruciales. La integración de la criopreservación con el rescate genético activo es la estrategia más robusta para la conservación a largo plazo de la biodiversidad en poblaciones amenazadas.</p>
-                <ul class="space-y-2">
-                    <li class="flex items-start"><span class="text-green-500 font-bold mr-2 text-xl">✓</span><span>La inacción (Control) conduce casi inevitablemente a la extinción.</span></li>
-                    <li class="flex items-start"><span class="text-green-500 font-bold mr-2 text-xl">✓</span><span>La criopreservación por sí sola es una póliza de seguro, pero no detiene la deriva en la población viva.</span></li>
-                    <li class="flex items-start"><span class="text-green-500 font-bold mr-2 text-xl">✓</span><span>El rescate de linajes es una herramienta poderosa para revertir la pérdida de diversidad.</span></li>
-                    <li class="flex items-start"><span class="text-green-500 font-bold mr-2 text-xl">✓</span><span>Estas herramientas computacionales apoyan directamente la meta 15.5 del ODS 15 (proteger las especies amenazadas y prevenir su extinción).</span></li>
-                </ul>
-            </section>
-
+    <main class="container mx-auto max-w-5xl p-4 md:p-8 mt-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <div class="bg-light rounded-lg shadow-md p-6 md:col-span-2">
+          <h2 class="text-2xl font-bold text-primary mb-4">El Desafío: Erosión Genética en Poblaciones Pequeñas</h2>
+          <p class="text-gray-700 mb-4">Las poblaciones aisladas y pequeñas enfrentan una rápida pérdida de diversidad genética (heterocigosidad) debido a la deriva génica y la endogamia. Esta erosión compromete su capacidad de adaptación y aumenta el riesgo de extinción. Monitorear y contrarrestar esta pérdida es fundamental.</p>
+          <div class="chart-container">
+            <canvas id="erosionChart"></canvas>
+          </div>
         </div>
+
+        <div class="bg-light rounded-lg shadow-md p-6 md:col-span-2">
+          <h2 class="text-2xl font-bold text-primary mb-4">Una Estrategia Dual: Criopreservación y Rescate</h2>
+          <p class="text-gray-700 mb-6">Combinamos la "banca" de material genético mediante criopreservación con modelos computacionales inteligentes. Este enfoque no solo preserva los genes, sino que los reintroduce estratégicamente para maximizar la salud de la población y rescatar linajes valiosos que de otro modo se perderían.</p>
+          
+          <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-4">
+            <div class="text-center p-4 bg-primary/10 rounded-lg shadow w-full md:w-1/4">
+              <span class="text-4xl">🔬</span>
+              <h3 class="font-bold text-dark mt-2">1. Monitoreo y Colecta</h3>
+              <p class="text-sm text-gray-600">Recolección de gametos/embriones de individuos clave.</p>
+            </div>
+            <div class="text-3xl text-primary font-bold hidden md:block" aria-hidden="true">→</div>
+            <div class="text-3xl text-primary font-bold md:hidden" aria-hidden="true">↓</div>
+            <div class="text-center p-4 bg-primary/10 rounded-lg shadow w-full md:w-1/4">
+              <span class="text-4xl">❄️</span>
+              <h3 class="font-bold text-dark mt-2">2. Criopreservación</h3>
+              <p class="text-sm text-gray-600">Almacenamiento a largo plazo en bancos de germoplasma.</p>
+            </div>
+            <div class="text-3xl text-primary font-bold hidden md:block" aria-hidden="true">→</div>
+            <div class="text-3xl text-primary font-bold md:hidden" aria-hidden="true">↓</div>
+            <div class="text-center p-4 bg-secondary/20 rounded-lg shadow w-full md:w-1/4">
+              <span class="text-4xl">💻</span>
+              <h3 class="font-bold text-dark mt-2">3. Modelo Computacional</h3>
+              <p class="text-sm text-gray-600">Simulación de escenarios para "Rescate de Linajes".</p>
+            </div>
+            <div class="text-3xl text-primary font-bold hidden md:block" aria-hidden="true">→</div>
+            <div class="text-3xl text-primary font-bold md:hidden" aria-hidden="true">↓</div>
+            <div class="text-center p-4 bg-accent/20 rounded-lg shadow w-full md:w-1/4">
+              <span class="text-4xl">🧬</span>
+              <h3 class="font-bold text-dark mt-2">4. Intervención</h3>
+              <p class="text-sm text-gray-600">Introducción dirigida del material criopreservado.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-light rounded-lg shadow-md p-6">
+          <h2 class="text-2xl font-bold text-primary mb-4">El Banco Genético</h2>
+          <p class="text-gray-700 mb-4">La criopreservación nos permite guardar una "copia de seguridad" de la diversidad genética. Los bancos de germoplasma albergan diferentes tipos de material, cada uno con un potencial único para futuras intervenciones de rescate.</p>
+          <div class="chart-container h-80 max-h-[350px]">
+            <canvas id="bancoChart"></canvas>
+          </div>
+        </div>
+
+        <div class="bg-light rounded-lg shadow-md p-6 flex flex-col justify-center items-center text-center">
+          <h2 class="text-2xl font-bold text-primary mb-4">Impacto a Largo Plazo</h2>
+          <p class="text-gray-700 mb-6">El simple acto de "bancar" genes puede asegurar la supervivencia de alelos que de otro modo se perderían en pocas generaciones.</p>
+          <div class="bg-accent/10 rounded-full p-8 w-48 h-48 flex flex-col justify-center items-center shadow-inner">
+            <span class="text-5xl font-bold text-accent">+90%</span>
+            <span class="text-lg text-dark font-semibold mt-2">de alelos raros retenidos a 100 años</span>
+          </div>
+        </div>
+
+        <div class="bg-light rounded-lg shadow-md p-6 md:col-span-2">
+          <h2 class="text-2xl font-bold text-primary mb-4">El Poder del Rescate de Linajes Computacional</h2>
+          <p class="text-gray-700 mb-4">No basta con reintroducir genes al azar. El "Rescate de Linajes" utiliza algoritmos para identificar qué material genético congelado, introducido en qué individuo y en qué momento, tendrá el máximo impacto positivo en la diversidad genética y la viabilidad de la población.</p>
+          <div class="chart-container">
+            <canvas id="estrategiaChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="bg-light rounded-lg shadow-md p-6 md:col-span-2">
+          <h2 class="text-2xl font-bold text-primary mb-4">Optimización de Recursos: Esfuerzo vs. Ganancia</h2>
+          <p class="text-gray-700 mb-4">Podemos usar simulaciones para entender cuánto esfuerzo computacional se requiere para lograr ganancias genéticas significativas. Los modelos de Plotly (renderizados en WebGL/Canvas) nos permiten visualizar relaciones complejas, mostrando que la ganancia genética se estabiliza después de un número óptimo de simulaciones.</p>
+          <div class="chart-container" id="plotlyChart"></div>
+        </div>
+
+      </div>
     </main>
 
-    <footer class="bg-[#437C90] text-white mt-8 p-4 text-center">
-        <p class="text-sm">&copy; 2025 Infografía de Simulación Computacional. Todos los derechos reservados.</p>
+    <footer class="bg-dark text-light p-6 mt-8">
+      <div class="container mx-auto max-w-5xl text-center">
+        <p class="text-sm">Infografía generada como parte de una iniciativa de visualización de datos en biodiversidad.</p>
+      </div>
     </footer>
 
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
+      window.addEventListener('DOMContentLoaded', () => {
 
-            const palette = {
-                yellow: '#FFC658',
-                orange: '#F6A24D',
-                burntOrange: '#E17055',
-                teal: '#48A9A6',
-                darkBlue: '#437C90',
-                text: '#333333',
-                bg: '#F7F7F7'
-            };
+        function wrapLabels(label, maxWidth) {
+          const words = label.split(' ');
+          let lines = [];
+          let currentLine = '';
+          words.forEach(word => {
+            if ((currentLine + word).length > maxWidth) {
+              if(currentLine.length > 0) lines.push(currentLine.trim());
+              currentLine = '';
+            }
+            currentLine += word + ' ';
+          });
+          if(currentLine.length > 0) lines.push(currentLine.trim());
+          return lines;
+        }
 
-            const multiLineTooltipTitle = {
-                callbacks: {
-                    title: function(tooltipItems) {
-                        const item = tooltipItems[0];
-                        let label = item.chart.data.labels[item.dataIndex];
-                        if (Array.isArray(label)) {
-                          return label.join(' ');
-                        } else {
-                          return label;
-                        }
-                    }
-                }
-            };
-
-            function wrapLabels(labels, maxLen = 16) {
-                return labels.map(label => {
-                    if (typeof label === 'string' && label.length > maxLen) {
-                        const words = label.split(' ');
-                        let lines = [];
-                        let currentLine = '';
-                        words.forEach((word, index) => {
-                            const testLine = currentLine + word + ' ';
-                            if (testLine.length > maxLen && index > 0) {
-                                lines.push(currentLine.trim());
-                                currentLine = word + ' ';
-                            } else {
-                                currentLine = testLine;
-                            }
-                        });
-                        lines.push(currentLine.trim());
-                        return lines;
-                    }
+        const tooltipConfig = {
+          plugins: {
+            tooltip: {
+              callbacks: {
+                title: function(tooltipItems) {
+                  const item = tooltipItems[0];
+                  if (!item) return '';
+                  let label = item.chart.data.labels[item.dataIndex];
+                  if (Array.isArray(label)) {
+                    return label.join(' ');
+                  } else {
                     return label;
-                });
+                  }
+                }
+              }
             }
-            
-            Chart.defaults.font.family = 'Inter';
-            Chart.defaults.font.size = 12;
-            Chart.defaults.color = palette.text;
-            Chart.defaults.plugins.legend.position = 'bottom';
+          }
+        };
+        
+        const chartColors = {
+          primary: '#00C1D4',
+          secondary: '#F8C822',
+          accent: '#FF6F59',
+          dark: '#292E3D'
+        };
 
-            function createProblemDonutChart() {
-                const ctx = document.getElementById('problemDonutChart')?.getContext('2d');
-                if (!ctx) return;
-
-                new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Riesgo de Extinción', 'Supervivencia (con intervención)'],
-                        datasets: [{
-                            label: 'Riesgo de Extinción',
-                            data: [78, 22],
-                            backgroundColor: [
-                                palette.burntOrange,
-                                palette.teal,
-                            ],
-                            borderColor: palette.bg,
-                            borderWidth: 4,
-                            hoverOffset: 4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        cutout: '70%',
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: multiLineTooltipTitle
-                        }
-                    }
-                });
+        const ctx1 = document.getElementById('erosionChart')?.getContext('2d');
+        if (ctx1) {
+          new Chart(ctx1, {
+            type: 'line',
+            data: {
+              labels: ['Generación 0', 'Generación 10', 'Generación 20', 'Generación 30', 'Generación 40', 'Generación 50'],
+              datasets: [{
+                label: 'Pérdida de Heterocigosidad',
+                data: [1.0, 0.85, 0.70, 0.55, 0.40, 0.30],
+                borderColor: chartColors.accent,
+                backgroundColor: 'rgba(255, 111, 89, 0.2)',
+                fill: true,
+                tension: 0.1
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: { 
+                y: { 
+                  title: { display: true, text: 'Nivel de Heterocigosidad' }, 
+                  min: 0, 
+                  max: 1,
+                  ticks: { color: chartColors.dark },
+                  grid: { color: 'rgba(0,0,0,0.05)' }
+                },
+                x: {
+                  ticks: { color: chartColors.dark },
+                  grid: { display: false }
+                }
+              },
+              plugins: {
+                ...tooltipConfig.plugins,
+                legend: { labels: { color: chartColors.dark } }
+              }
             }
+          });
+        }
 
-            function createDiversityLineChart() {
-                const ctx = document.getElementById('diversityLineChart')?.getContext('2d');
-                if (!ctx) return;
-
-                const generations = Array.from({ length: 11 }, (_, i) => i * 10);
-
-                new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: generations.map(g => `Gen ${g}`),
-                        datasets: [
-                            {
-                                label: 'Control (Sin Intervención)',
-                                data: [0.5, 0.45, 0.38, 0.3, 0.22, 0.15, 0.1, 0.05, 0.02, 0.01, 0],
-                                borderColor: palette.burntOrange,
-                                backgroundColor: 'transparent',
-                                tension: 0.1,
-                                borderWidth: 3
-                            },
-                            {
-                                label: 'Solo Criopreservación',
-                                data: [0.5, 0.45, 0.39, 0.31, 0.24, 0.18, 0.13, 0.09, 0.06, 0.04, 0.02],
-                                borderColor: palette.orange,
-                                backgroundColor: 'transparent',
-                                tension: 0.1,
-                                borderWidth: 2,
-                                borderDash: [5, 5]
-                            },
-                            {
-                                label: 'Rescate de Linajes',
-                                data: [0.5, 0.48, 0.45, 0.42, 0.40, 0.38, 0.36, 0.35, 0.34, 0.33, 0.32],
-                                borderColor: palette.yellow,
-                                backgroundColor: 'transparent',
-                                tension: 0.1,
-                                borderWidth: 3
-                            },
-                            {
-                                label: 'Estrategia Combinada',
-                                data: [0.5, 0.49, 0.48, 0.47, 0.46, 0.45, 0.44, 0.43, 0.42, 0.41, 0.40],
-                                borderColor: palette.teal,
-                                backgroundColor: palette.teal.replace(')', ', 0.1)'),
-                                tension: 0.1,
-                                borderWidth: 3,
-                                fill: true
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                title: {
-                                    display: true,
-                                    text: 'Heterocigosidad Promedio'
-                                },
-                                min: 0,
-                                max: 0.55
-                            },
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Generaciones'
-                                }
-                            }
-                        },
-                        plugins: {
-                            tooltip: multiLineTooltipTitle
-                        }
-                    }
-                });
+        const ctx2 = document.getElementById('bancoChart')?.getContext('2d');
+        if (ctx2) {
+          new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+              labels: [
+                wrapLabels('Gametos (Esperma/Óvulos)', 16),
+                'Embriones',
+                wrapLabels('Tejido Somático', 16)
+              ],
+              datasets: [{
+                label: 'Composición del Banco',
+                data: [65, 25, 10],
+                backgroundColor: [chartColors.primary, chartColors.secondary, chartColors.dark]
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                ...tooltipConfig.plugins,
+                legend: { 
+                  position: 'bottom',
+                  labels: { color: chartColors.dark } 
+                }
+              }
             }
+          });
+        }
 
-            function createExtinctionBarChart() {
-                const ctx = document.getElementById('extinctionBarChart')?.getContext('2d');
-                if (!ctx) return;
-
-                const rawLabels = ['Control', 'Solo Criopreservación', 'Rescate de Linajes', 'Estrategia Combinada'];
-                const processedLabels = wrapLabels(rawLabels, 16);
-
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: processedLabels,
-                        datasets: [{
-                            label: 'Tasa de Extinción (%) tras 100 Gen',
-                            data: [92, 78, 41, 14],
-                            backgroundColor: [
-                                palette.burntOrange,
-                                palette.orange,
-                                palette.yellow,
-                                palette.teal
-                            ],
-                            borderColor: palette.darkBlue,
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Tasa de Extinción (%)'
-                                },
-                                min: 0,
-                                max: 100
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                display: false
-                            },
-                            tooltip: multiLineTooltipTitle
-                        }
-                    }
-                });
+        const ctx3 = document.getElementById('estrategiaChart')?.getContext('2d');
+        if (ctx3) {
+          new Chart(ctx3, {
+            type: 'bar',
+            data: {
+              labels: [
+                wrapLabels('Diversidad Genética Retenida (%)', 16),
+                wrapLabels('Viabilidad de Población a 50 años (%)', 16)
+              ],
+              datasets: [
+                {
+                  label: 'Sin Intervención',
+                  data: [30, 15],
+                  backgroundColor: chartColors.accent
+                },
+                {
+                  label: 'Introducción Aleatoria',
+                  data: [55, 40],
+                  backgroundColor: chartColors.secondary
+                },
+                {
+                  label: 'Rescate Computacional',
+                  data: [85, 78],
+                  backgroundColor: chartColors.primary
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: { 
+                y: { 
+                  min: 0, 
+                  max: 100, 
+                  title: { display: true, text: 'Resultado (%)' },
+                  ticks: { color: chartColors.dark },
+                  grid: { color: 'rgba(0,0,0,0.05)' }
+                },
+                x: {
+                  ticks: { color: chartColors.dark },
+                  grid: { display: false }
+                }
+              },
+              plugins: {
+                ...tooltipConfig.plugins,
+                legend: { labels: { color: chartColors.dark } }
+              }
             }
+          });
+        }
+        
+        const plotDiv = document.getElementById('plotlyChart');
+        if (plotDiv) {
+          const plotData = [{
+            x: [10, 50, 100, 200, 500, 1000, 2000, 5000],
+            y: [0.05, 0.15, 0.22, 0.30, 0.38, 0.41, 0.42, 0.42],
+            type: 'scattergl',
+            mode: 'lines+markers',
+            marker: { color: chartColors.primary, size: 8 },
+            line: { color: chartColors.primary }
+          }];
+          
+          const plotLayout = {
+            title: {
+              text: 'Esfuerzo de Simulación vs. Ganancia Genética',
+              font: { color: chartColors.dark, size: 16 }
+            },
+            xaxis: { 
+              title: 'Número de Simulaciones (log)', 
+              type: 'log',
+              color: chartColors.dark,
+              gridcolor: 'rgba(0,0,0,0.05)'
+            },
+            yaxis: { 
+              title: 'Ganancia Genética (ΔH)', 
+              range: [0, 0.5],
+              color: chartColors.dark,
+              gridcolor: 'rgba(0,0,0,0.05)'
+            },
+            margin: { t: 40, l: 60, r: 20, b: 50 },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            font: { color: chartColors.dark }
+          };
+          
+          Plotly.newPlot('plotlyChart', plotData, plotLayout, {
+            responsive: true, 
+            displayModeBar: false
+          });
+        }
 
-            function createAlleleStackedBarChart() {
-                const ctx = document.getElementById('alleleStackedBarChart')?.getContext('2d');
-                if (!ctx) return;
-
-                const rawLabels = ['Control', 'Solo Criopreservación', 'Rescate de Linajes', 'Estrategia Combinada'];
-                const processedLabels = wrapLabels(rawLabels, 16);
-
-                new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: processedLabels,
-                        datasets: [
-                            {
-                                label: 'Alelos Perdidos',
-                                data: [85, 70, 35, 10],
-                                backgroundColor: palette.burntOrange
-                            },
-                            {
-                                label: 'Alelos Rescatados',
-                                data: [0, 0, 30, 25],
-                                backgroundColor: palette.yellow
-                            },
-                            {
-                                label: 'Alelos Originales Restantes',
-                                data: [15, 30, 35, 65],
-                                backgroundColor: palette.teal
-                            }
-                        ]
-                    },
-                    options: {
-                        indexAxis: 'y',
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            x: {
-                                stacked: true,
-                                title: {
-                                    display: true,
-                                    text: 'Composición Alélica (%)'
-                                },
-                                min: 0,
-                                max: 100
-                            },
-                            y: {
-                                stacked: true
-                            }
-                        },
-                        plugins: {
-                            tooltip: multiLineTooltipTitle
-                        }
-                    }
-                });
-            }
-
-            function createStrategyRadarChart() {
-                const ctx = document.getElementById('strategyRadarChart')?.getContext('2d');
-                if (!ctx) return;
-
-                new Chart(ctx, {
-                    type: 'radar',
-                    data: {
-                        labels: ['Eficacia (Supervivencia)', 'Preservación Diversidad', 'Costo', 'Complejidad Logística', 'Rapidez de Implementación'],
-                        datasets: [
-                            {
-                                label: 'Rescate de Linajes',
-                                data: [7, 7, 6, 6, 8],
-                                fill: true,
-                                backgroundColor: palette.yellow.replace(')', ', 0.2)'),
-                                borderColor: palette.yellow,
-                                pointBackgroundColor: palette.yellow,
-                                pointBorderColor: '#fff',
-                                pointHoverBackgroundColor: '#fff',
-                                pointHoverBorderColor: palette.yellow
-                            },
-                            {
-                                label: 'Estrategia Combinada',
-                                data: [9, 9, 8, 9, 5],
-                                fill: true,
-                                backgroundColor: palette.teal.replace(')', ', 0.2)'),
-                                borderColor: palette.teal,
-                                pointBackgroundColor: palette.teal,
-                                pointBorderColor: '#fff',
-                                pointHoverBackgroundColor: '#fff',
-                                pointHoverBorderColor: palette.teal
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            r: {
-                                angleLines: {
-                                    display: true
-                                },
-                                suggestedMin: 0,
-                                suggestedMax: 10,
-                                ticks: {
-                                    stepSize: 2
-                                },
-                                pointLabels: {
-                                    font: {
-                                        size: 10
-                                    }
-                                }
-                            }
-                        },
-                        plugins: {
-                            tooltip: multiLineTooltipTitle
-                        }
-                    }
-                });
-            }
-            
-            createProblemDonutChart();
-            createDiversityLineChart();
-            createExtinctionBarChart();
-            createAlleleStackedBarChart();
-            createStrategyRadarChart();
-        });
+      });
     </script>
 </body>
 </html>
