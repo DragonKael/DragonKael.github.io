@@ -3,350 +3,267 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conservación Genética y Rescate de Linajes</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    
+    <title>Vida Artificial Dura - Infografía</title>
     <style>
-      .chart-container {
-        position: relative;
-        width: 100%;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-        height: 350px;
-        max-height: 400px;
-      }
-      @media (min-width: 768px) {
-        .chart-container {
-          height: 400px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-      }
-      body {
-        font-family: 'Inter', sans-serif;
-      }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c2461, #1e3799);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .university {
+            color: #0c2461;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            color: #e74c3c;
+            font-size: 2.5em;
+            margin: 15px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            color: #2c3e50;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .card-title {
+            color: #0c2461;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #e74c3c;
+        }
+
+        .concept-list {
+            list-style: none;
+        }
+
+        .concept-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .concept-list li:before {
+            content: "▸";
+            color: #e74c3c;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #ffeaa7, #fab1a0);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .applications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .app-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #0c2461;
+        }
+
+        .app-title {
+            font-weight: bold;
+            color: #0c2461;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .authors {
+            color: #0c2461;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .title {
+                font-size: 2em;
+            }
+        }
     </style>
-    
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              'primary': '#00C1D4',
-              'secondary': '#F8C822',
-              'accent': '#FF6F59',
-              'dark': '#292E3D',
-              'light': '#FFFFFF',
-              'background': '#F4F7F6'
-            }
-          }
-        }
-      }
-    </script>
 </head>
-<body class="bg-background text-dark font-sans leading-relaxed">
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="university">UNIVERSIDAD ANDINA DEL CUSCO</div>
+            <h1 class="title">VIDA ARTIFICIAL DURA</h1>
+            <div class="subtitle">Fundamentos de Bioinformática - 8A</div>
+            <div class="badge">Robótica Bioinspirada</div>
+            <div class="badge">Sistemas Autónomos</div>
+            <div class="badge">Algoritmos Evolutivos</div>
+        </header>
 
-    <header class="bg-dark text-light p-6 shadow-lg">
-      <div class="container mx-auto max-w-5xl text-center">
-        <h1 class="text-3xl md:text-4xl font-bold text-primary mb-2">Conservación Genética y Rescate de Linajes</h1>
-        <p class="text-lg md:text-xl text-light">Un enfoque computacional para la protección de la biodiversidad en poblaciones pequeñas.</p>
-      </div>
-    </header>
-
-    <main class="container mx-auto max-w-5xl p-4 md:p-8 mt-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        
-        <div class="bg-light rounded-lg shadow-md p-6 md:col-span-2">
-          <h2 class="text-2xl font-bold text-primary mb-4">El Desafío: Erosión Genética en Poblaciones Pequeñas</h2>
-          <p class="text-gray-700 mb-4">Las poblaciones aisladas y pequeñas enfrentan una rápida pérdida de diversidad genética (heterocigosidad) debido a la deriva génica y la endogamia. Esta erosión compromete su capacidad de adaptación y aumenta el riesgo de extinción. Monitorear y contrarrestar esta pérdida es fundamental.</p>
-          <div class="chart-container">
-            <canvas id="erosionChart"></canvas>
-          </div>
-        </div>
-
-        <div class="bg-light rounded-lg shadow-md p-6 md:col-span-2">
-          <h2 class="text-2xl font-bold text-primary mb-4">Una Estrategia Dual: Criopreservación y Rescate</h2>
-          <p class="text-gray-700 mb-6">Combinamos la "banca" de material genético mediante criopreservación con modelos computacionales inteligentes. Este enfoque no solo preserva los genes, sino que los reintroduce estratégicamente para maximizar la salud de la población y rescatar linajes valiosos que de otro modo se perderían.</p>
-          
-          <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-4">
-            <div class="text-center p-4 bg-primary/10 rounded-lg shadow w-full md:w-1/4">
-              <span class="text-4xl">🔬</span>
-              <h3 class="font-bold text-dark mt-2">1. Monitoreo y Colecta</h3>
-              <p class="text-sm text-gray-600">Recolección de gametos/embriones de individuos clave.</p>
+        <div class="grid">
+            <div class="card">
+                <h2 class="card-title">¿Qué es la Vida Artificial Dura?</h2>
+                <ul class="concept-list">
+                    <li>Sistemas robóticos físicos que <span class="highlight">imitan comportamientos biológicos</span></li>
+                    <li>Enfoque en <span class="highlight">hardware vs software</span> (Vida Artificial Blanda)</li>
+                    <li><span class="highlight">Autonomía</span> como principio fundamental</li>
+                    <li>Integración de <span class="highlight">sensores y actuadores</span></li>
+                    <li>Capacidad de <span class="highlight">interacción con el entorno físico</span></li>
+                </ul>
             </div>
-            <div class="text-3xl text-primary font-bold hidden md:block" aria-hidden="true">→</div>
-            <div class="text-3xl text-primary font-bold md:hidden" aria-hidden="true">↓</div>
-            <div class="text-center p-4 bg-primary/10 rounded-lg shadow w-full md:w-1/4">
-              <span class="text-4xl">❄️</span>
-              <h3 class="font-bold text-dark mt-2">2. Criopreservación</h3>
-              <p class="text-sm text-gray-600">Almacenamiento a largo plazo en bancos de germoplasma.</p>
+
+            <div class="card">
+                <h2 class="card-title">Características Clave</h2>
+                <ul class="concept-list">
+                    <li><span class="highlight">Homeostasis artificial</span> - autorregulación</li>
+                    <li><span class="highlight">Percepción del entorno</span> mediante sensores</li>
+                    <li><span class="highlight">Toma de decisiones</span> autónoma</li>
+                    <li><span class="highlight">Adaptación</span> a condiciones cambiantes</li>
+                    <li><span class="highlight">Aprendizaje continuo</span> por experiencia</li>
+                </ul>
             </div>
-            <div class="text-3xl text-primary font-bold hidden md:block" aria-hidden="true">→</div>
-            <div class="text-3xl text-primary font-bold md:hidden" aria-hidden="true">↓</div>
-            <div class="text-center p-4 bg-secondary/20 rounded-lg shadow w-full md:w-1/4">
-              <span class="text-4xl">💻</span>
-              <h3 class="font-bold text-dark mt-2">3. Modelo Computacional</h3>
-              <p class="text-sm text-gray-600">Simulación de escenarios para "Rescate de Linajes".</p>
+
+            <div class="card">
+                <h2 class="card-title">Comportamientos Emergentes</h2>
+                <ul class="concept-list">
+                    <li><span class="highlight">Coordinación grupal</span> no programada</li>
+                    <li><span class="highlight">Autoorganización</span> colectiva</li>
+                    <li><span class="highlight">Búsqueda eficiente</span> de rutas</li>
+                    <li><span class="highlight">Formación de patrones</span> complejos</li>
+                    <li><span class="highlight">Estrategias adaptativas</span> emergentes</li>
+                </ul>
             </div>
-            <div class="text-3xl text-primary font-bold hidden md:block" aria-hidden="true">→</div>
-            <div class="text-3xl text-primary font-bold md:hidden" aria-hidden="true">↓</div>
-            <div class="text-center p-4 bg-accent/20 rounded-lg shadow w-full md:w-1/4">
-              <span class="text-4xl">🧬</span>
-              <h3 class="font-bold text-dark mt-2">4. Intervención</h3>
-              <p class="text-sm text-gray-600">Introducción dirigida del material criopreservado.</p>
+
+            <div class="card">
+                <h2 class="card-title">Evolución y Adaptación</h2>
+                <ul class="concept-list">
+                    <li><span class="highlight">Algoritmos evolutivos</span> - selección natural digital</li>
+                    <li><span class="highlight">Mutación y herencia</span> de comportamientos</li>
+                    <li><span class="highlight">Optimización constante</span> del desempeño</li>
+                    <li><span class="highlight">Aprendizaje automático</span> para mejora continua</li>
+                    <li><span class="highlight">Resiliencia</span> frente a entornos cambiantes</li>
+                </ul>
             </div>
-          </div>
+
+            <div class="card">
+                <h2 class="card-title">Aplicaciones Actuales</h2>
+                <div class="applications-grid">
+                    <div class="app-card">
+                        <div class="app-title">Robots Modulares</div>
+                        <div>Capacidad de cambiar forma y función según necesidades</div>
+                    </div>
+                    <div class="app-card">
+                        <div class="app-title">Robótica Blanda</div>
+                        <div>Materiales flexibles inspirados en biología</div>
+                    </div>
+                    <div class="app-card">
+                        <div class="app-title">Enjambres Robóticos</div>
+                        <div>Cooperación descentralizada entre múltiples unidades</div>
+                    </div>
+                    <div class="app-card">
+                        <div class="app-title">Sistemas Autónomos</div>
+                        <div>Vehículos y drones con toma de decisiones independiente</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">Tendencias Futuras</h2>
+                <ul class="concept-list">
+                    <li><span class="highlight">IA explicable</span> - transparencia en decisiones</li>
+                    <li><span class="highlight">Simbiosis humano-robot</span></li>
+                    <li><span class="highlight">Materiales inteligentes</span> autorreparables</li>
+                    <li><span class="highlight">Evolución de hardware</span> y software</li>
+                    <li><span class="highlight">Ética y gobernanza</span> de sistemas autónomos</li>
+                </ul>
+            </div>
         </div>
 
-        <div class="bg-light rounded-lg shadow-md p-6">
-          <h2 class="text-2xl font-bold text-primary mb-4">El Banco Genético</h2>
-          <p class="text-gray-700 mb-4">La criopreservación nos permite guardar una "copia de seguridad" de la diversidad genética. Los bancos de germoplasma albergan diferentes tipos de material, cada uno con un potencial único para futuras intervenciones de rescate.</p>
-          <div class="chart-container h-80 max-h-[350px]">
-            <canvas id="bancoChart"></canvas>
-          </div>
-        </div>
-
-        <div class="bg-light rounded-lg shadow-md p-6 flex flex-col justify-center items-center text-center">
-          <h2 class="text-2xl font-bold text-primary mb-4">Impacto a Largo Plazo</h2>
-          <p class="text-gray-700 mb-6">El simple acto de "bancar" genes puede asegurar la supervivencia de alelos que de otro modo se perderían en pocas generaciones.</p>
-          <div class="bg-accent/10 rounded-full p-8 w-48 h-48 flex flex-col justify-center items-center shadow-inner">
-            <span class="text-5xl font-bold text-accent">+90%</span>
-            <span class="text-lg text-dark font-semibold mt-2">de alelos raros retenidos a 100 años</span>
-          </div>
-        </div>
-
-        <div class="bg-light rounded-lg shadow-md p-6 md:col-span-2">
-          <h2 class="text-2xl font-bold text-primary mb-4">El Poder del Rescate de Linajes Computacional</h2>
-          <p class="text-gray-700 mb-4">No basta con reintroducir genes al azar. El "Rescate de Linajes" utiliza algoritmos para identificar qué material genético congelado, introducido en qué individuo y en qué momento, tendrá el máximo impacto positivo en la diversidad genética y la viabilidad de la población.</p>
-          <div class="chart-container">
-            <canvas id="estrategiaChart"></canvas>
-          </div>
-        </div>
-        
-        <div class="bg-light rounded-lg shadow-md p-6 md:col-span-2">
-          <h2 class="text-2xl font-bold text-primary mb-4">Optimización de Recursos: Esfuerzo vs. Ganancia</h2>
-          <p class="text-gray-700 mb-4">Podemos usar simulaciones para entender cuánto esfuerzo computacional se requiere para lograr ganancias genéticas significativas. Los modelos de Plotly (renderizados en WebGL/Canvas) nos permiten visualizar relaciones complejas, mostrando que la ganancia genética se estabiliza después de un número óptimo de simulaciones.</p>
-          <div class="chart-container" id="plotlyChart"></div>
-        </div>
-
-      </div>
-    </main>
-
-    <footer class="bg-dark text-light p-6 mt-8">
-      <div class="container mx-auto max-w-5xl text-center">
-        <p class="text-sm">Infografía generada como parte de una iniciativa de visualización de datos en biodiversidad.</p>
-      </div>
-    </footer>
-
-    <script>
-      window.addEventListener('DOMContentLoaded', () => {
-
-        function wrapLabels(label, maxWidth) {
-          const words = label.split(' ');
-          let lines = [];
-          let currentLine = '';
-          words.forEach(word => {
-            if ((currentLine + word).length > maxWidth) {
-              if(currentLine.length > 0) lines.push(currentLine.trim());
-              currentLine = '';
-            }
-            currentLine += word + ' ';
-          });
-          if(currentLine.length > 0) lines.push(currentLine.trim());
-          return lines;
-        }
-
-        const tooltipConfig = {
-          plugins: {
-            tooltip: {
-              callbacks: {
-                title: function(tooltipItems) {
-                  const item = tooltipItems[0];
-                  if (!item) return '';
-                  let label = item.chart.data.labels[item.dataIndex];
-                  if (Array.isArray(label)) {
-                    return label.join(' ');
-                  } else {
-                    return label;
-                  }
-                }
-              }
-            }
-          }
-        };
-        
-        const chartColors = {
-          primary: '#00C1D4',
-          secondary: '#F8C822',
-          accent: '#FF6F59',
-          dark: '#292E3D'
-        };
-
-        const ctx1 = document.getElementById('erosionChart')?.getContext('2d');
-        if (ctx1) {
-          new Chart(ctx1, {
-            type: 'line',
-            data: {
-              labels: ['Generación 0', 'Generación 10', 'Generación 20', 'Generación 30', 'Generación 40', 'Generación 50'],
-              datasets: [{
-                label: 'Pérdida de Heterocigosidad',
-                data: [1.0, 0.85, 0.70, 0.55, 0.40, 0.30],
-                borderColor: chartColors.accent,
-                backgroundColor: 'rgba(255, 111, 89, 0.2)',
-                fill: true,
-                tension: 0.1
-              }]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              scales: { 
-                y: { 
-                  title: { display: true, text: 'Nivel de Heterocigosidad' }, 
-                  min: 0, 
-                  max: 1,
-                  ticks: { color: chartColors.dark },
-                  grid: { color: 'rgba(0,0,0,0.05)' }
-                },
-                x: {
-                  ticks: { color: chartColors.dark },
-                  grid: { display: false }
-                }
-              },
-              plugins: {
-                ...tooltipConfig.plugins,
-                legend: { labels: { color: chartColors.dark } }
-              }
-            }
-          });
-        }
-
-        const ctx2 = document.getElementById('bancoChart')?.getContext('2d');
-        if (ctx2) {
-          new Chart(ctx2, {
-            type: 'doughnut',
-            data: {
-              labels: [
-                wrapLabels('Gametos (Esperma/Óvulos)', 16),
-                'Embriones',
-                wrapLabels('Tejido Somático', 16)
-              ],
-              datasets: [{
-                label: 'Composición del Banco',
-                data: [65, 25, 10],
-                backgroundColor: [chartColors.primary, chartColors.secondary, chartColors.dark]
-              }]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                ...tooltipConfig.plugins,
-                legend: { 
-                  position: 'bottom',
-                  labels: { color: chartColors.dark } 
-                }
-              }
-            }
-          });
-        }
-
-        const ctx3 = document.getElementById('estrategiaChart')?.getContext('2d');
-        if (ctx3) {
-          new Chart(ctx3, {
-            type: 'bar',
-            data: {
-              labels: [
-                wrapLabels('Diversidad Genética Retenida (%)', 16),
-                wrapLabels('Viabilidad de Población a 50 años (%)', 16)
-              ],
-              datasets: [
-                {
-                  label: 'Sin Intervención',
-                  data: [30, 15],
-                  backgroundColor: chartColors.accent
-                },
-                {
-                  label: 'Introducción Aleatoria',
-                  data: [55, 40],
-                  backgroundColor: chartColors.secondary
-                },
-                {
-                  label: 'Rescate Computacional',
-                  data: [85, 78],
-                  backgroundColor: chartColors.primary
-                }
-              ]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              scales: { 
-                y: { 
-                  min: 0, 
-                  max: 100, 
-                  title: { display: true, text: 'Resultado (%)' },
-                  ticks: { color: chartColors.dark },
-                  grid: { color: 'rgba(0,0,0,0.05)' }
-                },
-                x: {
-                  ticks: { color: chartColors.dark },
-                  grid: { display: false }
-                }
-              },
-              plugins: {
-                ...tooltipConfig.plugins,
-                legend: { labels: { color: chartColors.dark } }
-              }
-            }
-          });
-        }
-        
-        const plotDiv = document.getElementById('plotlyChart');
-        if (plotDiv) {
-          const plotData = [{
-            x: [10, 50, 100, 200, 500, 1000, 2000, 5000],
-            y: [0.05, 0.15, 0.22, 0.30, 0.38, 0.41, 0.42, 0.42],
-            type: 'scattergl',
-            mode: 'lines+markers',
-            marker: { color: chartColors.primary, size: 8 },
-            line: { color: chartColors.primary }
-          }];
-          
-          const plotLayout = {
-            title: {
-              text: 'Esfuerzo de Simulación vs. Ganancia Genética',
-              font: { color: chartColors.dark, size: 16 }
-            },
-            xaxis: { 
-              title: 'Número de Simulaciones (log)', 
-              type: 'log',
-              color: chartColors.dark,
-              gridcolor: 'rgba(0,0,0,0.05)'
-            },
-            yaxis: { 
-              title: 'Ganancia Genética (ΔH)', 
-              range: [0, 0.5],
-              color: chartColors.dark,
-              gridcolor: 'rgba(0,0,0,0.05)'
-            },
-            margin: { t: 40, l: 60, r: 20, b: 50 },
-            paper_bgcolor: 'rgba(0,0,0,0)',
-            plot_bgcolor: 'rgba(0,0,0,0)',
-            font: { color: chartColors.dark }
-          };
-          
-          Plotly.newPlot('plotlyChart', plotData, plotLayout, {
-            responsive: true, 
-            displayModeBar: false
-          });
-        }
-
-      });
-    </script>
+        <footer class="footer">
+            <h3>Integrantes del Proyecto</h3>
+            <div class="authors">
+                Castillo Villaca, Araceli Abigail<br>
+                Paredes Puma, Jairo Nahuel<br>
+                Salas Chalico, Luis Marin
+            </div>
+            <div class="subtitle">Docente: Ing. Paula Sernaque Fernandez</div>
+            <div style="margin-top: 15px;">
+                <div class="badge">Bioinformática</div>
+                <div class="badge">Sistemas Inteligentes</div>
+                <div class="badge">2025</div>
+            </div>
+        </footer>
+    </div>
 </body>
 </html>
