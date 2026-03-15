@@ -1,20 +1,21 @@
 <!doctype html>
-<html lang="es">
+<html>
+
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>DragonKael Research Lab</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
   <header class="topbar">
     <div class="brand">
       <h1>DragonKael Research Lab</h1>
       <p>Systems Engineering • Research • Experiments</p>
     </div>
-    <div class="top-controls">
-      <button id="theme-toggle" class="btn">Modo oscuro</button>
-    </div>
+    <div class="top-controls"><a href="/graph.html">Grafo</a> | <a href="/timeline.html">Timeline</a> | <button
+        id="theme-toggle">Modo oscuro</button></div>
   </header>
 
   <main class="container">
@@ -29,29 +30,43 @@
     </section>
 
     <section class="grid" id="sections-grid">
-      <div class="section"><h3>Research</h3><ul id="research-list" class="item-list"></ul></div>
-      <div class="section"><h3>Projects</h3><ul id="projects-list" class="item-list"></ul></div>
-      <div class="section"><h3>Experiments</h3><ul id="experiments-list" class="item-list"></ul></div>
-      <div class="section"><h3>Notes</h3><ul id="notes-list" class="item-list"></ul></div>
-
-      <!-- Añadí contenedores para las secciones que hay en config/lab-config.js -->
-      <div class="section"><h3>Infographics</h3><ul id="infographics-list" class="item-list"></ul></div>
-      <div class="section"><h3>Papers</h3><ul id="papers-list" class="item-list"></ul></div>
+      <div class="section">
+        <h3>Research</h3>
+        <ul id="research-list" class="item-list"></ul>
+      </div>
+      <div class="section">
+        <h3>Projects</h3>
+        <ul id="projects-list" class="item-list"></ul>
+      </div>
+      <div class="section">
+        <h3>Experiments</h3>
+        <ul id="experiments-list" class="item-list"></ul>
+      </div>
+      <div class="section">
+        <h3>Notes</h3>
+        <ul id="notes-list" class="item-list"></ul>
+      </div>
+      <div class="section">
+        <h3>Papers</h3>
+        <ul id="papers-list" class="item-list"></ul>
+      </div>
+      <div class="section">
+        <h3>Infographics</h3>
+        <ul id="infographics-list" class="item-list"></ul>
+      </div>
     </section>
 
     <section>
       <h2>Resultados</h2>
       <ul id="search-results" class="search-results"></ul>
     </section>
-
-    <footer class="footer">
-      <small>Hecho para DragonKael • Automatización de index</small>
-    </footer>
   </main>
 
-  <!-- Cargar primero la configuración, luego utilidades UI, luego el indexer -->
   <script src="config/lab-config.js"></script>
-  <script src="js/ui.js"></script>
   <script src="js/repo-indexer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
+  <script src="js/search.js"></script>
+
 </body>
+
 </html>

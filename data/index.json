@@ -1,0 +1,16 @@
+{
+  "items": [
+    {
+      "title": "Modelo de Integración de Información",
+      "type": "research",
+      "tags": ["semantic-web","blockchain","qr"],
+      "path": "research/modelo-integracion.html"
+    },
+    {
+      "title": "Sistema de Tickets",
+      "type": "project",
+      "tags": ["php","mysql","qr"],
+      "path": "projects/ticket-system.html"
+    }
+  ]
+}

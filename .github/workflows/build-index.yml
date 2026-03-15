@@ -1,0 +1,39 @@
+# .github/workflows/build-index.yml
+name: build-index
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'   # estable para scripts; puedes cambiarlo si necesitas
+
+      - name: Install dependencies (none required)
+        run: npm ci || echo "no dependencies"
+
+      - name: Run index builder
+        run: node scripts/build-index.js
+
+      - name: Commit generated data (if any)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/index.json data/graph.json || echo "no changes"
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update generated index (action)"
+            git push origin HEAD:main
+          else
+            echo "No changes to commit"
+          fi

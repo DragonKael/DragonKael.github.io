@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Timeline - DragonKael Lab</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <main class="container">
+    <h1>Research Timeline</h1>
+    <div id="timeline"></div>
+  </main>
+
+  <script>
+    (async function () {
+      const res = await fetch('/data/index.json');
+      if (!res.ok) { document.getElementById('timeline').innerText = 'No index generated yet.'; return; }
+      const idx = await res.json();
+      const byYear = {};
+      idx.items.forEach(it => {
+        const y = it.year || 'Unspecified';
+        if (!byYear[y]) byYear[y] = [];
+        byYear[y].push(it);
+      });
+      const years = Object.keys(byYear).sort((a, b) => {
+        if (a === 'Unspecified') return 1;
+        if (b === 'Unspecified') return -1;
+        return b - a;
+      });
+      const container = document.getElementById('timeline');
+      years.forEach(y => {
+        const h = document.createElement('h3'); h.textContent = y; container.appendChild(h);
+        const ul = document.createElement('ul');
+        byYear[y].forEach(it => {
+          const li = document.createElement('li');
+          li.innerHTML = `<a href="${it.path}">${it.title}</a> — ${it.type} ${it.tags && it.tags.length ? '• ' + it.tags.join(',') : ''}`;
+          ul.appendChild(li);
+        });
+        container.appendChild(ul);
+      });
+    })();
+  </script>
+</body>
+
+</html>
