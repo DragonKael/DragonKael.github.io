@@ -1,72 +1,921 @@
-<!doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DragonKael Research Lab</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <link rel="stylesheet" href="css/style.css" />
+  <meta name="description" content="Portal de investigación personal de Luis Salas (DragonKael) — Ingeniería de Sistemas, experimentos y tecnologías emergentes." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:       #050810;
+      --bg2:      #0a0f1e;
+      --bg3:      #0f1530;
+      --surface:  #111827;
+      --border:   #1e2d4a;
+      --border2:  #253560;
+      --cyan:     #00e5ff;
+      --cyan2:    #00b4d8;
+      --green:    #39ff14;
+      --green2:   #0dbc79;
+      --amber:    #ffb700;
+      --red:      #ff3860;
+      --text:     #c8d6f0;
+      --text2:    #7a90b8;
+      --text3:    #4a5a7a;
+      --mono:     'Share Tech Mono', monospace;
+      --heading:  'Rajdhani', sans-serif;
+      --code:     'Space Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--heading);
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── SCANLINE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,229,255,0.012) 2px,
+        rgba(0,229,255,0.012) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── GRID BG ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: relative;
+      z-index: 10;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, #060c1c 0%, transparent 100%);
+      padding: 0 2rem;
+    }
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      gap: 1rem;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid var(--cyan);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 18px;
+      color: var(--cyan);
+      box-shadow: 0 0 12px rgba(0,229,255,0.3), inset 0 0 8px rgba(0,229,255,0.05);
+      animation: pulse-border 3s ease-in-out infinite;
+    }
+    @keyframes pulse-border {
+      0%,100% { box-shadow: 0 0 12px rgba(0,229,255,0.3), inset 0 0 8px rgba(0,229,255,0.05); }
+      50%      { box-shadow: 0 0 24px rgba(0,229,255,0.6), inset 0 0 16px rgba(0,229,255,0.1); }
+    }
+    .logo-text {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--cyan);
+      letter-spacing: 0.1em;
+    }
+    .logo-text span { color: var(--text2); }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    nav a {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text2);
+      text-decoration: none;
+      padding: 0.35rem 0.75rem;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      transition: all 0.2s;
+      letter-spacing: 0.05em;
+    }
+    nav a:hover {
+      color: var(--cyan);
+      border-color: var(--border2);
+      background: rgba(0,229,255,0.05);
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 10;
+      padding: 4rem 2rem 3rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--green);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .hero-tag::before {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 1px;
+      background: var(--green);
+    }
+    h1 {
+      font-family: var(--heading);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    h1 em {
+      font-style: normal;
+      color: var(--cyan);
+      text-shadow: 0 0 30px rgba(0,229,255,0.4);
+    }
+    .hero-sub {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text2);
+      max-width: 600px;
+      line-height: 1.8;
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      position: relative;
+      z-index: 10;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem 2.5rem;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .stat-val {
+      font-family: var(--mono);
+      font-size: 24px;
+      color: var(--cyan);
+      font-weight: bold;
+    }
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      position: relative;
+      z-index: 10;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem 2rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+      max-width: 400px;
+    }
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--text3);
+    }
+    #search {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 13px;
+      padding: 0.6rem 0.75rem 0.6rem 2.25rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    #search:focus {
+      border-color: var(--cyan2);
+      box-shadow: 0 0 0 2px rgba(0,229,255,0.1);
+    }
+    #search::placeholder { color: var(--text3); }
+
+    .filters {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 0.35rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      background: transparent;
+      color: var(--text2);
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      transition: all 0.18s;
+    }
+    .filter-btn:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(0,229,255,0.05);
+    }
+    .filter-btn.active {
+      border-color: var(--cyan);
+      color: var(--bg);
+      background: var(--cyan);
+    }
+
+    /* ── MAIN ── */
+    main {
+      position: relative;
+      z-index: 10;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem 4rem;
+    }
+
+    /* ── SECTION ── */
+    .section { margin-bottom: 3.5rem; }
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-icon {
+      font-size: 18px;
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-title {
+      font-family: var(--heading);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .section-count {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text3);
+      margin-left: auto;
+    }
+
+    /* ── CARDS GRID ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      display: block;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px;
+      height: 0;
+      background: var(--card-accent, var(--cyan));
+      transition: height 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border2);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(0,229,255,0.08);
+    }
+    .card:hover::before { height: 100%; }
+    .card:hover .card-title { color: var(--card-accent, var(--cyan)); }
+
+    .card-type {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--card-accent, var(--cyan));
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .card-type::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--card-accent, var(--cyan));
+      box-shadow: 0 0 6px var(--card-accent, var(--cyan));
+    }
+    .card-title {
+      font-family: var(--heading);
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+      transition: color 0.18s;
+    }
+    .card-desc {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text2);
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+    }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+    }
+    .card-ext {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 2px;
+    }
+    .card-arrow {
+      font-size: 14px;
+      color: var(--text3);
+      transition: color 0.18s, transform 0.18s;
+    }
+    .card:hover .card-arrow {
+      color: var(--card-accent, var(--cyan));
+      transform: translateX(3px);
+    }
+
+    /* featured card */
+    .card.featured {
+      border-color: rgba(255,183,0,0.3);
+      background: linear-gradient(135deg, var(--surface) 80%, rgba(255,183,0,0.04));
+    }
+    .card.featured::before { background: var(--amber); }
+
+    /* loading skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, var(--surface) 25%, var(--bg3) 50%, var(--surface) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 4px;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .skeleton-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .sk-line { height: 10px; }
+    .sk-title { height: 16px; width: 70%; margin: 4px 0; }
+    .sk-desc1 { width: 90%; }
+    .sk-desc2 { width: 65%; }
+
+    /* empty state */
+    .empty {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text3);
+      padding: 2rem;
+      text-align: center;
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+    }
+    .empty em {
+      display: block;
+      font-size: 28px;
+      font-style: normal;
+      margin-bottom: 0.5rem;
+    }
+
+    /* error state */
+    .error-msg {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--red);
+      padding: 1rem 1.25rem;
+      border: 1px solid rgba(255,56,96,0.3);
+      border-radius: 4px;
+      background: rgba(255,56,96,0.04);
+    }
+
+    /* ── NO RESULTS ── */
+    #no-results {
+      display: none;
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text3);
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+
+    /* ── QUICK ACCESS LINKS ── */
+    .quick-links {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+    .quick-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text2);
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--surface);
+      transition: all 0.18s;
+    }
+    .quick-link:hover {
+      color: var(--cyan);
+      border-color: var(--cyan);
+      background: rgba(0,229,255,0.05);
+      box-shadow: 0 0 12px rgba(0,229,255,0.1);
+    }
+    .quick-link-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 10;
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    footer p {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text3);
+    }
+    footer a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── SECTION COLORS ── */
+    .sec-research    { --card-accent: #00e5ff; }
+    .sec-projects    { --card-accent: #39ff14; }
+    .sec-experiments { --card-accent: #ffb700; }
+    .sec-notes       { --card-accent: #b57bee; }
+    .sec-papers      { --card-accent: #ff6b6b; }
+    .sec-infographics{ --card-accent: #00d4aa; }
+    .sec-special     { --card-accent: #ff9f43; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .header-inner { height: auto; padding: 0.75rem 0; flex-wrap: wrap; }
+      nav { display: none; }
+      h1 { font-size: 2rem; }
+      .stats-bar { gap: 1.25rem; }
+      .cards-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
-
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <h1>DragonKael Research Lab</h1>
-      <p>Systems Engineering • Research • Experiments</p>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <div class="header-inner">
+    <a href="/" class="logo">
+      <div class="logo-icon">⬡</div>
+      <div class="logo-text">DRAGON<span>KAEL</span></div>
+    </a>
+    <nav>
+      <a href="#research">Research</a>
+      <a href="#projects">Projects</a>
+      <a href="#experiments">Experiments</a>
+      <a href="#notes">Notes</a>
+      <a href="#papers">Papers</a>
+      <a href="graph.html">Grafo</a>
+      <a href="timeline.html">Timeline</a>
+    </nav>
+    <div class="header-controls">
+      <span id="status-dot" style="font-family:var(--mono);font-size:11px;color:var(--text3)">● cargando</span>
     </div>
-    <div class="top-controls"><a href="/graph.html">Grafo</a> | <a href="/timeline.html">Timeline</a> | <button
-        id="theme-toggle">Modo oscuro</button></div>
-  </header>
+  </div>
+</header>
 
-  <main class="container">
-    <section class="controls">
-      <input id="global-search" type="search" placeholder="Buscar por título, descripción, tag..." />
-      <div id="filter-bar" class="filters"></div>
-    </section>
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-tag">Sistema de Ingeniería — Portafolio de Investigación</div>
+  <h1><em>DragonKael</em><br>Research Lab</h1>
+  <p class="hero-sub">Portal de investigación personal de Luis Salas. Documenta experimentos, proyectos y exploraciones técnicas en Ingeniería de Sistemas y tecnologías emergentes.</p>
+</section>
 
-    <section>
-      <h2>Destacados</h2>
-      <div id="featured-row" class="cards-row"></div>
-    </section>
+<!-- ══ STATS ══ -->
+<div class="stats-bar">
+  <div class="stat"><div class="stat-val" id="total-docs">—</div><div class="stat-label">documentos</div></div>
+  <div class="stat"><div class="stat-val" id="total-html">—</div><div class="stat-label">páginas HTML</div></div>
+  <div class="stat"><div class="stat-val" id="total-secs">6</div><div class="stat-label">secciones</div></div>
+  <div class="stat"><div class="stat-val" style="color:var(--green)">●</div><div class="stat-label">en línea</div></div>
+</div>
 
-    <section class="grid" id="sections-grid">
-      <div class="section">
-        <h3>Research</h3>
-        <ul id="research-list" class="item-list"></ul>
-      </div>
-      <div class="section">
-        <h3>Projects</h3>
-        <ul id="projects-list" class="item-list"></ul>
-      </div>
-      <div class="section">
-        <h3>Experiments</h3>
-        <ul id="experiments-list" class="item-list"></ul>
-      </div>
-      <div class="section">
-        <h3>Notes</h3>
-        <ul id="notes-list" class="item-list"></ul>
-      </div>
-      <div class="section">
-        <h3>Papers</h3>
-        <ul id="papers-list" class="item-list"></ul>
-      </div>
-      <div class="section">
-        <h3>Infographics</h3>
-        <ul id="infographics-list" class="item-list"></ul>
-      </div>
-    </section>
+<!-- ══ TOOLBAR ══ -->
+<div class="toolbar">
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input type="search" id="search" placeholder="Buscar documento..." autocomplete="off" />
+  </div>
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-filter="all">Todos</button>
+    <button class="filter-btn" data-filter="research">Research</button>
+    <button class="filter-btn" data-filter="projects">Projects</button>
+    <button class="filter-btn" data-filter="experiments">Experiments</button>
+    <button class="filter-btn" data-filter="notes">Notes</button>
+    <button class="filter-btn" data-filter="papers">Papers</button>
+    <button class="filter-btn" data-filter="infographics">Infographics</button>
+  </div>
+</div>
 
-    <section>
-      <h2>Resultados</h2>
-      <ul id="search-results" class="search-results"></ul>
-    </section>
-  </main>
+<!-- ══ MAIN ══ -->
+<main>
 
-  <script src="config/lab-config.js"></script>
-  <script src="js/repo-indexer.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.min.js"></script>
-  <script src="js/search.js"></script>
+  <!-- Quick access -->
+  <div class="quick-links">
+    <a class="quick-link" href="graph.html" target="_blank"><span class="quick-link-dot"></span>Grafo de conocimiento</a>
+    <a class="quick-link" href="timeline.html" target="_blank"><span class="quick-link-dot"></span>Timeline</a>
+    <a class="quick-link" href="https://github.com/DragonKael/DragonKael.github.io" target="_blank"><span class="quick-link-dot" style="background:var(--amber);box-shadow:0 0 6px var(--amber)"></span>Repositorio GitHub</a>
+  </div>
 
+  <div id="no-results">⊘ Sin resultados para tu búsqueda</div>
+  <div id="sections-container"></div>
+
+</main>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <p>© 2026 <strong>Luis Salas</strong> · DragonKael Research Lab · <a href="https://github.com/DragonKael" target="_blank">github.com/DragonKael</a></p>
+  <p style="color:var(--text3)">Indexado automáticamente via GitHub API</p>
+</footer>
+
+<!-- ══ SCRIPT ══ -->
+<script>
+  // ── CONFIG ──
+  const REPO    = 'DragonKael/DragonKael.github.io';
+  const BASE    = 'https://dragonkael.github.io';
+  const API     = `https://api.github.com/repos/${REPO}/contents`;
+  const RAW     = `https://raw.githubusercontent.com/${REPO}/main`;
+
+  const SECTIONS = [
+    { id: 'research',     label: 'Research',      icon: '🔬', desc: 'Investigaciones y estudios técnicos' },
+    { id: 'projects',     label: 'Projects',       icon: '⚙️', desc: 'Proyectos de ingeniería y desarrollo' },
+    { id: 'experiments',  label: 'Experiments',    icon: '🧪', desc: 'Experimentos y prototipos' },
+    { id: 'notes',        label: 'Notes',          icon: '📝', desc: 'Notas técnicas y apuntes' },
+    { id: 'papers',       label: 'Papers',         icon: '📄', desc: 'Artículos y documentos formales' },
+    { id: 'infographics', label: 'Infographics',   icon: '📊', desc: 'Infografías y visualizaciones' },
+  ];
+
+  // ── UTILS ──
+  function titleFromName(name) {
+    return name
+      .replace(/\.[^.]+$/, '')              // quita extensión
+      .replace(/[-_]/g, ' ')               // guiones → espacios
+      .replace(/\b\w/g, c => c.toUpperCase()); // Title Case
+  }
+
+  function extFrom(name) {
+    const m = name.match(/\.([^.]+)$/);
+    return m ? m[1].toLowerCase() : '';
+  }
+
+  function descFromName(name) {
+    const ext = extFrom(name);
+    const map = {
+      html: 'Página web interactiva',
+      pdf:  'Documento PDF',
+      md:   'Documento Markdown',
+      js:   'Script JavaScript',
+      py:   'Script Python',
+      ipynb:'Jupyter Notebook',
+      csv:  'Datos CSV',
+      json: 'Datos JSON',
+      txt:  'Archivo de texto',
+    };
+    return map[ext] || 'Documento';
+  }
+
+  function openUrl(url) {
+    window.open(url, '_blank', 'noopener');
+  }
+
+  function fileUrl(section, filename) {
+    const ext = extFrom(filename);
+    if (ext === 'html') {
+      // Served directly by GitHub Pages
+      return `${BASE}/${section}/${filename}`;
+    }
+    // For others: raw file
+    return `${RAW}/${section}/${filename}`;
+  }
+
+  // ── RENDER SKELETON ──
+  function renderSkeleton(container, n = 4) {
+    const grid = document.createElement('div');
+    grid.className = 'cards-grid';
+    for (let i = 0; i < n; i++) {
+      grid.innerHTML += `
+        <div class="skeleton-card">
+          <div class="skeleton sk-line sk-desc1"></div>
+          <div class="skeleton sk-line sk-title"></div>
+          <div class="skeleton sk-line sk-desc1"></div>
+          <div class="skeleton sk-line sk-desc2"></div>
+        </div>`;
+    }
+    container.appendChild(grid);
+    return grid;
+  }
+
+  // ── RENDER CARD ──
+  function renderCard(file, sectionId) {
+    const ext   = extFrom(file.name);
+    const title = titleFromName(file.name);
+    const url   = fileUrl(sectionId, file.name);
+    const desc  = descFromName(file.name);
+    const isFeatured = (ext === 'html');
+
+    const card = document.createElement('div');
+    card.className = `card sec-${sectionId}${isFeatured ? ' featured' : ''}`;
+    card.dataset.title   = title.toLowerCase();
+    card.dataset.section = sectionId;
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', `Abrir ${title}`);
+
+    card.innerHTML = `
+      <div class="card-type">${ext.toUpperCase() || 'FILE'}</div>
+      <div class="card-title">${title}</div>
+      <div class="card-desc">${desc}</div>
+      <div class="card-footer">
+        <span class="card-ext">.${ext}</span>
+        <span class="card-arrow">→</span>
+      </div>`;
+
+    card.addEventListener('click', () => openUrl(url));
+    card.addEventListener('keydown', e => { if (e.key === 'Enter') openUrl(url); });
+
+    return card;
+  }
+
+  // ── FETCH SECTION ──
+  async function fetchSection(sec) {
+    const res  = await fetch(`${API}/${sec.id}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    return Array.isArray(data)
+      ? data.filter(f => f.type === 'file')
+      : [];
+  }
+
+  // ── BUILD SECTION EL ──
+  function buildSectionEl(sec) {
+    const el = document.createElement('div');
+    el.className = `section sec-${sec.id}`;
+    el.id = sec.id;
+    el.dataset.section = sec.id;
+    el.innerHTML = `
+      <div class="section-head">
+        <div class="section-icon">${sec.icon}</div>
+        <div>
+          <div class="section-title">${sec.label}</div>
+        </div>
+        <span class="section-count" id="count-${sec.id}">cargando…</span>
+      </div>
+      <div class="cards-container" id="cards-${sec.id}"></div>`;
+    return el;
+  }
+
+  // ── STATS ──
+  let totalDocs = 0, totalHtml = 0;
+  function updateStats() {
+    document.getElementById('total-docs').textContent = totalDocs;
+    document.getElementById('total-html').textContent = totalHtml;
+  }
+
+  // ── SEARCH & FILTER ──
+  let activeFilter = 'all';
+  let searchTerm   = '';
+
+  function applyFilters() {
+    let visible = 0;
+    document.querySelectorAll('.card').forEach(card => {
+      const matchSection = activeFilter === 'all' || card.dataset.section === activeFilter;
+      const matchSearch  = !searchTerm || card.dataset.title.includes(searchTerm);
+      const show = matchSection && matchSearch;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    // hide/show sections
+    document.querySelectorAll('.section').forEach(sec => {
+      const sectionId = sec.dataset.section;
+      const hasVisible = Array.from(sec.querySelectorAll('.card'))
+        .some(c => c.style.display !== 'none');
+      sec.style.display = (activeFilter === 'all' || sectionId === activeFilter)
+        ? (hasVisible ? '' : 'none')
+        : 'none';
+    });
+
+    document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  document.getElementById('search').addEventListener('input', e => {
+    searchTerm = e.target.value.trim().toLowerCase();
+    applyFilters();
+  });
+
+  document.getElementById('filters').addEventListener('click', e => {
+    const btn = e.target.closest('.filter-btn');
+    if (!btn) return;
+    activeFilter = btn.dataset.filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b === btn));
+    applyFilters();
+  });
+
+  // ── INIT ──
+  async function init() {
+    const container = document.getElementById('sections-container');
+    const statusDot = document.getElementById('status-dot');
+
+    for (const sec of SECTIONS) {
+      const el = buildSectionEl(sec);
+      container.appendChild(el);
+
+      const cardsContainer = document.getElementById(`cards-${sec.id}`);
+      const skelly = renderSkeleton(cardsContainer);
+
+      try {
+        const files = await fetchSection(sec);
+        skelly.remove();
+
+        const countEl = document.getElementById(`count-${sec.id}`);
+
+        if (files.length === 0) {
+          cardsContainer.innerHTML = `
+            <div class="empty"><em>📭</em>Sin documentos en esta sección aún.</div>`;
+          countEl.textContent = '0 docs';
+          continue;
+        }
+
+        const grid = document.createElement('div');
+        grid.className = 'cards-grid';
+
+        files.forEach(file => {
+          const card = renderCard(file, sec.id);
+          grid.appendChild(card);
+          totalDocs++;
+          if (extFrom(file.name) === 'html') totalHtml++;
+        });
+
+        cardsContainer.appendChild(grid);
+        countEl.textContent = `${files.length} doc${files.length !== 1 ? 's' : ''}`;
+        updateStats();
+
+      } catch (err) {
+        skelly.remove();
+        const countEl = document.getElementById(`count-${sec.id}`);
+        if (err.message.includes('404')) {
+          cardsContainer.innerHTML = `
+            <div class="empty"><em>📁</em>Carpeta aún no creada en el repositorio.</div>`;
+          countEl.textContent = '—';
+        } else {
+          cardsContainer.innerHTML = `
+            <div class="error-msg">⚠ Error al cargar: ${err.message}. Puede ser un límite de rate del API de GitHub. Recarga en un momento.</div>`;
+          countEl.textContent = 'error';
+        }
+      }
+    }
+
+    statusDot.textContent = '● en línea';
+    statusDot.style.color = 'var(--green)';
+  }
+
+  init();
+</script>
 </body>
-
 </html>
