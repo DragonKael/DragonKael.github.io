@@ -18,8 +18,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'   # estable para scripts; puedes cambiarlo si necesitas
-
+          node-version: '24'   
       - name: Install dependencies (none required)
         run: npm ci || echo "no dependencies"
 
