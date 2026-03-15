@@ -1,81 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>DragonKael Research Lab</title>
-
-  <!-- Estilos -->
   <link rel="stylesheet" href="css/style.css" />
 </head>
-
 <body>
   <header class="topbar">
     <div class="brand">
       <h1>DragonKael Research Lab</h1>
       <p>Systems Engineering • Research • Experiments</p>
     </div>
-
     <div class="top-controls">
-      <!-- Dark mode toggle -->
       <button id="theme-toggle" class="btn">Modo oscuro</button>
     </div>
   </header>
 
   <main class="container">
-
-    <!-- Buscador y filtros -->
     <section class="controls">
       <input id="global-search" type="search" placeholder="Buscar por título, descripción, tag..." />
-      <div id="filter-bar" class="filters">
-        <!-- Los filtros se generan dinámicamente por JS (tags y años) -->
-      </div>
+      <div id="filter-bar" class="filters"></div>
     </section>
 
-    <!-- Featured row (cards grandes) -->
     <section>
       <h2>Destacados</h2>
       <div id="featured-row" class="cards-row"></div>
     </section>
 
-    <!-- Grid de secciones: cada sección es una columna / card list -->
     <section class="grid" id="sections-grid">
+      <div class="section"><h3>Research</h3><ul id="research-list" class="item-list"></ul></div>
+      <div class="section"><h3>Projects</h3><ul id="projects-list" class="item-list"></ul></div>
+      <div class="section"><h3>Experiments</h3><ul id="experiments-list" class="item-list"></ul></div>
+      <div class="section"><h3>Notes</h3><ul id="notes-list" class="item-list"></ul></div>
 
-      <!-- EJEMPLO: para añadir una sección nueva solo crear una <div> con el elementId (ver config) -->
-      <div class="section">
-        <h3>Research</h3>
-        <ul id="research-list" class="item-list"></ul>
-      </div>
-
-      <div class="section">
-        <h3>Projects</h3>
-        <ul id="projects-list" class="item-list"></ul>
-      </div>
-
-      <div class="section">
-        <h3>Experiments</h3>
-        <ul id="experiments-list" class="item-list"></ul>
-      </div>
-
-      <div class="section">
-        <h3>Notes</h3>
-        <ul id="notes-list" class="item-list"></ul>
-      </div>
-      <div class="section">
-        <h3>Infographics</h3>
-        <ul id="infographics-list" class="item-list"></ul>
-      </div>
-      <div class="section">
-        <h3>Papers</h3>
-        <ul id="papers-list"></ul>
-      </div>
-
-
-      <!-- Si agregas otra sección en config, añade aquí su div (solo el contenedor) -->
+      <!-- Añadí contenedores para las secciones que hay en config/lab-config.js -->
+      <div class="section"><h3>Infographics</h3><ul id="infographics-list" class="item-list"></ul></div>
+      <div class="section"><h3>Papers</h3><ul id="papers-list" class="item-list"></ul></div>
     </section>
 
-    <!-- Lista completa (oculta por defecto, útil para resultados de búsqueda) -->
     <section>
       <h2>Resultados</h2>
       <ul id="search-results" class="search-results"></ul>
@@ -84,13 +47,11 @@
     <footer class="footer">
       <small>Hecho para DragonKael • Automatización de index</small>
     </footer>
-
   </main>
 
-  <!-- Config + Scripts -->
+  <!-- Cargar primero la configuración, luego utilidades UI, luego el indexer -->
   <script src="config/lab-config.js"></script>
   <script src="js/ui.js"></script>
   <script src="js/repo-indexer.js"></script>
 </body>
-
 </html>
