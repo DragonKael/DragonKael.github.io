@@ -27,10 +27,16 @@ const UI = (() => {
     return el;
   }
 
-  function escapeHtml(s){
-    if(!s) return "";
-    return s.replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-  }
+function escapeHtml(s){
+  if(!s) return "";
+  return s.replace(/[&<>"']/g, ch => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[ch]));
+}
 
   function clearChildren(node){
     while(node.firstChild) node.removeChild(node.firstChild);
