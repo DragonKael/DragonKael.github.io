@@ -1,79 +1,117 @@
 /**
  * repo-indexer.js — DragonKael Research Lab
- * Fetches file listings from GitHub API and exposes them to ui.js
+ * Soporta carpetas de primer nivel Y subcarpetas (recursivo).
+ * Cada carpeta con archivos aparece como grupo con su ruta completa.
  */
 
-const REPO_OWNER  = 'DragonKael';
-const REPO_NAME   = 'DragonKael.github.io';
-const PAGES_BASE  = 'https://dragonkael.github.io';
-const RAW_BASE    = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main`;
-const API_BASE    = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents`;
+const REPO_OWNER = 'DragonKael';
+const REPO_NAME  = 'DragonKael.github.io';
+const PAGES_BASE = 'https://dragonkael.github.io';
+const RAW_BASE   = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main`;
+const API_BASE   = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents`;
 
-const SECTION_IDS = ['research', 'projects', 'experiments', 'notes', 'papers', 'infographics'];
+// Carpetas de primer nivel que el dashboard indexa
+const ROOT_SECTIONS = ['research', 'projects', 'experiments', 'notes', 'papers', 'infographics'];
+
+// Extensiones que se ignorarán (archivos de soporte, no de contenido)
+const IGNORE_EXTS = new Set(['gitkeep', 'gitignore', 'ds_store']);
+
+// Máxima profundidad de recursión (evita loops infinitos)
+const MAX_DEPTH = 3;
 
 /**
- * Returns the public URL for a file in a section.
- * HTML files → served by GitHub Pages (navigable in browser)
- * Other files → raw GitHub URL (download/view)
+ * Retorna la URL pública de un archivo.
+ *   .html → GitHub Pages (navegable en browser)
+ *   otros → raw de GitHub (descarga / vista)
  */
-function getFileUrl(sectionId, filename) {
-  const ext = filename.split('.').pop().toLowerCase();
-  if (ext === 'html') {
-    return `${PAGES_BASE}/${sectionId}/${filename}`;
-  }
-  return `${RAW_BASE}/${sectionId}/${filename}`;
+function getFileUrl(path) {
+  const ext = path.split('.').pop().toLowerCase();
+  if (ext === 'html') return `${PAGES_BASE}/${path}`;
+  return `${RAW_BASE}/${path}`;
 }
 
 /**
- * Fetches all files in a repository folder via the GitHub Contents API.
- * Returns an array of { name, url, openUrl, ext, size } objects.
+ * Fetch del API de GitHub para una ruta dada.
+ * Lanza error con mensaje amigable si hay rate limit.
  */
-async function fetchSectionFiles(sectionId) {
-  const res = await fetch(`${API_BASE}/${sectionId}`, {
-    headers: { 'Accept': 'application/vnd.github.v3+json' }
+async function apiFetch(path) {
+  const res = await fetch(`${API_BASE}/${path}`, {
+    headers: { Accept: 'application/vnd.github.v3+json' }
   });
-
-  if (res.status === 404) {
-    return [];  // Folder doesn't exist yet
+  if (res.status === 404) return null;         // carpeta/archivo no existe
+  if (res.status === 403 || res.status === 429) {
+    const reset = res.headers.get('X-RateLimit-Reset');
+    const mins  = reset ? Math.ceil((+reset * 1000 - Date.now()) / 60000) : '?';
+    throw new Error(`Rate limit de GitHub API. Espera ~${mins} min y recarga.`);
   }
-
-  if (!res.ok) {
-    const remaining = res.headers.get('X-RateLimit-Remaining');
-    if (remaining === '0') {
-      throw new Error('Límite de rate de GitHub API alcanzado. Espera un momento y recarga.');
-    }
-    throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-  }
-
-  const data = await res.json();
-  if (!Array.isArray(data)) return [];
-
-  return data
-    .filter(item => item.type === 'file')
-    .map(item => ({
-      name:    item.name,
-      path:    item.path,
-      url:     item.html_url,
-      openUrl: getFileUrl(sectionId, item.name),
-      rawUrl:  item.download_url,
-      ext:     item.name.split('.').pop().toLowerCase(),
-      size:    item.size,
-      sha:     item.sha,
-    }));
+  if (!res.ok) throw new Error(`HTTP ${res.status} al acceder "${path}"`);
+  return res.json();
 }
 
 /**
- * Fetches all sections in parallel. Returns a Map<sectionId, files[]>.
- * Errors per-section are captured and stored as { error: string }.
+ * Escanea recursivamente una carpeta y retorna un array de "grupos":
+ *   { path, label, files: [{name, path, openUrl, ext, size}] }
+ *
+ * Si la carpeta solo tiene archivos → 1 grupo con esos archivos.
+ * Si tiene subcarpetas → grupos adicionales por cada subcarpeta con archivos.
+ */
+async function scanFolder(folderPath, label, depth = 0) {
+  if (depth > MAX_DEPTH) return [];
+
+  const data = await apiFetch(folderPath);
+  if (!data || !Array.isArray(data)) return [];
+
+  const files   = [];
+  const subdirs = [];
+
+  for (const item of data) {
+    if (item.type === 'file') {
+      const ext = item.name.split('.').pop().toLowerCase();
+      if (IGNORE_EXTS.has(ext)) continue;
+      files.push({
+        name:    item.name,
+        path:    item.path,
+        openUrl: getFileUrl(item.path),
+        rawUrl:  item.download_url,
+        ext,
+        size: item.size,
+      });
+    } else if (item.type === 'dir') {
+      subdirs.push({ name: item.name, path: item.path });
+    }
+  }
+
+  const groups = [];
+
+  // Grupo de archivos en esta misma carpeta (si hay)
+  if (files.length > 0) {
+    groups.push({ path: folderPath, label, files });
+  }
+
+  // Grupos de subcarpetas (recursivo)
+  for (const sub of subdirs) {
+    const subLabel = `${label} / ${sub.name}`;
+    const subGroups = await scanFolder(sub.path, subLabel, depth + 1);
+    groups.push(...subGroups);
+  }
+
+  return groups;
+}
+
+/**
+ * Escanea todas las secciones raíz en paralelo.
+ * Retorna Map<sectionId, { groups | error }>
+ *
+ * Cada sección puede tener múltiples grupos si tiene subcarpetas.
  */
 async function fetchAllSections() {
   const results = new Map();
 
   await Promise.allSettled(
-    SECTION_IDS.map(async id => {
+    ROOT_SECTIONS.map(async (id) => {
       try {
-        const files = await fetchSectionFiles(id);
-        results.set(id, files);
+        const groups = await scanFolder(id, id);
+        results.set(id, { groups });
       } catch (err) {
         results.set(id, { error: err.message });
       }
@@ -83,7 +121,7 @@ async function fetchAllSections() {
   return results;
 }
 
-// Export for use in index.html or ui.js
+// ── Exports ──
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { fetchSectionFiles, fetchAllSections, getFileUrl, SECTION_IDS };
+  module.exports = { fetchAllSections, scanFolder, getFileUrl, ROOT_SECTIONS };
 }
