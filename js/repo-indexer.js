@@ -1,150 +1,89 @@
-// js/repo-indexer.js
-// Try to load data/index.json first; if 404, fallback to GitHub API contents
-(async function(){
-  const INDEX_URL = '/data/index.json';
-  let index = null;
-  try {
-    const res = await fetch(INDEX_URL);
-    if(res.ok) {
-      index = await res.json();
-      console.log("Loaded index.json", index.items?.length||0);
-    } else {
-      console.log("index.json not found, falling back to GitHub API");
-    }
-  } catch(e){
-    console.warn("Error loading index.json", e);
+/**
+ * repo-indexer.js — DragonKael Research Lab
+ * Fetches file listings from GitHub API and exposes them to ui.js
+ */
+
+const REPO_OWNER  = 'DragonKael';
+const REPO_NAME   = 'DragonKael.github.io';
+const PAGES_BASE  = 'https://dragonkael.github.io';
+const RAW_BASE    = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main`;
+const API_BASE    = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents`;
+
+const SECTION_IDS = ['research', 'projects', 'experiments', 'notes', 'papers', 'infographics'];
+
+/**
+ * Returns the public URL for a file in a section.
+ * HTML files → served by GitHub Pages (navigable in browser)
+ * Other files → raw GitHub URL (download/view)
+ */
+function getFileUrl(sectionId, filename) {
+  const ext = filename.split('.').pop().toLowerCase();
+  if (ext === 'html') {
+    return `${PAGES_BASE}/${sectionId}/${filename}`;
+  }
+  return `${RAW_BASE}/${sectionId}/${filename}`;
+}
+
+/**
+ * Fetches all files in a repository folder via the GitHub Contents API.
+ * Returns an array of { name, url, openUrl, ext, size } objects.
+ */
+async function fetchSectionFiles(sectionId) {
+  const res = await fetch(`${API_BASE}/${sectionId}`, {
+    headers: { 'Accept': 'application/vnd.github.v3+json' }
+  });
+
+  if (res.status === 404) {
+    return [];  // Folder doesn't exist yet
   }
 
-  // if index not loaded, fallback: fetch via GitHub API (original behavior)
-  if(!index) {
-    // original fallback: list folders from config via GitHub API (kept from earlier implementation)
-    if(!window.LAB_CONFIG) {
-      console.error("LAB_CONFIG missing");
-      return;
+  if (!res.ok) {
+    const remaining = res.headers.get('X-RateLimit-Remaining');
+    if (remaining === '0') {
+      throw new Error('Límite de rate de GitHub API alcanzado. Espera un momento y recarga.');
     }
-    const user = LAB_CONFIG.githubUser;
-    const repo = LAB_CONFIG.githubRepo;
-    const items = [];
-    for(const section of LAB_CONFIG.sections){
-      const url = `https://api.github.com/repos/${user}/${repo}/contents/${section.folder}`;
+    throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+  }
+
+  const data = await res.json();
+  if (!Array.isArray(data)) return [];
+
+  return data
+    .filter(item => item.type === 'file')
+    .map(item => ({
+      name:    item.name,
+      path:    item.path,
+      url:     item.html_url,
+      openUrl: getFileUrl(sectionId, item.name),
+      rawUrl:  item.download_url,
+      ext:     item.name.split('.').pop().toLowerCase(),
+      size:    item.size,
+      sha:     item.sha,
+    }));
+}
+
+/**
+ * Fetches all sections in parallel. Returns a Map<sectionId, files[]>.
+ * Errors per-section are captured and stored as { error: string }.
+ */
+async function fetchAllSections() {
+  const results = new Map();
+
+  await Promise.allSettled(
+    SECTION_IDS.map(async id => {
       try {
-        const r = await fetch(url);
-        if(!r.ok) continue;
-        const files = await r.json();
-        for(const f of files){
-          if(f.type === 'file' && f.name.endsWith('.html')){
-            // fetch raw and parse meta
-            const rawRes = await fetch(f.download_url);
-            if(!rawRes.ok) continue;
-            const raw = await rawRes.text();
-            const meta = (function(html){
-              const m = {};
-              const re = /<meta\s+name=["']?([\w-]+)["']?\s+content=["']([\s\S]*?)["']\s*\/?>/ig;
-              let mm;
-              while((mm = re.exec(html)) !== null) m[mm[1].toLowerCase()] = mm[2];
-              const t = /<title>([\s\S]*?)<\/title>/i.exec(html);
-              if(t && !m.title) m.title = t[1];
-              return m;
-            })(raw);
-            items.push({
-              title: meta.title || f.name.replace('.html','').replace(/[-_]/g,' '),
-              description: meta.description || '',
-              tags: (meta.tags||'').split(',').map(s=>s.trim()).filter(Boolean),
-              year: meta.year || '',
-              featured: String(meta.featured||'').toLowerCase()==='true',
-              type: section.name,
-              path: `${section.folder}/${f.name}`
-            });
-          }
-        }
-      } catch(err){ console.warn("fallback error", err) }
-    }
-    index = { generated_at: new Date().toISOString(), items };
-  }
+        const files = await fetchSectionFiles(id);
+        results.set(id, files);
+      } catch (err) {
+        results.set(id, { error: err.message });
+      }
+    })
+  );
 
-  // Now we have index, render UI (search, sections, featured)
-  window.LAB_INDEX = index; // expose for debug
+  return results;
+}
 
-  // Basic render: sections into DOM (element IDs must match config)
-  function clear(node){ while(node && node.firstChild) node.removeChild(node.firstChild); }
-
-  const featuredContainer = document.getElementById('featured-row');
-  const searchResults = document.getElementById('search-results');
-
-  // Collect tags & years
-  const tagSet = new Set();
-  const yearSet = new Set();
-
-  index.items.forEach(it=>{
-    (it.tags||[]).forEach(t=>tagSet.add(t));
-    if(it.year) yearSet.add(it.year);
-  });
-
-  // Render sections
-  if(window.LAB_CONFIG && Array.isArray(window.LAB_CONFIG.sections)){
-    window.LAB_CONFIG.sections.forEach(section=>{
-      const el = document.getElementById(section.elementId);
-      if(!el) return;
-      clear(el);
-      const items = index.items.filter(i => i.type.toLowerCase() === section.name.toLowerCase());
-      items.forEach(it=>{
-        const li = document.createElement('li');
-        li.className = 'list-item';
-        li.innerHTML = `
-          <a class="card-link" href="${it.path}">
-            <div class="card">
-              <h4>${escapeHtml(it.title)}</h4>
-              <p>${escapeHtml(it.description || '')}</p>
-              <div class="meta">${(it.tags||[]).slice(0,4).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join(' ')} <span class="year">${it.year||''}</span></div>
-            </div>
-          </a>
-        `;
-        el.appendChild(li);
-      });
-    });
-  }
-
-  // Featured
-  clear(featuredContainer);
-  (index.items.filter(i=>i.featured).slice(0,6)).forEach(it=>{
-    const node = document.createElement('div');
-    node.className = 'card featured';
-    node.innerHTML = `<a class="card-link" href="${it.path}"><div class="card-body"><h4>${escapeHtml(it.title)}</h4><p>${escapeHtml(it.description||'')}</p></div></a>`;
-    featuredContainer.appendChild(node);
-  });
-
-  // search logic (uses global input)
-  const searchInput = document.getElementById('global-search');
-  if(searchInput){
-    searchInput.addEventListener('input', e=>{
-      const q = e.target.value.trim().toLowerCase();
-      clear(searchResults);
-      if(!q) return;
-      const results = index.items.filter(i => {
-        const hay = [i.title, i.description, (i.tags||[]).join(' '), i.type, i.year].join(' ').toLowerCase();
-        return hay.includes(q);
-      });
-      if(results.length===0){ const li = document.createElement('li'); li.textContent = 'No results'; searchResults.appendChild(li); }
-      results.forEach(it=>{
-        const li = document.createElement('li');
-        li.className = 'list-item';
-        li.appendChild(createCard(it));
-        searchResults.appendChild(li);
-      });
-    });
-  }
-
-  function createCard(it){
-    const wrapper = document.createElement('div');
-    wrapper.className = 'card';
-    wrapper.innerHTML = `<a class="card-link" href="${it.path}"><div class="card-body"><h4>${escapeHtml(it.title)}</h4><p>${escapeHtml(it.description||'')}</p><div class="meta">${(it.tags||[]).slice(0,5).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join(' ')} <span class="year">${it.year||''}</span></div></div></a>`;
-    return wrapper;
-  }
-
-  // small helper: escapeHtml (safe)
-  function escapeHtml(s){
-    if(!s) return "";
-    return s.replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-  }
-
-})();
+// Export for use in index.html or ui.js
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { fetchSectionFiles, fetchAllSections, getFileUrl, SECTION_IDS };
+}
