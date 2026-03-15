@@ -1,0 +1,72 @@
+{
+  "generated_at": "2026-03-15T22:09:01.204Z",
+  "nodes": [
+    {
+      "id": 0,
+      "title": "digital identity",
+      "path": "research/digital-identity.html",
+      "type": "research"
+    },
+    {
+      "id": 1,
+      "title": "Integración Web Semántica en Registros Locales",
+      "path": "research/plantilla-ejemplo.html",
+      "type": "research"
+    },
+    {
+      "id": 2,
+      "title": "semantic web model",
+      "path": "research/semantic-web-model.html",
+      "type": "research"
+    },
+    {
+      "id": 3,
+      "title": "sdr network jammer",
+      "path": "projects/sdr-network-jammer.html",
+      "type": "projects"
+    },
+    {
+      "id": 4,
+      "title": "ticket system",
+      "path": "projects/ticket-system.html",
+      "type": "projects"
+    },
+    {
+      "id": 5,
+      "title": "rtl sdr analysis",
+      "path": "experiments/rtl-sdr-analysis.html",
+      "type": "experiments"
+    },
+    {
+      "id": 6,
+      "title": "research ideas",
+      "path": "notes/research-ideas.html",
+      "type": "notes"
+    },
+    {
+      "id": 7,
+      "title": "municipal data integration",
+      "path": "papers/municipal-data-integration.html",
+      "type": "papers"
+    },
+    {
+      "id": 8,
+      "title": "Simulación de Conservación Genética (ODS 15)",
+      "path": "infographics/Crio Preservacion.html",
+      "type": "infographics"
+    },
+    {
+      "id": 9,
+      "title": "Modelos de Aprendizaje Supervisado | Equipo Blinders",
+      "path": "infographics/Modelos de aprendizaje supervisado.html",
+      "type": "infographics"
+    },
+    {
+      "id": 10,
+      "title": "Vida Artificial Dura - Infografía",
+      "path": "infographics/VA DURA.html",
+      "type": "infographics"
+    }
+  ],
+  "edges": []
+}

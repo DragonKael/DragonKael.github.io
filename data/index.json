@@ -1,16 +1,120 @@
 {
+  "generated_at": "2026-03-15T22:09:01.199Z",
   "items": [
     {
-      "title": "Modelo de Integración de Información",
+      "title": "digital identity",
+      "description": "",
+      "tags": [],
+      "year": "",
+      "featured": false,
       "type": "research",
-      "tags": ["semantic-web","blockchain","qr"],
-      "path": "research/modelo-integracion.html"
+      "path": "research/digital-identity.html",
+      "filename": "digital-identity.html"
     },
     {
-      "title": "Sistema de Tickets",
-      "type": "project",
-      "tags": ["php","mysql","qr"],
-      "path": "projects/ticket-system.html"
+      "title": "Integración Web Semántica en Registros Locales",
+      "description": "Análisis de técnicas para aplicar web semántica en actas municipales...",
+      "tags": [
+        "web semantics",
+        "qr",
+        "ocr",
+        "blockchain"
+      ],
+      "year": "2026",
+      "featured": true,
+      "type": "research",
+      "path": "research/plantilla-ejemplo.html",
+      "filename": "plantilla-ejemplo.html"
+    },
+    {
+      "title": "semantic web model",
+      "description": "",
+      "tags": [],
+      "year": "",
+      "featured": false,
+      "type": "research",
+      "path": "research/semantic-web-model.html",
+      "filename": "semantic-web-model.html"
+    },
+    {
+      "title": "sdr network jammer",
+      "description": "",
+      "tags": [],
+      "year": "",
+      "featured": false,
+      "type": "projects",
+      "path": "projects/sdr-network-jammer.html",
+      "filename": "sdr-network-jammer.html"
+    },
+    {
+      "title": "ticket system",
+      "description": "",
+      "tags": [],
+      "year": "",
+      "featured": false,
+      "type": "projects",
+      "path": "projects/ticket-system.html",
+      "filename": "ticket-system.html"
+    },
+    {
+      "title": "rtl sdr analysis",
+      "description": "",
+      "tags": [],
+      "year": "",
+      "featured": false,
+      "type": "experiments",
+      "path": "experiments/rtl-sdr-analysis.html",
+      "filename": "rtl-sdr-analysis.html"
+    },
+    {
+      "title": "research ideas",
+      "description": "",
+      "tags": [],
+      "year": "",
+      "featured": false,
+      "type": "notes",
+      "path": "notes/research-ideas.html",
+      "filename": "research-ideas.html"
+    },
+    {
+      "title": "municipal data integration",
+      "description": "",
+      "tags": [],
+      "year": "",
+      "featured": false,
+      "type": "papers",
+      "path": "papers/municipal-data-integration.html",
+      "filename": "municipal-data-integration.html"
+    },
+    {
+      "title": "Simulación de Conservación Genética (ODS 15)",
+      "description": "",
+      "tags": [],
+      "year": "",
+      "featured": false,
+      "type": "infographics",
+      "path": "infographics/Crio Preservacion.html",
+      "filename": "Crio Preservacion.html"
+    },
+    {
+      "title": "Modelos de Aprendizaje Supervisado | Equipo Blinders",
+      "description": "",
+      "tags": [],
+      "year": "",
+      "featured": false,
+      "type": "infographics",
+      "path": "infographics/Modelos de aprendizaje supervisado.html",
+      "filename": "Modelos de aprendizaje supervisado.html"
+    },
+    {
+      "title": "Vida Artificial Dura - Infografía",
+      "description": "",
+      "tags": [],
+      "year": "",
+      "featured": false,
+      "type": "infographics",
+      "path": "infographics/VA DURA.html",
+      "filename": "VA DURA.html"
     }
   ]
 }
