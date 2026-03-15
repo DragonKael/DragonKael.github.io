@@ -1,0 +1,211 @@
+/* css/style.css
+   ----------------
+   Cambia colores, fuentes y paddings aquí.
+*/
+
+:root {
+  --bg: #0f172a;
+  --panel: #0f172a;
+  --card: #0f172a;
+  --muted: #94a3b8;
+  --accent: #22c1c3;
+  --accent-2: #38bdf8;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  color: #e6eef8;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 28px auto;
+  padding: 0 20px;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  letter-spacing: 0.4px;
+}
+
+.brand p {
+  margin: 2px 0 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+#global-search {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+  color: inherit;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filter-group {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.86rem;
+  margin-right: 6px;
+}
+
+.filter-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--accent-2);
+}
+
+.filter-reset {
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  padding: 6px 8px;
+  cursor: pointer;
+}
+
+.cards-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+  padding: 12px;
+  border-radius: 10px;
+  width: 260px;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.6);
+  transition: transform .14s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card.featured {
+  width: 100%;
+  display: flex;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card-title {
+  margin: 0 0 6px 0;
+  font-size: 1.05rem;
+}
+
+.card-desc {
+  margin: 0 0 8px 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.tag {
+  background: rgba(56, 189, 248, 0.08);
+  padding: 3px 6px;
+  border-radius: 6px;
+  color: var(--accent-2);
+  margin-right: 4px;
+  font-weight: 600;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  margin-top: 12px;
+}
+
+.section {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 12px;
+  border-radius: 10px;
+  min-height: 140px;
+}
+
+.item-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.list-item {
+  padding: 0;
+  background: transparent;
+  border-radius: 6px;
+}
+
+.search-results {
+  list-style: none;
+  padding: 0;
+  margin-top: 8px;
+}
+
+.footer {
+  margin-top: 30px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+/* dark mode (root.dark) - puedes personalizar */
+:root.dark {
+  --bg: #020617;
+  --muted: #9aa8b3;
+  --accent: #2dd4bf;
+  --accent-2: #60a5fa;
+}
+
+/* responsive */
+@media (max-width:700px) {
+  .cards-row {
+    flex-direction: column;
+  }
+
+  .card {
+    width: 100%;
+  }
+}
