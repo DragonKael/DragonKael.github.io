@@ -31,19 +31,19 @@
   const yearSet = new Set();
 
   // Helper: parse meta tags desde html string
-  function parseMetaFromHtml(htmlText){
-    const meta = {};
-    // match <meta name="xxx" content="...">
-    const re = /<meta\s+name=["']([\w-]+)["']\s+content=["']([\s\S]*?)["']\s*\/?>/ig;
-    let m;
-    while((m = re.exec(htmlText)) !== null){
-      meta[m[1].toLowerCase()] = m[2];
-    }
-    // fallback: title tag
-    const titleMatch = /<title>([\s\S]*?)<\/title>/i.exec(htmlText);
-    if(titleMatch && !meta.title) meta.title = titleMatch[1];
-    return meta;
+function parseMetaFromHtml(htmlText){
+  const meta = {};
+  // busca <meta name="..." content="..."> (comillas simples o dobles)
+  const re = /<meta\s+name=["']?([\w-]+)["']?\s+content=["']([\s\S]*?)["']\s*\/?>/ig;
+  let m;
+  while((m = re.exec(htmlText)) !== null){
+    meta[m[1].toLowerCase()] = m[2];
   }
+  // fallback: <title>
+  const titleMatch = /<title>([\s\S]*?)<\/title>/i.exec(htmlText);
+  if(titleMatch && !meta.title) meta.title = titleMatch[1].trim();
+  return meta;
+}
 
   // Helper: fetch folder contents via contents API
   async function listFolder(folder){
