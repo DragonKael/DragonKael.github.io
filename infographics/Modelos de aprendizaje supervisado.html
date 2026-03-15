@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modelos de Aprendizaje Supervisado | Equipo Blinders</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    .header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 2rem 0;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      margin-bottom: 3rem;
+    }
+
+    .university-info {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .title {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: #666;
+      margin-bottom: 2rem;
+    }
+
+    .team-info {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .team-member {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 1rem 1.5rem;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .team-member:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Cards Section */
+    .models-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .model-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .model-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+    }
+
+    .model-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+    }
+
+    .model-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .model-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .linear .model-icon {
+      background: linear-gradient(135deg, #4CAF50, #45a049);
+    }
+
+    .polynomial .model-icon {
+      background: linear-gradient(135deg, #FF9800, #f57c00);
+    }
+
+    .logistic .model-icon {
+      background: linear-gradient(135deg, #2196F3, #1976d2);
+    }
+
+    .dataset-info {
+      background: rgba(103, 126, 234, 0.1);
+      padding: 1.5rem;
+      border-radius: 16px;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(103, 126, 234, 0.2);
+    }
+
+    .dataset-name {
+      font-weight: 600;
+      color: #667eea;
+      margin-bottom: 0.5rem;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .metric-item {
+      background: rgba(255, 255, 255, 0.8);
+      padding: 1rem;
+      border-radius: 12px;
+      text-align: center;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .metric-item:hover {
+      transform: scale(1.05);
+    }
+
+    .metric-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .metric-label {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 0.3rem;
+    }
+
+    /* Comparison Section */
+    .comparison-section {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 3rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 2rem;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .comparison-table th {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 1.5rem;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    .comparison-table td {
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .comparison-table tr:hover {
+      background: rgba(103, 126, 234, 0.1);
+    }
+
+    /* Key Insights */
+    .insights-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .insight-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .insight-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .insight-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Footer */
+    .footer {
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      text-align: center;
+      padding: 2rem 0;
+      backdrop-filter: blur(20px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .title {
+        font-size: 2rem;
+      }
+
+      .team-info {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .models-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .model-card {
+        padding: 1.5rem;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .model-card,
+    .comparison-section,
+    .insight-card {
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .model-card:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .model-card:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    .insight-card:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .insight-card:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="university-info">
+        <strong>UNIVERSIDAD ANDINA DEL CUSCO</strong><br>
+        Facultad de Ingeniería y Arquitectura | Escuela Profesional de Ingeniería de Sistemas<br>
+        <strong>Inteligencia Artificial - 10A</strong> | Mg. Ing. Hugo Espetia Huamanga
+      </div>
+      <h1 class="title">Modelos de Aprendizaje Supervisado</h1>
+      <p class="subtitle">Análisis Comparativo de Regresión Lineal, Polinomial y Logística</p>
+      <div class="team-info">
+        <div class="team-member">
+          <strong>Equipo Blinders</strong>
+        </div>
+        <div class="team-member">
+          Paredes Puma, Jairo Nahuel
+        </div>
+        <div class="team-member">
+          Rojas Cornejo, Abel Edson
+        </div>
+        <div class="team-member">
+          Salas Challco, Luis Marin (SM)
+        </div>
+        <div class="team-member">
+          Segovia Palacios, Mark Joel
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Models Grid -->
+    <section class="models-grid">
+      <!-- Linear Regression -->
+      <div class="model-card linear">
+        <h2 class="model-title">
+          <div class="model-icon">📈</div>
+          Regresión Lineal
+        </h2>
+        <div class="dataset-info">
+          <div class="dataset-name">Dataset: Insurance (Medical Cost Personal)</div>
+          <p>Predicción de costos médicos basada en características demográficas y de estilo de vida.</p>
+        </div>
+        <p><strong>Variables:</strong> Edad, IMC, hijos, sexo, hábito de fumar, región</p>
+        <p><strong>Target:</strong> Costos médicos (charges)</p>
+        <div class="metrics-grid">
+          <div class="metric-item">
+            <div class="metric-value">0.7836</div>
+            <div class="metric-label">R²</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-value">5,796</div>
+            <div class="metric-label">RMSE</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-value">33.6M</div>
+            <div class="metric-label">MSE</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Polynomial Regression -->
+      <div class="model-card polynomial">
+        <h2 class="model-title">
+          <div class="model-icon">📊</div>
+          Regresión Polinomial
+        </h2>
+        <div class="dataset-info">
+          <div class="dataset-name">Dataset: Students Performance in Exams</div>
+          <p>Predicción de puntuación en matemáticas usando características polinomiales de grado 3.</p>
+        </div>
+        <p><strong>Variables:</strong> Puntuaciones en lectura y escritura, variables socioeconómicas</p>
+        <p><strong>Target:</strong> Puntuación en matemáticas (math_score)</p>
+        <div class="metrics-grid">
+          <div class="metric-item">
+            <div class="metric-value">0.8815</div>
+            <div class="metric-label">R²</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-value">5.37</div>
+            <div class="metric-label">RMSE</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-value">28.84</div>
+            <div class="metric-label">MSE</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logistic Regression -->
+      <div class="model-card logistic">
+        <h2 class="model-title">
+          <div class="model-icon">🎯</div>
+          Regresión Logística
+        </h2>
+        <div class="dataset-info">
+          <div class="dataset-name">Dataset: Breast Cancer Wisconsin (Diagnostic)</div>
+          <p>Clasificación binaria para determinar si un tumor es maligno o benigno.</p>
+        </div>
+        <p><strong>Variables:</strong> Radio, textura, perímetro, área, suavidad, concavidad, simetría</p>
+        <p><strong>Target:</strong> Diagnóstico (Maligno/Benigno)</p>
+        <div class="metrics-grid">
+          <div class="metric-item">
+            <div class="metric-value">96.49%</div>
+            <div class="metric-label">Accuracy</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-value">97.50%</div>
+            <div class="metric-label">Precision</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-value">92.86%</div>
+            <div class="metric-label">Recall</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-value">99.60%</div>
+            <div class="metric-label">ROC-AUC</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="comparison-section">
+      <h2 class="section-title">Comparación de Modelos</h2>
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Modelo</th>
+            <th>Dataset</th>
+            <th>Tipo de Problema</th>
+            <th>Métrica Principal</th>
+            <th>Rendimiento</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Regresión Lineal</strong></td>
+            <td>Insurance</td>
+            <td>Regresión</td>
+            <td>R² Score</td>
+            <td>0.7836</td>
+          </tr>
+          <tr>
+            <td><strong>Regresión Polinomial</strong></td>
+            <td>Students Performance</td>
+            <td>Regresión</td>
+            <td>R² Score</td>
+            <td>0.8815</td>
+          </tr>
+          <tr>
+            <td><strong>Regresión Logística</strong></td>
+            <td>Breast Cancer Wisconsin</td>
+            <td>Clasificación</td>
+            <td>Accuracy</td>
+            <td>96.49%</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Key Insights -->
+    <section class="insights-section">
+      <div class="insight-card">
+        <div class="insight-icon">🚀</div>
+        <h3>Mejor Rendimiento</h3>
+        <p>La <strong>Regresión Polinomial</strong> obtuvo el mejor R² (0.8815) en problemas de regresión, capturando
+          relaciones no lineales complejas en datos académicos.</p>
+      </div>
+      <div class="insight-card">
+        <div class="insight-icon">🎯</div>
+        <h3>Alta Precisión</h3>
+        <p>La <strong>Regresión Logística</strong> demostró excelente capacidad de clasificación con 96.49% de accuracy
+          y 99.60% de ROC-AUC en diagnóstico médico.</p>
+      </div>
+      <div class="insight-card">
+        <div class="insight-icon">⚖️</div>
+        <h3>Equilibrio Eficacia</h3>
+        <p>La <strong>Regresión Lineal</strong> ofreció un rendimiento sólido (R²=0.7836) con simplicidad interpretativa
+          para predicciones de costos médicos.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 Equipo Blinders | Universidad Andina del Cusco</p>
+      <p>Taller 2: Modelos de Aprendizaje Supervisado | Inteligencia Artificial</p>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll animation
+    document.addEventListener('DOMContentLoaded', function () {
+      const cards = document.querySelectorAll('.model-card, .insight-card');
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      });
+
+      cards.forEach((card) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(50px)';
+        observer.observe(card);
+      });
+
+      // Add hover effects to metric items
+      const metricItems = document.querySelectorAll('.metric-item');
+      metricItems.forEach(item => {
+        item.addEventListener('mouseenter', function () {
+          this.style.background = 'rgba(103, 126, 234, 0.1)';
+        });
+        item.addEventListener('mouseleave', function () {
+          this.style.background = 'rgba(255, 255, 255, 0.8)';
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
