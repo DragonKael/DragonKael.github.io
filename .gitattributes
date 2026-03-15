@@ -1,0 +1,12 @@
+# Normalizar todos los archivos de texto a LF al subir al repo
+* text=auto
+
+# Asegurar que archivos específicos siempre usen LF (ideal para scripts de Linux)
+*.sh text eol=lf
+
+# Asegurar que archivos de Windows siempre usen CRLF
+*.bat text eol=crlf
+
+# Marcar archivos binarios para que Git no los toque
+*.png binary
+*.jpg binary
