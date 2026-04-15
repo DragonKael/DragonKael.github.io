@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-01T23:20:11.200Z",
+  "generated_at": "2026-04-15T01:47:39.033Z",
   "items": [
     {
       "title": "digital identity",
@@ -115,6 +115,16 @@
       "type": "infographics",
       "path": "infographics/VA DURA.html",
       "filename": "VA DURA.html"
+    },
+    {
+      "title": "KUSKAY | Seguridad Auto-sustentable",
+      "description": "",
+      "tags": [],
+      "year": "",
+      "featured": false,
+      "type": "infographics",
+      "path": "infographics/kuskay_parches_gps.html",
+      "filename": "kuskay_parches_gps.html"
     }
   ]
 }
