@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-28T23:55:45.110Z",
+  "generated_at": "2026-04-28T23:57:42.292Z",
   "items": [
     {
       "title": "digital identity",
@@ -35,6 +35,16 @@
       "type": "research",
       "path": "research/semantic-web-model.html",
       "filename": "semantic-web-model.html"
+    },
+    {
+      "title": "KUSKAY — Bio-Localización Auto-Sustentable",
+      "description": "",
+      "tags": [],
+      "year": "",
+      "featured": false,
+      "type": "projects",
+      "path": "projects/KUSKAY_Proyecto_Completo.html",
+      "filename": "KUSKAY_Proyecto_Completo.html"
     },
     {
       "title": "sdr network jammer",

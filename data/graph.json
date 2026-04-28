@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-28T23:55:45.114Z",
+  "generated_at": "2026-04-28T23:57:42.296Z",
   "nodes": [
     {
       "id": 0,
@@ -21,54 +21,60 @@
     },
     {
       "id": 3,
+      "title": "KUSKAY — Bio-Localización Auto-Sustentable",
+      "path": "projects/KUSKAY_Proyecto_Completo.html",
+      "type": "projects"
+    },
+    {
+      "id": 4,
       "title": "sdr network jammer",
       "path": "projects/sdr-network-jammer.html",
       "type": "projects"
     },
     {
-      "id": 4,
+      "id": 5,
       "title": "ticket system",
       "path": "projects/ticket-system.html",
       "type": "projects"
     },
     {
-      "id": 5,
+      "id": 6,
       "title": "rtl sdr analysis",
       "path": "experiments/rtl-sdr-analysis.html",
       "type": "experiments"
     },
     {
-      "id": 6,
+      "id": 7,
       "title": "research ideas",
       "path": "notes/research-ideas.html",
       "type": "notes"
     },
     {
-      "id": 7,
+      "id": 8,
       "title": "municipal data integration",
       "path": "papers/municipal-data-integration.html",
       "type": "papers"
     },
     {
-      "id": 8,
+      "id": 9,
       "title": "Simulación de Conservación Genética (ODS 15)",
       "path": "infographics/Crio Preservacion.html",
       "type": "infographics"
     },
     {
-      "id": 9,
+      "id": 10,
       "title": "Modelos de Aprendizaje Supervisado | Equipo Blinders",
       "path": "infographics/Modelos de aprendizaje supervisado.html",
       "type": "infographics"
     },
     {
-      "id": 10,
+      "id": 11,
       "title": "Vida Artificial Dura - Infografía",
       "path": "infographics/VA DURA.html",
       "type": "infographics"
     },
     {
-      "id": 11,
+      "id": 12,
       "title": "KUSKAY | Seguridad Auto-sustentable",
       "path": "infographics/kuskay_parches_gps.html",
       "type": "infographics"
