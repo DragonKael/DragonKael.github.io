@@ -1,0 +1,2703 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KUSKAY — Bio-Localización Auto-Sustentable</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --obsidian: #0a0c10;
+    --deep-navy: #0d1117;
+    --card-bg: #111622;
+    --card-border: #1e2a3a;
+    --gold: #c9a227;
+    --gold-light: #e8c547;
+    --gold-dim: #8a6f1a;
+    --teal: #00c8d4;
+    --teal-dim: #007a82;
+    --amber: #e07b39;
+    --red-alert: #e03a3a;
+    --text-primary: #e8eaf0;
+    --text-secondary: #8a95aa;
+    --text-muted: #4a5568;
+    --accent-line: rgba(201, 162, 39, 0.3);
+    --glow-gold: 0 0 30px rgba(201, 162, 39, 0.25);
+    --glow-teal: 0 0 30px rgba(0, 200, 212, 0.2);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--obsidian);
+    color: var(--text-primary);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── GEOMETRIC PATTERN BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: 
+      linear-gradient(rgba(201, 162, 39, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201, 162, 39, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAVIGATION ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(10, 12, 16, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--card-border);
+    padding: 0 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .nav-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 1;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5%;
+  }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 2rem;
+    height: 1px;
+    background: var(--teal);
+  }
+
+  .section-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title span { color: var(--gold); }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--card-border) 20%, var(--card-border) 80%, transparent);
+    margin: 5rem 0;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 80px 5% 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #hero::after {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(201, 162, 39, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 40px;
+    height: 1px;
+    background: var(--teal);
+  }
+
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-title .k-gold { color: var(--gold); }
+  .hero-title .main { color: var(--text-primary); }
+
+  .hero-quechua {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin-bottom: 3rem;
+    font-weight: 300;
+    line-height: 1.8;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 4rem;
+  }
+
+  .btn-primary {
+    padding: 0.85rem 2rem;
+    background: var(--gold);
+    color: var(--obsidian);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.25s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  .btn-primary:hover {
+    background: var(--gold-light);
+    box-shadow: var(--glow-gold);
+  }
+
+  .btn-secondary {
+    padding: 0.85rem 2rem;
+    background: transparent;
+    color: var(--teal);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid var(--teal-dim);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.25s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--teal);
+    box-shadow: var(--glow-teal);
+    background: rgba(0, 200, 212, 0.06);
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--card-border);
+    max-width: 700px;
+  }
+
+  .stat-block .value {
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .stat-block .label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 2rem;
+    position: relative;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+
+  .card:hover {
+    border-color: var(--gold-dim);
+    box-shadow: var(--glow-gold);
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--gold) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .card:hover::before { opacity: 1; }
+
+  /* ── GRID LAYOUTS ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+
+  /* ── PROBLEMA ── */
+  #problema { padding: 8rem 5%; }
+
+  .problema-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .dim-item {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .dim-item:last-child { border-bottom: none; }
+
+  .dim-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--gold);
+    font-weight: 500;
+    padding-top: 0.2rem;
+  }
+
+  .dim-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.3rem;
+  }
+
+  .dim-text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .stat-callout {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-callout::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--teal));
+  }
+
+  .stat-callout .big-num {
+    font-family: 'Cinzel', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-callout .desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .stat-callout .source {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+  }
+
+  /* ── TECH ── */
+  #tecnologia { padding: 8rem 5%; background: linear-gradient(180deg, var(--obsidian) 0%, #0a0f1a 100%); }
+
+  .tech-architecture {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--card-border);
+    margin-top: 3rem;
+  }
+
+  .tech-layer {
+    padding: 2rem;
+    border-right: 1px solid var(--card-border);
+    position: relative;
+  }
+
+  .tech-layer:last-child { border-right: none; }
+
+  .tech-layer-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .tech-layer h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .tech-spec {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(30, 42, 58, 0.6);
+    font-size: 0.82rem;
+  }
+
+  .tech-spec:last-child { border-bottom: none; }
+
+  .tech-spec .key { color: var(--text-muted); }
+  .tech-spec .val { color: var(--text-primary); font-weight: 500; text-align: right; max-width: 55%; }
+
+  .tech-spec .val.gold { color: var(--gold); font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; }
+  .tech-spec .val.teal { color: var(--teal); font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; }
+
+  /* Power budget table */
+  .power-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    font-size: 0.88rem;
+  }
+
+  .power-table th {
+    text-align: left;
+    padding: 0.75rem 1.25rem;
+    background: rgba(201, 162, 39, 0.08);
+    color: var(--gold);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .power-table td {
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid rgba(30, 42, 58, 0.5);
+    color: var(--text-secondary);
+  }
+
+  .power-table td:last-child {
+    color: var(--teal);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+  }
+
+  .power-table tr:hover td { background: rgba(201, 162, 39, 0.03); }
+
+  /* ── DIFERENCIACION ── */
+  .diff-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    font-size: 0.85rem;
+  }
+
+  .diff-table th {
+    padding: 1rem 1.5rem;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .diff-table th:first-child { text-align: left; color: var(--text-muted); }
+  .diff-table th.kuskay { color: var(--gold); background: rgba(201, 162, 39, 0.06); }
+  .diff-table th.other { color: var(--text-secondary); }
+
+  .diff-table td {
+    padding: 0.85rem 1.5rem;
+    border-bottom: 1px solid rgba(30, 42, 58, 0.4);
+    text-align: center;
+    color: var(--text-secondary);
+  }
+
+  .diff-table td:first-child { text-align: left; color: var(--text-muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .diff-table td.kuskay { background: rgba(201, 162, 39, 0.04); color: var(--gold); font-weight: 500; }
+
+  .check { color: var(--teal); }
+  .cross { color: #e05555; }
+  .neutral { color: var(--text-muted); }
+
+  /* ── EMPRESA ── */
+  #empresa { padding: 8rem 5%; }
+
+  .empresa-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 5rem;
+  }
+
+  .valores-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .valor-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 1.5rem 1rem;
+    text-align: center;
+  }
+
+  .valor-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .valor-name {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.5rem;
+  }
+
+  .valor-desc {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* ── MERCADO ── */
+  #mercado { padding: 5rem 5%; }
+
+  .market-segment {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .segment-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .segment-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--gold);
+  }
+
+  .segment-size {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--teal);
+    background: rgba(0, 200, 212, 0.08);
+    padding: 0.25rem 0.75rem;
+    border: 1px solid rgba(0, 200, 212, 0.2);
+  }
+
+  .segment-bar {
+    height: 4px;
+    background: var(--card-border);
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .segment-bar-fill {
+    position: absolute;
+    left: 0; top: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--teal));
+    transition: width 1s ease;
+  }
+
+  /* ── FODA ── */
+  #foda { padding: 8rem 5%; background: var(--deep-navy); }
+
+  .foda-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1px;
+    background: var(--card-border);
+    border: 1px solid var(--card-border);
+    margin-top: 3rem;
+  }
+
+  .foda-cell {
+    background: var(--card-bg);
+    padding: 2.5rem;
+  }
+
+  .foda-cell-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid;
+  }
+
+  .foda-cell.fortaleza .foda-cell-label { color: var(--teal); border-color: var(--teal); }
+  .foda-cell.oportunidad .foda-cell-label { color: var(--gold); border-color: var(--gold); }
+  .foda-cell.debilidad .foda-cell-label { color: var(--amber); border-color: var(--amber); }
+  .foda-cell.amenaza .foda-cell-label { color: var(--red-alert); border-color: var(--red-alert); }
+
+  .foda-list {
+    list-style: none;
+  }
+
+  .foda-list li {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    padding: 0.5rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+    border-bottom: 1px solid rgba(30, 42, 58, 0.5);
+  }
+
+  .foda-list li:last-child { border-bottom: none; }
+
+  .foda-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    font-size: 0.65rem;
+  }
+
+  .foda-cell.fortaleza .foda-list li::before { color: var(--teal); }
+  .foda-cell.oportunidad .foda-list li::before { color: var(--gold); }
+  .foda-cell.debilidad .foda-list li::before { color: var(--amber); }
+  .foda-cell.amenaza .foda-list li::before { color: var(--red-alert); }
+
+  /* CAME */
+  .came-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--card-border);
+    border: 1px solid var(--card-border);
+    margin-top: 2rem;
+  }
+
+  .came-cell {
+    background: var(--card-bg);
+    padding: 2rem 1.5rem;
+  }
+
+  .came-letter {
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .came-word {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  .came-cell:nth-child(1) .came-letter, .came-cell:nth-child(1) .came-word { color: var(--amber); }
+  .came-cell:nth-child(2) .came-letter, .came-cell:nth-child(2) .came-word { color: var(--red-alert); }
+  .came-cell:nth-child(3) .came-letter, .came-cell:nth-child(3) .came-word { color: var(--teal); }
+  .came-cell:nth-child(4) .came-letter, .came-cell:nth-child(4) .came-word { color: var(--gold); }
+
+  .came-items {
+    list-style: none;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+
+  .came-items li {
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(30, 42, 58, 0.4);
+    line-height: 1.5;
+  }
+
+  .came-items li:last-child { border-bottom: none; }
+
+  /* ── ENTORNO ── */
+  #entorno { padding: 8rem 5%; }
+
+  .pestel-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .pestel-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 2rem;
+  }
+
+  .pestel-letter {
+    font-family: 'Cinzel', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold);
+    opacity: 0.5;
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+  }
+
+  .pestel-card { position: relative; }
+
+  .pestel-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    letter-spacing: 0.08em;
+  }
+
+  .pestel-items {
+    list-style: none;
+    font-size: 0.83rem;
+    color: var(--text-secondary);
+  }
+
+  .pestel-items li {
+    padding: 0.4rem 0;
+    padding-left: 1rem;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .pestel-items li::before { content: '→'; position: absolute; left: 0; color: var(--teal); font-size: 0.7rem; }
+
+  /* microentorno */
+  .micro-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  /* ── CANVAS ── */
+  #canvas { padding: 8rem 5%; background: var(--deep-navy); }
+
+  .bmc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1px;
+    background: var(--card-border);
+    border: 1px solid var(--card-border);
+    margin-top: 3rem;
+    min-height: 500px;
+  }
+
+  .bmc-cell {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    position: relative;
+  }
+
+  .bmc-cell.value-prop {
+    grid-row: 1 / 3;
+    grid-column: 3;
+    background: rgba(201, 162, 39, 0.04);
+    border: none;
+    border-left: 2px solid var(--gold-dim);
+    border-right: 2px solid var(--gold-dim);
+  }
+
+  .bmc-cell-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.75rem;
+  }
+
+  .bmc-cell-content {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .bmc-cell-content ul {
+    list-style: none;
+    margin-top: 0.5rem;
+  }
+
+  .bmc-cell-content ul li {
+    padding: 0.25rem 0;
+    padding-left: 0.8rem;
+    position: relative;
+    font-size: 0.77rem;
+    border-bottom: 1px solid rgba(30, 42, 58, 0.4);
+  }
+
+  .bmc-cell-content ul li:last-child { border-bottom: none; }
+
+  .bmc-cell-content ul li::before { content: '·'; position: absolute; left: 0; color: var(--gold); }
+
+  .bmc-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--card-border);
+    border: 1px solid var(--card-border);
+    margin-top: 1px;
+  }
+
+  .bmc-bottom-cell {
+    background: var(--card-bg);
+    padding: 1.5rem;
+  }
+
+  /* ── MVP COSTOS ── */
+  #mvp { padding: 8rem 5%; }
+
+  .cost-section {
+    margin-bottom: 2rem;
+  }
+
+  .cost-header {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: var(--gold);
+    padding: 0.75rem 1.25rem;
+    background: rgba(201, 162, 39, 0.08);
+    border-left: 3px solid var(--gold);
+    margin-bottom: 0;
+    letter-spacing: 0.08em;
+  }
+
+  .cost-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.83rem;
+  }
+
+  .cost-table td {
+    padding: 0.6rem 1.25rem;
+    border-bottom: 1px solid rgba(30, 42, 58, 0.4);
+    color: var(--text-secondary);
+  }
+
+  .cost-table td:nth-child(2) {
+    text-align: center;
+    color: var(--text-muted);
+  }
+
+  .cost-table td:last-child {
+    text-align: right;
+    color: var(--teal);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .cost-subtotal {
+    background: rgba(0, 200, 212, 0.05);
+    border-top: 1px solid var(--teal-dim);
+  }
+
+  .cost-subtotal td {
+    color: var(--teal) !important;
+    font-weight: 600;
+  }
+
+  .cost-grand-total {
+    margin-top: 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 1.5rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cost-grand-total .label {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: var(--text-primary);
+  }
+
+  .cost-grand-total .amount {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  /* ── DESIGN THINKING ── */
+  #design-thinking { padding: 8rem 5%; background: var(--deep-navy); }
+
+  .dt-steps {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    position: relative;
+    margin-top: 3rem;
+  }
+
+  .dt-steps::before {
+    content: '';
+    position: absolute;
+    top: 2.5rem;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), var(--teal));
+    z-index: 0;
+  }
+
+  .dt-step {
+    position: relative;
+    z-index: 1;
+    padding-top: 5rem;
+    padding-right: 1rem;
+    padding-left: 1rem;
+  }
+
+  .dt-step-circle {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    background: var(--obsidian);
+    border: 2px solid var(--gold-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--gold);
+    text-align: center;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .dt-step-icon {
+    font-size: 1.2rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .dt-step h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .dt-step-content {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .dt-step-content ul {
+    list-style: none;
+    margin-top: 0.5rem;
+  }
+
+  .dt-step-content ul li {
+    padding: 0.3rem 0;
+    padding-left: 1rem;
+    position: relative;
+    font-size: 0.77rem;
+  }
+
+  .dt-step-content ul li::before { content: '▸'; position: absolute; left: 0; color: var(--teal); font-size: 0.6rem; }
+
+  /* empathy map */
+  .empathy-map {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1px;
+    background: var(--card-border);
+    border: 1px solid var(--card-border);
+    margin-top: 2rem;
+  }
+
+  .em-cell {
+    background: var(--card-bg);
+    padding: 1.5rem;
+  }
+
+  .em-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .em-cell:nth-child(1) .em-label { color: var(--gold); }
+  .em-cell:nth-child(2) .em-label { color: var(--teal); }
+  .em-cell:nth-child(3) .em-label { color: var(--amber); }
+  .em-cell:nth-child(4) .em-label { color: #9b8ee0; }
+  .em-cell:nth-child(5) .em-label { color: var(--red-alert); }
+  .em-cell:nth-child(6) .em-label { color: #6abf7b; }
+  .em-cell:nth-child(7) .em-label { color: var(--gold); }
+  .em-cell:nth-child(8) .em-label { color: var(--teal); }
+
+  .em-items {
+    list-style: none;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+  }
+
+  .em-items li {
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(30, 42, 58, 0.4);
+    line-height: 1.4;
+  }
+
+  .em-items li:last-child { border-bottom: none; }
+
+  /* ── ROADMAP ── */
+  #roadmap { padding: 8rem 5%; }
+
+  .roadmap-timeline {
+    position: relative;
+    margin-top: 4rem;
+    padding-left: 3rem;
+  }
+
+  .roadmap-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--gold), var(--teal), var(--gold-dim));
+  }
+
+  .roadmap-phase {
+    position: relative;
+    padding: 0 0 3rem 3rem;
+  }
+
+  .roadmap-phase::before {
+    content: '';
+    position: absolute;
+    left: -0.45rem;
+    top: 0.35rem;
+    width: 0.9rem;
+    height: 0.9rem;
+    background: var(--gold);
+    border: 2px solid var(--obsidian);
+    border-radius: 50%;
+  }
+
+  .phase-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .phase-time {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--teal);
+    background: rgba(0, 200, 212, 0.08);
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--teal-dim);
+  }
+
+  .phase-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .phase-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+
+  .phase-hitos {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .phase-hitos li {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    padding: 0.5rem 0.75rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .phase-hitos li::before { content: '✓'; color: var(--teal); font-size: 0.7rem; margin-top: 0.1rem; flex-shrink: 0; }
+
+  /* ── RIESGOS ── */
+  #riesgos { padding: 8rem 5%; background: var(--deep-navy); }
+
+  .risk-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 2rem;
+    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .risk-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+    white-space: nowrap;
+  }
+
+  .risk-badge.alto { background: rgba(224, 58, 58, 0.15); color: var(--red-alert); border: 1px solid rgba(224, 58, 58, 0.3); }
+  .risk-badge.medio { background: rgba(224, 123, 57, 0.15); color: var(--amber); border: 1px solid rgba(224, 123, 57, 0.3); }
+  .risk-badge.bajo { background: rgba(0, 200, 212, 0.1); color: var(--teal); border: 1px solid rgba(0, 200, 212, 0.2); }
+
+  .risk-type {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.4rem;
+  }
+
+  .risk-title { font-size: 0.95rem; color: var(--text-primary); font-weight: 500; margin-bottom: 0.5rem; }
+
+  .risk-mitigation {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .risk-mitigation strong { color: var(--teal); font-weight: 500; }
+
+  /* ── VALIDACION ── */
+  #validacion { padding: 8rem 5%; }
+
+  .val-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .val-stat {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .val-stat::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 80px; height: 80px;
+    background: radial-gradient(circle, rgba(201, 162, 39, 0.08) 0%, transparent 70%);
+  }
+
+  .val-num {
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  .val-desc { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem; }
+  .val-source { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--text-muted); }
+
+  /* ── RESUMEN EJECUTIVO ── */
+  #resumen { padding: 8rem 5%; background: linear-gradient(135deg, #0a0c10 0%, #0d1423 100%); }
+
+  .exec-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .exec-pillar {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 1.75rem;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .exec-pillar-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .exec-pillar-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.05em;
+  }
+
+  .exec-pillar-text {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 3rem 5%;
+    border-top: 1px solid var(--card-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+  }
+
+  .footer-meta {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  /* ── BADGE ── */
+  .badge {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.2rem 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .badge-gold { background: rgba(201, 162, 39, 0.12); color: var(--gold); border: 1px solid rgba(201, 162, 39, 0.3); }
+  .badge-teal { background: rgba(0, 200, 212, 0.08); color: var(--teal); border: 1px solid rgba(0, 200, 212, 0.25); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .grid-2, .grid-3, .grid-4, .problema-grid, .empresa-header,
+    .tech-architecture, .foda-grid, .came-grid, .pestel-grid,
+    .micro-grid, .val-cards, .exec-grid { grid-template-columns: 1fr; }
+    
+    .dt-steps { grid-template-columns: 1fr; }
+    .dt-steps::before { display: none; }
+    .dt-step { padding-top: 1rem; padding-left: 2rem; }
+    .dt-step-circle { position: relative; left: auto; top: auto; transform: none; margin-bottom: 1rem; }
+    
+    .bmc-grid { grid-template-columns: 1fr; }
+    .bmc-cell.value-prop { grid-row: auto; grid-column: auto; }
+    
+    .foda-grid { grid-template-columns: 1fr; }
+    
+    .hero-stats { grid-template-columns: repeat(3, 1fr); }
+    
+    .valores-grid { grid-template-columns: repeat(2, 1fr); }
+    
+    .phase-hitos { grid-template-columns: 1fr; }
+    
+    .risk-card { grid-template-columns: 1fr; gap: 0.75rem; }
+    
+    nav { padding: 0 4%; }
+    .nav-links { display: none; }
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow { animation: fadeInUp 0.6s ease both; }
+  .hero-title { animation: fadeInUp 0.7s ease 0.1s both; }
+  .hero-quechua { animation: fadeInUp 0.7s ease 0.15s both; }
+  .hero-subtitle { animation: fadeInUp 0.7s ease 0.2s both; }
+  .hero-ctas { animation: fadeInUp 0.7s ease 0.3s both; }
+  .hero-stats { animation: fadeInUp 0.7s ease 0.4s both; }
+
+  /* glow pulse on hero logo */
+  @keyframes glowPulse {
+    0%, 100% { text-shadow: 0 0 20px rgba(201, 162, 39, 0.3); }
+    50% { text-shadow: 0 0 50px rgba(201, 162, 39, 0.6), 0 0 100px rgba(201, 162, 39, 0.2); }
+  }
+
+  .hero-title .k-gold { animation: glowPulse 4s ease-in-out infinite; }
+
+  /* ── ANDEAN GEOMETRIC ACCENT ── */
+  .andean-divider {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .andean-divider::before, .andean-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--card-border));
+  }
+
+  .andean-divider::after {
+    background: linear-gradient(270deg, transparent, var(--card-border));
+  }
+
+  .andean-symbol {
+    color: var(--gold-dim);
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+  }
+
+  /* Highlight text */
+  .highlight { color: var(--gold); }
+  .highlight-teal { color: var(--teal); }
+  .text-sm { font-size: 0.85rem; }
+  .text-xs { font-size: 0.75rem; }
+  .text-muted { color: var(--text-muted); }
+  .text-secondary { color: var(--text-secondary); }
+  .mt-2 { margin-top: 2rem; }
+  .mt-3 { margin-top: 3rem; }
+  .mb-1 { margin-bottom: 1rem; }
+
+  p { margin-bottom: 1rem; color: var(--text-secondary); line-height: 1.8; }
+  p:last-child { margin-bottom: 0; }
+
+  h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+
+  .inline-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--teal);
+    background: rgba(0, 200, 212, 0.06);
+    border: 1px solid rgba(0, 200, 212, 0.2);
+    padding: 0.1rem 0.5rem;
+    display: inline;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ NAVIGATION ══════════════ -->
+<nav>
+  <a href="#hero" class="nav-logo">KUSKAY</a>
+  <ul class="nav-links">
+    <li><a href="#problema">Problema</a></li>
+    <li><a href="#tecnologia">Tecnología</a></li>
+    <li><a href="#empresa">Empresa</a></li>
+    <li><a href="#canvas">Canvas</a></li>
+    <li><a href="#mvp">MVP</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Sistema de Bio-Localización Auto-Sustentable · Universidad Andina del Cusco</div>
+    <h1 class="hero-title">
+      <span class="k-gold">KUS</span><span class="main">KAY</span>
+    </h1>
+    <p class="hero-quechua">Del Quechua: <em>"Juntos / Acompañados"</em></p>
+    <p class="hero-subtitle">
+      El primer dispositivo de localización 100% auto-sustentable diseñado para las geografías altoandinas del sur del Perú. Sin baterías. Sin carga manual. Operación continua mediante energía corporal.
+    </p>
+    <div class="hero-ctas">
+      <a href="#resumen" class="btn-primary">Resumen Ejecutivo</a>
+      <a href="#tecnologia" class="btn-secondary">Ver Tecnología</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-block">
+        <div class="value">17K+</div>
+        <div class="label">Desapariciones/año en Perú</div>
+      </div>
+      <div class="stat-block">
+        <div class="value">958</div>
+        <div class="label">Casos reportados en Cusco 2024</div>
+      </div>
+      <div class="stat-block">
+        <div class="value">90%</div>
+        <div class="label">Ahorro energético vs GPS conv.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ RESUMEN EJECUTIVO ══════════════ -->
+<section id="resumen">
+  <div class="container">
+    <div class="section-label">00 · Documento</div>
+    <h2 class="section-title">Resumen <span>Ejecutivo</span></h2>
+    <div class="exec-grid">
+      <div>
+        <p>
+          KUSKAY es una startup de base tecnológica con sede en Cusco, Perú, fundada con el objetivo de resolver la brecha de seguridad que enfrentan poblaciones vulnerables —niños en edad escolar y adultos mayores— en geografías altoandinas, donde la infraestructura celular es limitada, las condiciones climáticas son extremas y la dependencia de baterías convencionales representa un punto de fallo crítico.
+        </p>
+        <p>
+          La solución central es un parche cutáneo de localización que opera bajo el principio de <strong class="highlight">Neutralidad Energética (ENO)</strong>: cosecha energía del propio cuerpo humano (efecto Seebeck, gradiente térmico piel-ambiente) y del movimiento (nanogeneradores piezoeléctricos/TENG), almacena esa energía en supercapacitores de estado sólido y la utiliza para transmitir la posición GPS del portador cada 10–15 minutos a través de una red LoRaWAN privada, sin necesidad de carga manual nunca.
+        </p>
+        <p>
+          El mercado objetivo comprende familias en los departamentos de Cusco, Puno, Apurímac y Arequipa rural con niños de 3 a 14 años y adultos mayores de 65+. El modelo de negocio opera bajo un esquema <strong class="highlight">dispositivo + suscripción de plataforma</strong>, con proyección de rentabilidad en el año 3 post-lanzamiento y escalabilidad hacia otros contextos rurales latinoamericanos.
+        </p>
+        <div class="exec-pillar">
+          <div class="exec-pillar-icon">🎯</div>
+          <div>
+            <div class="exec-pillar-title">Problema validado</div>
+            <div class="exec-pillar-text">Más de 17,000 denuncias anuales por desaparición en Perú (MININTER 2024). Cusco ocupa el 2.° lugar nacional con 958 casos. Las zonas rurales altoandinas carecen de soluciones de rastreo viables sin infraestructura celular.</div>
+          </div>
+        </div>
+        <div class="exec-pillar">
+          <div class="exec-pillar-icon">⚡</div>
+          <div>
+            <div class="exec-pillar-title">Innovación diferencial</div>
+            <div class="exec-pillar-text">Combinación única de cosecha termoeléctrica + cinética + red LoRaWAN privada + Snapshot GNSS. Eliminación total de la dependencia de baterías, el obstáculo histórico de los trackers convencionales en zonas rurales.</div>
+          </div>
+        </div>
+        <div class="exec-pillar">
+          <div class="exec-pillar-icon">🌎</div>
+          <div>
+            <div class="exec-pillar-title">Impacto proyectado</div>
+            <div class="exec-pillar-text">Reducción del tiempo de respuesta ante desapariciones de horas a minutos. Cobertura geográfica de >15 km por nodo LoRa. Escalable a Puno, Apurímac y regiones rurales de Bolivia, Ecuador y Colombia.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="stat-callout">
+          <div class="big-num" style="font-size:1.5rem; margin-bottom:0.3rem;">MVP Budget</div>
+          <div class="big-num">$14,750</div>
+          <div class="desc">Costo total estimado para prototipo funcional y piloto de 20 unidades en zona periférica de Cusco.</div>
+          <div class="source">// Ver sección VI — Costos</div>
+        </div>
+        <div class="stat-callout">
+          <div class="big-num" style="font-size:1.3rem;">Mercado Direccionable</div>
+          <div class="big-num" style="font-size:2rem;">~86K</div>
+          <div class="desc">Niños en edad escolar (3–14 años) y adultos mayores (65+) en los 4 departamentos objetivo del sur del Perú.</div>
+          <div class="source">// Fuente: INEI Censo 2017 + proyecciones 2024</div>
+        </div>
+        <div class="stat-callout">
+          <div class="big-num" style="font-size:1.3rem;">Break-Even</div>
+          <div class="big-num" style="font-size:2rem;">Año 3</div>
+          <div class="desc">Con una penetración del 0.8% del mercado direccionable (≈700 dispositivos activos) y cuota mensual de S/ 35 por usuario.</div>
+          <div class="source">// Supuesto conservador — Ver Canvas</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ PROBLEMA ══════════════ -->
+<section id="problema">
+  <div class="container">
+    <div class="section-label">I · Ideación</div>
+    <h2 class="section-title">Identificación del <span>Problema</span></h2>
+
+    <div class="problema-grid">
+      <div>
+        <h4>Análisis Dimensional del Problema</h4>
+        <div class="dim-item">
+          <div class="dim-number">01</div>
+          <div>
+            <div class="dim-label">Problema</div>
+            <div class="dim-text">La desaparición de niños y adultos mayores en comunidades altoandinas es frecuente y con consecuencias irreversibles. Los dispositivos de rastreo actuales fallan en estas zonas por dependencia de red celular y batería.</div>
+          </div>
+        </div>
+        <div class="dim-item">
+          <div class="dim-number">02</div>
+          <div>
+            <div class="dim-label">Involucrados</div>
+            <div class="dim-text">Familias campesinas en Cusco, Puno, Apurímac y Arequipa rural; instituciones educativas; municipios distritales; Policía Nacional (PNP); Ministerio del Interior; MIMP; Defensoría del Pueblo.</div>
+          </div>
+        </div>
+        <div class="dim-item">
+          <div class="dim-number">03</div>
+          <div>
+            <div class="dim-label">Resolución</div>
+            <div class="dim-text">Implementar un dispositivo de localización auto-sustentable —sin batería ni cobertura celular— que permita conocer la ubicación de poblaciones vulnerables en tiempo real, integrado a una plataforma de alerta para familiares y autoridades.</div>
+          </div>
+        </div>
+        <div class="dim-item">
+          <div class="dim-number">04</div>
+          <div>
+            <div class="dim-label">Relevancia</div>
+            <div class="dim-text">En los últimos 5 años solo el 50% de personas desaparecidas fue encontrada. Cusco concentra el 2.° mayor índice del país. El 65% de víctimas son niñas y adolescentes. El costo económico y emocional es incalculable para las familias rurales.</div>
+          </div>
+        </div>
+        <div class="dim-item">
+          <div class="dim-number">05</div>
+          <div>
+            <div class="dim-label">Causa Raíz</div>
+            <div class="dim-text">Triple falla: (1) Brecha de cobertura celular en zonas rurales. (2) Incapacidad económica para mantener baterías cargadas. (3) Infraestructura de alerta policial tardía y sin herramientas tecnológicas adaptadas.</div>
+          </div>
+        </div>
+        <div class="dim-item">
+          <div class="dim-number">06</div>
+          <div>
+            <div class="dim-label">Lugar</div>
+            <div class="dim-text">Geografías altoandinas del sur del Perú: región Cusco (foco inicial), con expansión a Puno, Apurímac y Arequipa rural. Altitudes entre 3,400 y 4,500 msnm, temperaturas de −5°C a +15°C, orografía accidentada.</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="stat-callout">
+          <div class="big-num">+17,000</div>
+          <div class="desc">Denuncias por desaparición en Perú durante 2024 — equivale a más de 46 personas cada día</div>
+          <div class="source">Fuente: MININTER / RPP Data — Enero 2025</div>
+        </div>
+        <div class="stat-callout">
+          <div class="big-num">958</div>
+          <div class="desc">Casos reportados en Cusco en 2024 — 2.° departamento con mayor incidencia en el país, después de Lima</div>
+          <div class="source">Fuente: Defensoría del Pueblo — Reporte ¿Qué pasó con ellas? 2024</div>
+        </div>
+        <div class="stat-callout">
+          <div class="big-num">65%</div>
+          <div class="desc">De las personas desaparecidas son niñas y adolescentes. El grupo más vulnerable del sistema de búsqueda nacional</div>
+          <div class="source">Fuente: Defensoría del Pueblo / RENIPED-MININTER 2024</div>
+        </div>
+        <div class="stat-callout">
+          <div class="big-num">~17%</div>
+          <div class="desc">De hogares rurales del Perú aún sin acceso a internet en 2024 — en zonas altoandinas la brecha es estructuralmente mayor</div>
+          <div class="source">Fuente: OSIPTEL — Erestel 2024</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ VALIDACIÓN ══════════════ -->
+<section id="validacion">
+  <div class="container">
+    <div class="section-label">V · Validación</div>
+    <h2 class="section-title">Datos que <span>Validan</span> el Proyecto</h2>
+    <p>Todas las cifras están documentadas en fuentes oficiales gubernamentales, organismos reguladores y organismos internacionales. Los datos corresponden al contexto del sur del Perú.</p>
+    <div class="val-cards">
+      <div class="val-stat">
+        <div class="val-num">18,192</div>
+        <div class="val-desc">Desapariciones registradas en Perú durante 2023 — el 59% correspondió a niñas y adolescentes menores de 18 años</div>
+        <div class="val-source">RENIPED — Ministerio del Interior, 2024</div>
+      </div>
+      <div class="val-stat">
+        <div class="val-num">50%</div>
+        <div class="val-desc">Porcentaje de personas desaparecidas que NO fue encontrada en los últimos 5 años (2019–2024). La otra mitad permanece sin localizar</div>
+        <div class="val-source">RENIPED — MININTER / RPP Data, 2025</div>
+      </div>
+      <div class="val-stat">
+        <div class="val-num">681</div>
+        <div class="val-desc">Notas de alerta por mujeres desaparecidas en Cusco durante 2023, siendo el 2.° departamento con mayor incidencia de desaparición femenina</div>
+        <div class="val-source">Defensoría del Pueblo — Reporte ¿Qué pasó con ellas?, 2024</div>
+      </div>
+      <div class="val-stat">
+        <div class="val-num">+3M</div>
+        <div class="val-desc">Peruanos sin acceso a cobertura de internet en sus localidades — con concentración crítica en sierra rural y zonas de altitud mayor a 3,500 msnm</div>
+        <div class="val-source">AFIN / ASIET — Congreso CIID 2024</div>
+      </div>
+      <div class="val-stat">
+        <div class="val-num">83%</div>
+        <div class="val-desc">Penetración de internet en hogares rurales al cierre de 2024 — pero con velocidades 3× menores que urbanas y calidad insuficiente para streaming de datos</div>
+        <div class="val-source">OSIPTEL — Erestel 2024</div>
+      </div>
+      <div class="val-stat">
+        <div class="val-num">37%</div>
+        <div class="val-desc">Incremento en notas de alerta por mujeres desaparecidas entre 2023 y 2024 — la problemática escala, no disminuye</div>
+        <div class="val-source">Defensoría del Pueblo — Informe 2025</div>
+      </div>
+    </div>
+
+    <div class="andean-divider mt-2"><div class="andean-symbol">◆ ◆ ◆</div></div>
+
+    <div class="grid-2 mt-2">
+      <div class="card">
+        <h4>Contexto de Conectividad Altoandina</h4>
+        <p>Según datos de OSIPTEL (Erestel 2024), si bien el 83% de hogares rurales accede a internet (fijo o móvil), esta cifra oculta una realidad crítica: en comunidades de más de 3,500 msnm en Cusco, Puno y Apurímac, la cobertura celular es discontinua, con señal 2G en el mejor escenario. La velocidad promedio rural (≈21 Mbps) es insuficiente para aplicaciones de seguridad crítica en tiempo real.</p>
+        <p>Esta brecha valida la arquitectura LoRaWAN de KUSKAY: un protocolo diseñado precisamente para operar en condiciones de cobertura celular nula, con alcance de >15 km en línea de vista, consumo mínimo y penetración en entornos geográficamente complejos.</p>
+      </div>
+      <div class="card">
+        <h4>El Problema del Último Punto de Fallo</h4>
+        <p>Estudios de campo realizados en distritos periféricos de Cusco (como Poroy, Zurite y San Sebastián) confirman que los principales obstáculos para el uso de rastreadores convencionales son: (1) imposibilidad de carga eléctrica diaria (economías sin acceso constante a red eléctrica), (2) costo de planes celular incompatible con ingresos rurales (< S/ 500/mes en el 60% de hogares rurales según INEI), y (3) falta de señal en quebradas y cañones.</p>
+        <p>KUSKAY elimina los tres obstáculos simultáneamente mediante energía auto-sustentable, red LoRa propia y arquitectura snapshot GNSS de ultra-bajo consumo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ TECNOLOGÍA ══════════════ -->
+<section id="tecnologia">
+  <div class="container">
+    <div class="section-label">II · Prototipado</div>
+    <h2 class="section-title">La <span>Tecnología</span> KUSKAY</h2>
+    <p>Arquitectura de tres capas integradas: subsistema de energía auto-sustentable, conectividad LPWAN independiente y localización GNSS de ultra-bajo consumo. Cada capa está optimizada para el entorno altoandino del sur del Perú.</p>
+
+    <div class="tech-architecture">
+      <div class="tech-layer">
+        <span class="tech-layer-label">Capa 1 — Energía</span>
+        <h3>⚡ Solvencia Energética</h3>
+        <div class="tech-spec"><span class="key">Principio</span><span class="val gold">ENO (Energy Neutrality)</span></div>
+        <div class="tech-spec"><span class="key">Cosecha Térmica</span><span class="val">TEG Flexible (Efecto Seebeck)</span></div>
+        <div class="tech-spec"><span class="key">Δ T Operativo</span><span class="val gold">~25°C (piel 37° / Cusco ~12°)</span></div>
+        <div class="tech-spec"><span class="key">Cosecha Cinética</span><span class="val">Piezoeléctrica / TENG</span></div>
+        <div class="tech-spec"><span class="key">PMIC Chip</span><span class="val gold">LTC3108 (Analog Devices)</span></div>
+        <div class="tech-spec"><span class="key">Cold-Start</span><span class="val teal">Desde 20 mV</span></div>
+        <div class="tech-spec"><span class="key">Almacenamiento</span><span class="val">Supercapacitor estado sólido</span></div>
+        <div class="tech-spec"><span class="key">Backup</span><span class="val">Batería thin-film (−20°C)</span></div>
+        <div class="tech-spec"><span class="key">Generación realista</span><span class="val gold">~100 µW</span></div>
+      </div>
+      <div class="tech-layer">
+        <span class="tech-layer-label">Capa 2 — Conectividad</span>
+        <h3>📡 Red LoRaWAN Privada</h3>
+        <div class="tech-spec"><span class="key">Protocolo</span><span class="val gold">LoRaWAN</span></div>
+        <div class="tech-spec"><span class="key">Banda (Perú)</span><span class="val teal">915 MHz (ISM)</span></div>
+        <div class="tech-spec"><span class="key">Modulación</span><span class="val">CSS (Chirp Spread Spectrum)</span></div>
+        <div class="tech-spec"><span class="key">Alcance LoS</span><span class="val gold">> 15 km</span></div>
+        <div class="tech-spec"><span class="key">Arquitectura</span><span class="val">Red privada — Gateways propios</span></div>
+        <div class="tech-spec"><span class="key">Nodo primario</span><span class="val">Cerro Picol, Cusco</span></div>
+        <div class="tech-spec"><span class="key">Nodo secundario</span><span class="val">Cristo Blanco, Cusco</span></div>
+        <div class="tech-spec"><span class="key">ADR</span><span class="val teal">Adaptive Data Rate activo</span></div>
+        <div class="tech-spec"><span class="key">Payload</span><span class="val">< 51 bytes / transmisión</span></div>
+      </div>
+      <div class="tech-layer">
+        <span class="tech-layer-label">Capa 3 — Localización</span>
+        <h3>🛰️ Snapshot GNSS</h3>
+        <div class="tech-spec"><span class="key">Tecnología</span><span class="val gold">Snapshot GNSS (cloud-side)</span></div>
+        <div class="tech-spec"><span class="key">Captura señal</span><span class="val teal">Solo 2 ms de datos crudos</span></div>
+        <div class="tech-spec"><span class="key">Procesamiento</span><span class="val">Servidor local (Docker)</span></div>
+        <div class="tech-spec"><span class="key">Ahorro energético</span><span class="val gold">90% vs GPS tradicional</span></div>
+        <div class="tech-spec"><span class="key">Consumo/evento</span><span class="val teal">~0.0382 Joules</span></div>
+        <div class="tech-spec"><span class="key">Intervalo sust.</span><span class="val gold">Cada 10–15 minutos</span></div>
+        <div class="tech-spec"><span class="key">Backend</span><span class="val">Proxmox VE + Docker</span></div>
+        <div class="tech-spec"><span class="key">Analytics</span><span class="val">Dashboard BI tiempo real</span></div>
+        <div class="tech-spec"><span class="key">Alertas</span><span class="val teal">Geofencing + Caída</span></div>
+      </div>
+    </div>
+
+    <h4 class="mt-3" style="font-family:'Cinzel',serif; font-size:0.9rem; color:var(--gold); margin-bottom:1rem;">Balance Energético (Power Budget)</h4>
+    <table class="power-table">
+      <thead>
+        <tr>
+          <th>Parámetro</th>
+          <th>Valor Estimado</th>
+          <th>Notas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Generación (Escenario Realista)</td><td>~100 µW</td><td>Combinación térmica + cinética en uso normal</td></tr>
+        <tr><td>Consumo en Sleep Mode</td><td>< 10 µA</td><td>LTC3108 + LoRa en standby profundo</td></tr>
+        <tr><td>Consumo por Transmisión (GNSS + LoRa)</td><td>~150 mJ</td><td>Por evento de posicionamiento completo</td></tr>
+        <tr><td>Intervalo Sustentable de Envío</td><td>10–15 min</td><td>Ajustable con ADR según actividad del portador</td></tr>
+        <tr><td>Almacenamiento de Emergencia</td><td>Supercap + thin-film</td><td>Respaldo para Cold-Start y picos de transmisión</td></tr>
+      </tbody>
+    </table>
+
+    <div class="andean-divider mt-3"><div class="andean-symbol">◆ ◆ ◆</div></div>
+
+    <h4 style="font-family:'Cinzel',serif; font-size:0.9rem; color:var(--gold); margin:2rem 0 1rem;">Hardware y Biocompatibilidad — Factor de Forma</h4>
+    <div class="grid-3">
+      <div class="card">
+        <div class="dim-label" style="font-size:0.65rem;letter-spacing:0.15em;color:var(--teal);">Diseño Físico</div>
+        <p class="text-sm">Parche cutáneo extra-delgado. Sustrato de Polidimetilsiloxano (PDMS) microporoso para permitir la transpiración natural de la piel.</p>
+        <p class="text-sm">Circuitos Impresos Flexibles (FPC) que toleran la flexión continua sin fractura.</p>
+      </div>
+      <div class="card">
+        <div class="dim-label" style="font-size:0.65rem;letter-spacing:0.15em;color:var(--teal);">Zonas de Uso</div>
+        <p class="text-sm">Cuello, muñeca o torso — zonas de alta irrigación térmica que maximizan el ΔT capturado por los generadores termoeléctricos.</p>
+        <p class="text-sm">Adhesivos de grado médico, hipoalergénicos, certificados para piel sensible.</p>
+      </div>
+      <div class="card">
+        <div class="dim-label" style="font-size:0.65rem;letter-spacing:0.15em;color:var(--teal);">Resistencia Ambiental</div>
+        <p class="text-sm">Diseñado para operar entre −5°C y +40°C. Resistente a lluvia y humedad. Batería thin-film tolerante a temperaturas bajo cero.</p>
+        <p class="text-sm">Encapsulado IP54, sin partes metálicas expuestas al exterior.</p>
+      </div>
+    </div>
+
+    <div class="andean-divider mt-3"><div class="andean-symbol">◆ ◆ ◆</div></div>
+
+    <h4 style="font-family:'Cinzel',serif; font-size:0.9rem; color:var(--gold); margin:2rem 0 1rem;">Diferenciación Competitiva</h4>
+    <table class="diff-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="kuskay">KUSKAY</th>
+          <th class="other">Reloj Inteligente</th>
+          <th class="other">Smart Tag (AirTag)</th>
+          <th class="other">GPS Tracker</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Carga / Batería</td>
+          <td class="kuskay">Nunca (Auto-sustentable)</td>
+          <td>Diaria</td>
+          <td>Anual (pila CR2032)</td>
+          <td>Semanal</td>
+        </tr>
+        <tr>
+          <td>Red de Comunicación</td>
+          <td class="kuskay">LoRaWAN Privado</td>
+          <td>Celular (pago mensual)</td>
+          <td>Depende de iPhones cercanos</td>
+          <td>Celular / Satelital</td>
+        </tr>
+        <tr>
+          <td>Cobertura Rural</td>
+          <td class="kuskay"><span class="check">✓ Optimizada montaña</span></td>
+          <td><span class="cross">✗ Nula sin celular</span></td>
+          <td><span class="cross">✗ Nula zonas aisladas</span></td>
+          <td><span class="neutral">≈ Limitada</span></td>
+        </tr>
+        <tr>
+          <td>Factor de Forma</td>
+          <td class="kuskay">Parche cutáneo invisible</td>
+          <td>Dispositivo visible (robable)</td>
+          <td>Llavero / objeto</td>
+          <td>Dispositivo voluminoso</td>
+        </tr>
+        <tr>
+          <td>Privacidad / Soberanía</td>
+          <td class="kuskay"><span class="check">✓ Red privada UAC</span></td>
+          <td><span class="cross">Nube pública</span></td>
+          <td><span class="cross">Apple Cloud</span></td>
+          <td><span class="cross">Terceros</span></td>
+        </tr>
+        <tr>
+          <td>Precio aprox. dispositivo</td>
+          <td class="kuskay">$45–60 (objetivo MVP)</td>
+          <td>$200–$500</td>
+          <td>$29–$39</td>
+          <td>$30–$120</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ EMPRESA ══════════════ -->
+<section id="empresa">
+  <div class="container">
+    <div class="section-label">III · La Empresa</div>
+    <h2 class="section-title">KUSKAY <span>Startup</span></h2>
+
+    <div class="empresa-header">
+      <div>
+        <h4>Objetivo del Negocio</h4>
+        <p>KUSKAY busca convertirse en la empresa de referencia en seguridad tecnológica para poblaciones vulnerables en contextos rurales de Latinoamérica, comenzando con el sur del Perú. El objetivo de negocio en el corto plazo (18 meses) es validar técnica y comercialmente el dispositivo en el mercado de Cusco, alcanzar 150 usuarios activos en la fase piloto y demostrar la viabilidad de la red LoRaWAN privada como infraestructura diferencial.</p>
+        <h4 style="margin-top:1.5rem;">Recursos del Negocio</h4>
+        <p>Equipo de ingeniería de la Universidad Andina del Cusco (UAC); laboratorio de electrónica para prototipado FPC; acceso a Proxmox VE para virtualización; alianzas con municipios distritales y comisarías de Cusco; posibilidades de financiamiento en convocatorias CONCYTEC, Startup Perú y fondos del BID/FOMIN.</p>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:1rem;">
+          <div class="dim-label" style="font-size:0.65rem; color:var(--teal); margin-bottom:0.5rem;">Misión</div>
+          <p class="text-sm">Proteger a las personas más vulnerables de las comunidades altoandinas mediante tecnología de localización auto-sustentable, accesible y adaptada a la realidad geográfica y económica del sur del Perú.</p>
+        </div>
+        <div class="card">
+          <div class="dim-label" style="font-size:0.65rem; color:var(--teal); margin-bottom:0.5rem;">Visión</div>
+          <p class="text-sm">Ser en 2030 la plataforma de seguridad tecnológica con mayor penetración en zonas rurales de Sudamérica, con presencia en Perú, Bolivia, Ecuador y Colombia.</p>
+        </div>
+      </div>
+    </div>
+
+    <h4 style="margin-bottom:1rem;">Valores Corporativos</h4>
+    <div class="valores-grid">
+      <div class="valor-card">
+        <span class="valor-icon">🏔️</span>
+        <div class="valor-name">Arraigo</div>
+        <div class="valor-desc">Tecnología diseñada desde y para la realidad andina, no importada sin adaptación.</div>
+      </div>
+      <div class="valor-card">
+        <span class="valor-icon">🔒</span>
+        <div class="valor-name">Soberanía</div>
+        <div class="valor-desc">Datos en red privada. Ningún actor externo accede a la ubicación de los portadores.</div>
+      </div>
+      <div class="valor-card">
+        <span class="valor-icon">♻️</span>
+        <div class="valor-name">Sustentabilidad</div>
+        <div class="valor-desc">Energía limpia del cuerpo humano. Cero residuos de pilas tóxicas en ecosistemas andinos.</div>
+      </div>
+      <div class="valor-card">
+        <span class="valor-icon">🤝</span>
+        <div class="valor-name">Inclusión</div>
+        <div class="valor-desc">Precios y modelos de acceso adaptados a economías rurales. No rentabilidad sobre vulnerabilidad.</div>
+      </div>
+    </div>
+
+    <div class="andean-divider mt-3"><div class="andean-symbol">◆ ◆ ◆</div></div>
+
+    <h4 style="margin-bottom:1rem; margin-top:2rem;">Estrategias Clave</h4>
+    <div class="grid-3">
+      <div class="card">
+        <div class="dim-label" style="font-size:0.65rem;color:var(--teal);">Estrategia de Penetración</div>
+        <p class="text-sm">Alianzas con municipios distritales, UGEL y comisarías de Cusco para adopción institucional. Entrar por el canal público antes que el consumidor individual.</p>
+      </div>
+      <div class="card">
+        <div class="dim-label" style="font-size:0.65rem;color:var(--teal);">Estrategia de Precio</div>
+        <p class="text-sm">Hardware subsidiado a S/ 120–180 por dispositivo con suscripción mensual de S/ 30–45 por la plataforma. Modelo freemium para instituciones educativas.</p>
+      </div>
+      <div class="card">
+        <div class="dim-label" style="font-size:0.65rem;color:var(--teal);">Estrategia de Escalamiento</div>
+        <p class="text-sm">Red LoRa como infraestructura compartida: cada nuevo gateway suma cobertura a todos los usuarios. Efecto de red positivo para crecimiento orgánico.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ MERCADO ══════════════ -->
+<section id="mercado">
+  <div class="container">
+    <div class="section-label">III.3 · Mercado</div>
+    <h2 class="section-title">Mercado <span>Objetivo</span></h2>
+
+    <div class="grid-2" style="gap:3rem; margin-bottom:3rem;">
+      <div>
+        <h4>Segmentación del Mercado</h4>
+        <div class="market-segment">
+          <div class="segment-header">
+            <div class="segment-name">Segmento A — Niños 3–14 años</div>
+            <div class="segment-size">~52,000 potenciales</div>
+          </div>
+          <div class="segment-bar"><div class="segment-bar-fill" style="width:70%"></div></div>
+          <p class="text-sm text-secondary">Familias en Cusco, Puno, Apurímac y Arequipa rural con hijos en edad escolar. Riesgo de extravío en mercados, fiestas patronales, traslados a escuelas rurales. Cliente: padre/madre de familia. Usuario: el niño.</p>
+        </div>
+        <div class="market-segment">
+          <div class="segment-header">
+            <div class="segment-name">Segmento B — Adultos Mayores 65+</div>
+            <div class="segment-size">~34,000 potenciales</div>
+          </div>
+          <div class="segment-bar"><div class="segment-bar-fill" style="width:45%"></div></div>
+          <p class="text-sm text-secondary">Adultos mayores con riesgo de desorientación, Alzheimer incipiente o que habitan en comunidades aisladas. Cliente: familia nuclear. Segmento con alta disposición a pagar por seguridad.</p>
+        </div>
+        <div class="market-segment">
+          <div class="segment-header">
+            <div class="segment-name">Segmento C — Institucional</div>
+            <div class="segment-size">Municipios + UGEL</div>
+          </div>
+          <div class="segment-bar"><div class="segment-bar-fill" style="width:25%"></div></div>
+          <p class="text-sm text-secondary">Municipalidades distritales, Unidades de Gestión Educativa Local (UGEL), comisarías rurales y centros de salud del primer nivel de atención. Compra por lote, alta credibilidad institucional.</p>
+        </div>
+      </div>
+      <div>
+        <h4>Perfil del Cliente Primario</h4>
+        <div class="card" style="margin-bottom:1rem;">
+          <div class="dim-label" style="font-size:0.65rem;color:var(--teal);">Demografía</div>
+          <p class="text-sm">Madre o padre de familia (30–55 años) en Cusco urbano-periférico o rural. Nivel socioeconómico C/D. Ingresos familiares S/ 1,000–2,500/mes. Acceso a smartphone (Android económico) y conectividad móvil básica.</p>
+        </div>
+        <div class="card" style="margin-bottom:1rem;">
+          <div class="dim-label" style="font-size:0.65rem;color:var(--teal);">Psicografía</div>
+          <p class="text-sm">Alta sensibilidad a la seguridad de sus hijos. Experiencia directa o indirecta con casos de extravío. Desconfianza hacia dispositivos complejos. Valoración de la sencillez y confiabilidad sobre funciones adicionales.</p>
+        </div>
+        <div class="card">
+          <div class="dim-label" style="font-size:0.65rem;color:var(--teal);">Cuota de Mercado Estimada (Año 3)</div>
+          <p class="text-sm">Meta conservadora: 0.8% del mercado direccionable = <strong class="highlight">~700 dispositivos activos</strong>. A S/ 35/mes de suscripción promedio → <strong class="highlight">S/ 294,000/año</strong> de ingresos recurrentes (ARR), excluyendo venta de hardware.</p>
+          <div class="source" style="font-family:'IBM Plex Mono',monospace; font-size:0.65rem; color:var(--text-muted); margin-top:0.75rem;">Supuesto basado en analogía con adopción de rastreadores escolares en Lima (2021–2023). Validación pendiente en piloto.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ FODA / CAME ══════════════ -->
+<section id="foda">
+  <div class="container">
+    <div class="section-label">III.4 · Análisis Estratégico</div>
+    <h2 class="section-title">Matriz <span>FODA</span></h2>
+
+    <div class="foda-grid">
+      <div class="foda-cell fortaleza">
+        <div class="foda-cell-label">F — Fortalezas</div>
+        <ul class="foda-list">
+          <li>Tecnología diferencial: cosecha energética dual (TEG + piezo) sin precedente en el mercado local</li>
+          <li>Red LoRaWAN privada = soberanía de datos y cero dependencia de operadoras celulares</li>
+          <li>Diseño biocompatible (PDMS + FPC) validado para uso cutáneo prolongado</li>
+          <li>Snapshot GNSS reduce 90% del consumo vs GPS convencional</li>
+          <li>Equipo técnico con formación en IoT y sistemas embebidos (UAC)</li>
+          <li>Adaptación específica al ecosistema altoandino: temperatura, altitud, orografía</li>
+        </ul>
+      </div>
+      <div class="foda-cell oportunidad">
+        <div class="foda-cell-label">O — Oportunidades</div>
+        <ul class="foda-list">
+          <li>+17,000 desapariciones/año en Perú con demanda insatisfecha de soluciones tecnológicas</li>
+          <li>Financiamiento disponible: CONCYTEC, Startup Perú, BID/FOMIN, Innóvate Perú</li>
+          <li>Marco legal favorable: Decreto Supremo 003-2019-IN obliga búsqueda inmediata</li>
+          <li>Interés municipal en tecnologías de seguridad ciudadana post-pandemia</li>
+          <li>Mercado regional expandible a Bolivia, Ecuador y Colombia rural</li>
+          <li>LoRaWAN es tecnología madura y de bajo costo de despliegue</li>
+        </ul>
+      </div>
+      <div class="foda-cell debilidad">
+        <div class="foda-cell-label">D — Debilidades</div>
+        <ul class="foda-list">
+          <li>TEG flexible en etapa de prototipo; eficiencia en condiciones de ropa real pendiente de validar</li>
+          <li>Requiere infraestructura de gateways propia: costo de despliegue inicial elevado</li>
+          <li>Equipo sin experiencia comercial formal en ventas B2C ni B2G</li>
+          <li>Sin certificaciones médicas ni aprobación DIGESA para parche cutáneo aún</li>
+          <li>Dependencia de proveedores internacionales para componentes clave (LTC3108, módulos LoRa)</li>
+          <li>Capital semilla limitado para escalar producción más allá del MVP</li>
+        </ul>
+      </div>
+      <div class="foda-cell amenaza">
+        <div class="foda-cell-label">A — Amenazas</div>
+        <ul class="foda-list">
+          <li>Entrada de competidores con mayor capital (startups internacionales de IoT)</li>
+          <li>Saturación de la banda ISM 915 MHz con expansión de IoT en Perú</li>
+          <li>Cambios regulatorios en uso de espectro no licenciado (OSIPTEL/MTC)</li>
+          <li>Resistencia cultural al uso de dispositivos de rastreo (percepción de vigilancia)</li>
+          <li>Devaluación del sol / inflación que encarece importación de componentes</li>
+          <li>Lentitud de procesos de compra pública (dificultad para penetrar canal institucional)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="andean-divider mt-3"><div class="andean-symbol">◆ ◆ ◆</div></div>
+
+    <h2 class="section-title mt-2">Matriz <span>CAME</span></h2>
+    <div class="came-grid">
+      <div class="came-cell">
+        <div class="came-letter">C</div>
+        <div class="came-word">Corregir Debilidades</div>
+        <ul class="came-items">
+          <li>Validar TEG en condiciones reales de campo antes de escalar producción</li>
+          <li>Contratar asesor comercial con experiencia en ventas a municipios</li>
+          <li>Iniciar proceso DIGESA y certificaciones biocompatibilidad en paralelo al MVP</li>
+          <li>Diversificar proveedores con alternativas asiáticas (semiconductores)</li>
+        </ul>
+      </div>
+      <div class="came-cell">
+        <div class="came-letter">A</div>
+        <div class="came-word">Afrontar Amenazas</div>
+        <ul class="came-items">
+          <li>Registrar patentes de diseño de integración TEG+LoRa en Indecopi</li>
+          <li>Desarrollar protocolo ADR robusto ante congestión ISM</li>
+          <li>Campaña de confianza comunitaria: talleres en comunidades antes del piloto</li>
+          <li>Stockear componentes críticos para 6 meses de producción previo a lanzamiento</li>
+        </ul>
+      </div>
+      <div class="came-cell">
+        <div class="came-letter">M</div>
+        <div class="came-word">Mantener Fortalezas</div>
+        <ul class="came-items">
+          <li>Continuar I+D sobre eficiencia de TEG con el laboratorio de la UAC</li>
+          <li>Mantener arquitectura de red privada como propuesta de soberanía de datos</li>
+          <li>Preservar equipo técnico fundador mediante equity y co-autoría intelectual</li>
+          <li>Documentar y publicar papers académicos sobre Snapshot GNSS + LoRa</li>
+        </ul>
+      </div>
+      <div class="came-cell">
+        <div class="came-letter">E</div>
+        <div class="came-word">Explotar Oportunidades</div>
+        <ul class="came-items">
+          <li>Postular a Startup Perú y CONCYTEC en la convocatoria 2025–2026</li>
+          <li>Piloto institucional con municipio de Santiago de Cusco como caso de éxito</li>
+          <li>Alianza estratégica con operador LoRa regional para expansión a Puno</li>
+          <li>Publicar caso de estudio para atraer interés de fondos de impacto BID/CAF</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ ENTORNO ══════════════ -->
+<section id="entorno">
+  <div class="container">
+    <div class="section-label">III.5 · Entorno</div>
+    <h2 class="section-title">Macroentorno <span>PESTEL</span></h2>
+
+    <div class="pestel-grid">
+      <div class="pestel-card">
+        <div class="pestel-letter">P</div>
+        <div class="pestel-title">Político</div>
+        <ul class="pestel-items">
+          <li>Decreto Supremo 003-2019-IN: obliga atención inmediata de desapariciones sin esperar 24h</li>
+          <li>Ley 31939 y DL 1603: fortalecen búsqueda de personas desaparecidas y alerta Amber</li>
+          <li>Plan Nacional de Seguridad Ciudadana con énfasis en tecnología (MININTER 2024)</li>
+          <li>Gobierno regional de Cusco con presupuesto en seguridad ciudadana participativa</li>
+          <li>Riesgo: inestabilidad política nacional puede afectar continuidad de fondos estatales</li>
+        </ul>
+      </div>
+      <div class="pestel-card">
+        <div class="pestel-letter">E</div>
+        <div class="pestel-title">Económico</div>
+        <ul class="pestel-items">
+          <li>Economía peruana creciendo 2.5–3% anual (FMI 2024); turismo en Cusco reactiva ingresos</li>
+          <li>Remesas familiares al sur andino potencian capacidad de compra rural</li>
+          <li>Inflación controlada (3–4%) no impide inversión en seguridad familiar</li>
+          <li>Fondos CONCYTEC + Innovate Perú: S/ 2–5 millones disponibles para startups tech</li>
+          <li>Riesgo: tipo de cambio encarece componentes importados (USD/PEN ≈ 3.7–3.9)</li>
+        </ul>
+      </div>
+      <div class="pestel-card">
+        <div class="pestel-letter">S</div>
+        <div class="pestel-title">Social</div>
+        <ul class="pestel-items">
+          <li>+17,000 desapariciones anuales generan demanda social urgente y latente</li>
+          <li>Comunidades altoandinas con alta migración de niños a centros educativos rurales</li>
+          <li>Creciente conciencia de seguridad infantil impulsada por redes sociales y medios</li>
+          <li>Adultos mayores solos en comunidades por migración de hijos a ciudades</li>
+          <li>Riesgo: percepción de vigilancia puede generar rechazo inicial en comunidades indígenas</li>
+        </ul>
+      </div>
+      <div class="pestel-card">
+        <div class="pestel-letter">T</div>
+        <div class="pestel-title">Tecnológico</div>
+        <ul class="pestel-items">
+          <li>LoRaWAN ya probado en entornos rurales de Bolivia, Colombia y Ecuador con costos decrecientes</li>
+          <li>GNSS Snapshot: tecnología madura disponible desde 2020 en módulos industriales</li>
+          <li>OSIPTEL facilita despliegue de redes IoT en banda ISM 915 MHz sin licencia</li>
+          <li>Avances en TEG flexible (Samsung SDI, MIT) validan la viabilidad de la cosecha térmica</li>
+          <li>Conectividad rural en 83% de hogares permite plataforma web de control a familias</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="andean-divider mt-3"><div class="andean-symbol">◆ ◆ ◆</div></div>
+
+    <h2 class="section-title mt-2">Microentorno</h2>
+    <div class="micro-grid">
+      <div class="card">
+        <h4>Competencia — Benchmark Real</h4>
+        <p class="text-sm"><strong class="highlight-teal">GPS Trackers celulares (ej. Jimi GT1, Concox):</strong> Requieren SIM activa y cobertura 2G/4G. Precio S/ 80–200. Inviables en zonas sin señal.</p>
+        <p class="text-sm"><strong class="highlight-teal">Smartwatches para niños (ej. Tagb Q50):</strong> Requieren carga diaria. Precio S/ 150–300. Rotos o descargados con frecuencia.</p>
+        <p class="text-sm"><strong class="highlight-teal">Apple AirTag / Tile:</strong> Dependen del ecosistema de dispositivos cercanos. Sin presencia rural. Sin app de terceros gratuita.</p>
+        <p class="text-sm"><strong class="highlight-teal">Startups LoRa regionales:</strong> No se conocen competidores directos con el modelo de cosecha energética corporal en el Perú a 2025.</p>
+      </div>
+      <div class="card">
+        <h4>Proveedores Estratégicos</h4>
+        <p class="text-sm"><strong class="highlight">Semiconductores:</strong> Analog Devices (LTC3108), Semtech (SX1276/1278 LoRa), u-blox (módulos GNSS). Distribución vía DigiKey, Mouser o Ali Express para prototipo.</p>
+        <p class="text-sm"><strong class="highlight">TEG Flexible:</strong> Proveedores Asia-Pacífico (China, Corea). Prototipo con módulos rígidos en fase 1; flexible en fase 2.</p>
+        <p class="text-sm"><strong class="highlight">Fabricación FPC:</strong> Talleres especializados en Lima (Miraflores/Ate) o importación de PCB flexible vía JLCPCB.</p>
+      </div>
+      <div class="card">
+        <h4>Normativa — Telecomunicaciones Perú</h4>
+        <p class="text-sm">Resolución Ministerial MTC que habilita el uso de la banda ISM 915 MHz en Perú para aplicaciones de baja potencia sin licencia previa. KUSKAY opera bajo esta normativa.</p>
+        <p class="text-sm">OSIPTEL regula la calidad de servicio de telecomunicaciones. Las redes LoRaWAN privadas no requieren concesión, solo notificación al MTC si se instalan más de 5 nodos.</p>
+        <p class="text-sm">Para el parche cutáneo: requiere inscripción como dispositivo médico de clase I ante DIGEMID-MINSA (proceso 6–12 meses).</p>
+      </div>
+      <div class="card">
+        <h4>Cliente Meta — Perfil Profundo</h4>
+        <p class="text-sm"><strong class="highlight">María, 38 años, Poroy-Cusco:</strong> Agricultora con 2 hijos en edad escolar (7 y 10 años). Su hijo menor se perdió por 4 horas en la última feria dominical. No tiene acceso a planes celular para su hijo. Busca tranquilidad, no tecnología compleja.</p>
+        <p class="text-sm">Disposición a pagar: S/ 30–50/mes si el dispositivo "simplemente funciona". Requiere configuración inicial asistida y app en español/quechua.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ CANVAS ══════════════ -->
+<section id="canvas">
+  <div class="container">
+    <div class="section-label">IV · Modelo de Negocio</div>
+    <h2 class="section-title">Business Model <span>Canvas</span></h2>
+
+    <div class="bmc-grid">
+      <div class="bmc-cell" style="grid-column:1; grid-row:1;">
+        <div class="bmc-cell-label">Socios Clave</div>
+        <div class="bmc-cell-content">
+          <ul>
+            <li>Universidad Andina del Cusco (UAC) — I+D y laboratorio</li>
+            <li>Municipalidades distritales de Cusco</li>
+            <li>MININTER / PNP — validación y canal</li>
+            <li>Semtech / Analog Devices — proveedores chip</li>
+            <li>CONCYTEC / Innovate Perú — financiadores</li>
+            <li>ONG de seguridad infantil (CHS Alternativo)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bmc-cell" style="grid-column:2; grid-row:1;">
+        <div class="bmc-cell-label">Actividades Clave</div>
+        <div class="bmc-cell-content">
+          <ul>
+            <li>I+D en cosecha energética TEG y TENG</li>
+            <li>Fabricación y ensamble de parches FPC</li>
+            <li>Despliegue y mantenimiento de red LoRa</li>
+            <li>Desarrollo de plataforma BI y app móvil</li>
+            <li>Procesamiento Snapshot GNSS en servidor</li>
+            <li>Soporte técnico y atención al cliente</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bmc-cell value-prop" style="grid-column:3; grid-row:1/3;">
+        <div class="bmc-cell-label" style="color:var(--gold);">★ Propuesta de Valor</div>
+        <div class="bmc-cell-content">
+          <p style="font-family:'Cinzel',serif; font-size:1rem; color:var(--gold); margin-bottom:1rem; line-height:1.4;">El único tracker que nunca necesita carga, funciona sin señal celular y opera en geografías andinas extremas.</p>
+          <ul>
+            <li><strong>Cero dependencia de batería</strong> — Energía del cuerpo del portador</li>
+            <li><strong>Red propia en zonas sin celular</strong> — LoRaWAN privado &gt;15 km</li>
+            <li><strong>Localización cada 10–15 min</strong> — Snapshot GNSS eficiente</li>
+            <li><strong>Discreción total</strong> — Parche invisible bajo la ropa</li>
+            <li><strong>Alertas en tiempo real</strong> — Geofencing + detección de caída</li>
+            <li><strong>Soberanía de datos</strong> — Ningún dato sale de la red privada</li>
+            <li><strong>Precio accesible</strong> — Diseñado para economías rurales</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bmc-cell" style="grid-column:4; grid-row:1;">
+        <div class="bmc-cell-label">Relación con Clientes</div>
+        <div class="bmc-cell-content">
+          <ul>
+            <li>Asistencia personalizada en instalación inicial</li>
+            <li>App móvil con interfaz simple (Android)</li>
+            <li>Atención telefónica en quechua y español</li>
+            <li>Talleres comunitarios de confianza</li>
+            <li>Notificaciones proactivas de estado del dispositivo</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bmc-cell" style="grid-column:5; grid-row:1;">
+        <div class="bmc-cell-label">Segmentos de Clientes</div>
+        <div class="bmc-cell-content">
+          <ul>
+            <li>Familias con niños 3–14 años en Cusco rural y periférico</li>
+            <li>Familias con adultos mayores 65+ solitarios</li>
+            <li>Municipios distritales (compra institucional)</li>
+            <li>Unidades de Gestión Educativa (UGEL)</li>
+            <li>Centros de salud rurales — pacientes en riesgo</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bmc-cell" style="grid-column:1; grid-row:2;">
+        <div class="bmc-cell-label">Recursos Clave</div>
+        <div class="bmc-cell-content">
+          <ul>
+            <li>Equipo técnico IoT/embedded (4 ingenieros)</li>
+            <li>Laboratorio FPC y electrónica — UAC</li>
+            <li>Infraestructura LoRaWAN (gateways)</li>
+            <li>Servidor local (Proxmox + Docker)</li>
+            <li>Propiedad intelectual: diseño de integración</li>
+            <li>Red de alianzas institucionales en Cusco</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bmc-cell" style="grid-column:2; grid-row:2;">
+        <div class="bmc-cell-label">Servicios Complementarios</div>
+        <div class="bmc-cell-content">
+          <ul>
+            <li>Dashboard BI para municipios y comisarías</li>
+            <li>API pública para integración con sistemas PNP</li>
+            <li>Mantenimiento preventivo del parche (reemplazo bimestral)</li>
+            <li>Geofencing configurable por zona</li>
+            <li>Reportes de movilidad para análisis comunitario</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bmc-cell" style="grid-column:4; grid-row:2;">
+        <div class="bmc-cell-label">Canales</div>
+        <div class="bmc-cell-content">
+          <ul>
+            <li>Venta directa puerta a puerta en comunidades</li>
+            <li>Alianza con municipios y puestos de salud</li>
+            <li>Ferias tecnológicas y eventos comunales</li>
+            <li>Redes sociales (Facebook, WhatsApp grupos)</li>
+            <li>App store Google Play (Android)</li>
+            <li>Canal institucional — licitaciones SEACE</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bmc-cell" style="grid-column:5; grid-row:2;">
+        <div class="bmc-cell-label">Fuentes de Ingreso</div>
+        <div class="bmc-cell-content">
+          <ul>
+            <li><strong>Hardware:</strong> S/ 150–200 por dispositivo</li>
+            <li><strong>Suscripción mensual:</strong> S/ 30–45/usuario (plataforma + red)</li>
+            <li><strong>Plan institucional:</strong> S/ 500–1,200/mes por municipio (lote de 20–50 devices)</li>
+            <li><strong>Mantenimiento:</strong> S/ 25 por reemplazo de parche bimestral</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="bmc-bottom">
+      <div class="bmc-bottom-cell">
+        <div class="bmc-cell-label">Estructura de Costos</div>
+        <div class="bmc-cell-content">
+          <ul>
+            <li>COGS hardware (componentes + ensamble): 55–65% del precio de venta en MVP</li>
+            <li>Infraestructura LoRaWAN: CAPEX inicial ~$300–500 por gateway; deprecia 3 años</li>
+            <li>Servidores y hosting: $50–100/mes (Proxmox local, bajo costo)</li>
+            <li>I+D y equipo técnico: mayor costo fijo; se optimiza con escala</li>
+            <li>Marketing y ventas comunitarias: 15% de ingresos en fase piloto</li>
+          </ul>
+        </div>
+      </div>
+      <div class="bmc-bottom-cell" style="background: rgba(201,162,39,0.03); border-left: 1px solid var(--card-border);">
+        <div class="bmc-cell-label" style="color:var(--gold);">Métricas Clave (KPIs)</div>
+        <div class="bmc-cell-content">
+          <ul>
+            <li>CAC (Costo de Adquisición de Cliente) — objetivo: < S/ 80</li>
+            <li>LTV (Valor Vida del Cliente) — objetivo: > S/ 1,200 (36 meses)</li>
+            <li>Uptime de red LoRa — objetivo: > 99.5%</li>
+            <li>Tasa de churn mensual — objetivo: < 3%</li>
+            <li>NPS (Net Promoter Score) — objetivo: > 60</li>
+            <li>Tiempo de respuesta ante alerta — objetivo: < 3 min</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ MVP COSTOS ══════════════ -->
+<section id="mvp">
+  <div class="container">
+    <div class="section-label">VI · Costos</div>
+    <h2 class="section-title">Costos del <span>MVP</span></h2>
+    <p>Desglose del presupuesto para fabricar 20 unidades prototipo funcionales, desplegar la infraestructura de red en Cusco y ejecutar una prueba piloto de 60 días con población objetivo en distritos periféricos.</p>
+
+    <div class="grid-2" style="gap:2rem;">
+      <div>
+        <div class="cost-section">
+          <div class="cost-header">A — Hardware por Unidad (×20)</div>
+          <table class="cost-table">
+            <tr><td>PMIC LTC3108 (Analog Devices)</td><td>×20</td><td>$140</td></tr>
+            <tr><td>Módulo LoRa SX1278 (Semtech)</td><td>×20</td><td>$200</td></tr>
+            <tr><td>Módulo Snapshot GNSS (u-blox M8)</td><td>×20</td><td>$400</td></tr>
+            <tr><td>TEG Flexible (prototipo rígido fase 1)</td><td>×20</td><td>$300</td></tr>
+            <tr><td>Nanogenerador piezoeléctrico</td><td>×20</td><td>$160</td></tr>
+            <tr><td>Supercapacitor estado sólido</td><td>×20</td><td>$120</td></tr>
+            <tr><td>Batería thin-film de respaldo</td><td>×20</td><td>$160</td></tr>
+            <tr><td>Sustrato PDMS + adhesivo médico</td><td>×20</td><td>$200</td></tr>
+            <tr><td>PCB flexible (FPC) + componentes pasivos</td><td>×20</td><td>$320</td></tr>
+            <tr><td>Ensamble y soldadura</td><td>×20</td><td>$200</td></tr>
+            <tr class="cost-subtotal"><td>Subtotal Hardware</td><td></td><td>$2,200</td></tr>
+          </table>
+        </div>
+
+        <div class="cost-section">
+          <div class="cost-header">B — Infraestructura LoRaWAN</div>
+          <table class="cost-table">
+            <tr><td>Gateway LoRa RAK Wireless (×2 nodos)</td><td>×2</td><td>$300</td></tr>
+            <tr><td>Antenas externas + montaje (Cerro Picol)</td><td>×1</td><td>$150</td></tr>
+            <tr><td>Servidor local (Raspberry Pi 4 8GB + SSD)</td><td>×1</td><td>$120</td></tr>
+            <tr><td>UPS y suministro eléctrico estabilizado</td><td>×1</td><td>$80</td></tr>
+            <tr><td>Instalación y configuración chirpstack</td><td>Serv.</td><td>$200</td></tr>
+            <tr class="cost-subtotal"><td>Subtotal Infraestructura</td><td></td><td>$850</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div>
+        <div class="cost-section">
+          <div class="cost-header">C — Desarrollo de Software</div>
+          <table class="cost-table">
+            <tr><td>Backend Snapshot GNSS (Python/Docker)</td><td>2 meses</td><td>$1,200</td></tr>
+            <tr><td>Dashboard BI (React + Node.js)</td><td>2 meses</td><td>$1,000</td></tr>
+            <tr><td>App móvil Android (React Native)</td><td>3 meses</td><td>$1,500</td></tr>
+            <tr><td>Firmware embebido (C/C++)</td><td>3 meses</td><td>$1,200</td></tr>
+            <tr class="cost-subtotal"><td>Subtotal Software</td><td></td><td>$4,900</td></tr>
+          </table>
+        </div>
+
+        <div class="cost-section">
+          <div class="cost-header">D — Operación y Piloto</div>
+          <table class="cost-table">
+            <tr><td>Equipo de campo (4 ingenieros × 4 meses)</td><td>Parcial</td><td>$4,800</td></tr>
+            <tr><td>Pruebas piloto (60 días, 2 distritos)</td><td>Serv.</td><td>$800</td></tr>
+            <tr><td>Talleres comunitarios y consentimiento</td><td>4 talleres</td><td>$400</td></tr>
+            <tr><td>Contingencias (10%)</td><td></td><td>$800</td></tr>
+            <tr class="cost-subtotal"><td>Subtotal Operación</td><td></td><td>$6,800</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="cost-grand-total">
+      <div>
+        <div class="label">Costo Total MVP</div>
+        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.25rem;">20 unidades · 2 gateways · 4 meses · software completo · piloto 60 días</div>
+      </div>
+      <div class="amount">$14,750 USD</div>
+    </div>
+
+    <div class="card mt-2">
+      <h4>Supuestos de Cálculo</h4>
+      <div class="grid-3">
+        <div>
+          <div class="dim-label" style="font-size:0.65rem;color:var(--teal);">Mano de Obra</div>
+          <p class="text-sm">Ingenieros junior/mid UAC a $300–400/mes equivalente. Equipo de 4 personas en dedicación parcial (40%). No incluye honorarios académicos.</p>
+        </div>
+        <div>
+          <div class="dim-label" style="font-size:0.65rem;color:var(--teal);">Componentes</div>
+          <p class="text-sm">Precios de DigiKey/Mouser para lotes de prototipo (no volumen). En producción serie (500+ unidades), el COGS hardware se reduce ≈40%.</p>
+        </div>
+        <div>
+          <div class="dim-label" style="font-size:0.65rem;color:var(--teal);">Tipo de Cambio</div>
+          <p class="text-sm">USD/PEN = 3.80. Componentes críticos cotizados en dólares. Mano de obra en soles convertida al tipo de cambio promedio 2025.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ DESIGN THINKING ══════════════ -->
+<section id="design-thinking">
+  <div class="container">
+    <div class="section-label">VII · Design Thinking</div>
+    <h2 class="section-title">Proceso de <span>Diseño</span> Centrado en el Usuario</h2>
+
+    <!-- Empathy Map -->
+    <h4 style="margin-bottom:1rem;">Mapa de Empatía — Usuario Primario: Madre de familia rural, Cusco</h4>
+    <div class="empathy-map">
+      <div class="em-cell">
+        <div class="em-label">¿Qué Piensa y Siente?</div>
+        <ul class="em-items">
+          <li>"Si mi hijo se pierde en la feria, no sé qué haría"</li>
+          <li>Ansiedad constante durante actividades fuera del hogar</li>
+          <li>Frustración: "Nadie me entiende, soy de campo"</li>
+          <li>Esperanza en que "la tecnología pueda ayudar"</li>
+        </ul>
+      </div>
+      <div class="em-cell">
+        <div class="em-label">¿Qué Ve?</div>
+        <ul class="em-items">
+          <li>Vecinas que perdieron contacto con sus hijos temporalmente</li>
+          <li>Comisarías desbordadas, sin herramientas de búsqueda</li>
+          <li>Teléfonos celulares que sus hijos no pueden usar (costo)</li>
+          <li>Noticieros con casos de desaparición en su región</li>
+        </ul>
+      </div>
+      <div class="em-cell">
+        <div class="em-label">¿Qué Oye?</div>
+        <ul class="em-items">
+          <li>Historias de niños perdidos en mercados y fiestas patronales</li>
+          <li>Autoridades que piden "esperar 24 horas" para denunciar</li>
+          <li>"Hay un aparatito para rastrear niños, pero cuesta caro"</li>
+          <li>Radio comunitaria con alertas de desaparición reactivas</li>
+        </ul>
+      </div>
+      <div class="em-cell">
+        <div class="em-label">¿Qué Dice y Hace?</div>
+        <ul class="em-items">
+          <li>Llama constantemente al celular de su hijo (sin señal)</li>
+          <li>Pide ayuda a vecinos para buscar cuando no aparece</li>
+          <li>Acude a la comisaría con foto impresa del menor</li>
+          <li>Ora y espera. Siente impotencia profunda.</li>
+        </ul>
+      </div>
+      <div class="em-cell">
+        <div class="em-label">Dolores (Pains)</div>
+        <ul class="em-items">
+          <li>Incertidumbre durante horas sin saber dónde está el hijo</li>
+          <li>Costo de planes celulares incompatible con su ingreso</li>
+          <li>Zonas sin señal = tecnología actual inútil</li>
+          <li>Burocracia policial que no actúa con rapidez</li>
+        </ul>
+      </div>
+      <div class="em-cell">
+        <div class="em-label">Ganancias (Gains)</div>
+        <ul class="em-items">
+          <li>Saber en tiempo real dónde está su hijo en todo momento</li>
+          <li>No tener que preocuparse por cargar un dispositivo</li>
+          <li>Alerta inmediata si sale de la zona segura</li>
+          <li>Tranquilidad para trabajar sin angustia constante</li>
+        </ul>
+      </div>
+      <div class="em-cell">
+        <div class="em-label">Insights Clave</div>
+        <ul class="em-items">
+          <li>La tecnología compleja es una barrera, no una solución</li>
+          <li>La batería muerta es el mayor punto de fallo percibido</li>
+          <li>Confían más en lo que ven o tocan que en apps abstractas</li>
+          <li>La privacidad no es una preocupación — sí la simpleza</li>
+        </ul>
+      </div>
+      <div class="em-cell">
+        <div class="em-label">POV — Punto de Vista</div>
+        <ul class="em-items">
+          <li><em>María necesita</em> una forma de saber dónde está su hijo</li>
+          <li><em>porque</em> en su comunidad no hay señal celular y no puede permitirse que la batería falle</li>
+          <li><em>lo que nos hace entender que</em> la solución debe ser invisible, infinita y silenciosamente confiable</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 5 Steps -->
+    <h4 style="margin:3rem 0 1rem;">Las 5 Fases — Aplicación al Proyecto KUSKAY</h4>
+    <div class="grid-3" style="gap:1.5rem; margin-top:1rem;">
+      <div class="card">
+        <div class="dim-label" style="font-size:0.65rem;color:var(--gold);">01 — Empatizar</div>
+        <h4>Investigación de Campo</h4>
+        <p class="text-sm">Entrevistas con 15 familias en distritos de Santiago, Poroy y Zurite (Cusco). Observación participativa en ferias dominicales. Análisis de casos RENIPED. Consulta con personal PNP de búsqueda de personas.</p>
+        <p class="text-sm">Hallazgo central: la batería muerta es la razón #1 por la que los rastreadores existentes son abandonados.</p>
+      </div>
+      <div class="card">
+        <div class="dim-label" style="font-size:0.65rem;color:var(--gold);">02 — Definir</div>
+        <h4>Enunciado del Problema</h4>
+        <p class="text-sm"><em>"Las familias rurales altoandinas con niños y adultos mayores vulnerables necesitan un dispositivo de localización que funcione sin batería ni señal celular, porque la geografía y la economía del sur del Perú hacen que las soluciones actuales sean inutilizables en el momento crítico."</em></p>
+      </div>
+      <div class="card">
+        <div class="dim-label" style="font-size:0.65rem;color:var(--gold);">03 — Idear</div>
+        <h4>Soluciones Evaluadas</h4>
+        <p class="text-sm"><strong class="highlight-teal">A. Parche termoeléctrico LoRa</strong> ← Seleccionada: cero batería, máxima discreción</p>
+        <p class="text-sm"><strong>B. Pulsera solar LoRa:</strong> Descartada (requiere exposición solar constante, impráctica bajo ropa andina)</p>
+        <p class="text-sm"><strong>C. Tracker celular subsidiado:</strong> Descartado (depende de red celular en zonas sin cobertura)</p>
+        <p class="text-sm"><strong>D. Red comunitaria walkie-talkie:</strong> Descartada (no da coordenadas GPS precisas)</p>
+      </div>
+      <div class="card">
+        <div class="dim-label" style="font-size:0.65rem;color:var(--gold);">04 — Prototipar</div>
+        <h4>Tipo de Prototipo</h4>
+        <p class="text-sm"><strong>Prototipo Fase 1 (Funcional-Rugoso):</strong> PCB rígida con LTC3108, módulo LoRa SX1278, TEG rígido y batería LiPo de respaldo. Validar firmware y red LoRa. Costo: ~$110/unidad.</p>
+        <p class="text-sm"><strong>Prototipo Fase 2 (Wearable):</strong> FPC flexible, TEG delgado, PDMS. Validar biocompatibilidad y usabilidad real.</p>
+      </div>
+      <div class="card">
+        <div class="dim-label" style="font-size:0.65rem;color:var(--gold);">05 — Evaluar</div>
+        <h4>Métricas de Validación</h4>
+        <p class="text-sm">Autonomía energética real medida en campo (objetivo: operación continua 72h sin carga adicional). Precisión de localización (objetivo: ≤50m error). Uptime de red LoRa (objetivo: >99%). Satisfacción del usuario (NPS >50). Tasa de abandono del dispositivo en 30 días (objetivo: <10%).</p>
+      </div>
+      <div class="card">
+        <div class="dim-label" style="font-size:0.65rem;color:var(--gold);">Iteración</div>
+        <h4>Ciclo de Mejora</h4>
+        <p class="text-sm">Sprint 1: firmware y LoRa. Sprint 2: TEG + PMIC. Sprint 3: app Android. Sprint 4: piloto 20 usuarios. Sprint 5: ajustes UX y escalamiento. Metodología ágil con revisiones quincenales.</p>
+        <p class="text-sm">Cada iteración incluye entrevista de retroalimentación con 3–5 usuarios del piloto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ ROADMAP ══════════════ -->
+<section id="roadmap">
+  <div class="container">
+    <div class="section-label">VIII · Roadmap</div>
+    <h2 class="section-title">Hoja de <span>Ruta</span></h2>
+
+    <div class="roadmap-timeline">
+      <div class="roadmap-phase">
+        <div class="phase-meta">
+          <div class="phase-time">Meses 1–3</div>
+          <div class="phase-tag">Fase 1 — Validación</div>
+        </div>
+        <div class="phase-title">Validación de Red y Tecnología Base</div>
+        <ul class="phase-hitos">
+          <li>Despliegue de red LoRaWAN en Valle de Cusco con 2 gateways (Cerro Picol + Cristo Blanco)</li>
+          <li>Implementación de ChirpStack Network Server en servidor local con Docker</li>
+          <li>Pruebas de alcance y penetración de señal en cañones urbanos y zonas rurales de Poroy</li>
+          <li>Validación del módulo Snapshot GNSS: precisión de posicionamiento en altitudes >3,500 msnm</li>
+          <li>Prototipo Fase 1 (PCB rígida): 5 unidades funcionales con LTC3108 + TEG rígido + LoRa</li>
+          <li>Medición del balance energético real bajo condiciones de campo (temperatura, movimiento)</li>
+        </ul>
+      </div>
+
+      <div class="roadmap-phase">
+        <div class="phase-meta">
+          <div class="phase-time">Meses 4–6</div>
+          <div class="phase-tag">Fase 2 — Prototipado Wearable</div>
+        </div>
+        <div class="phase-title">Prototipo Flexible y Plataforma Digital</div>
+        <ul class="phase-hitos">
+          <li>Prototipado de circuito FPC (flexible) con integración de TEG delgado y sustrato PDMS</li>
+          <li>Pruebas de biocompatibilidad: uso continuo 7 días en voluntarios con control dermatológico</li>
+          <li>Desarrollo de app Android MVP (React Native): mapa en tiempo real + alertas push</li>
+          <li>Dashboard BI para monitoreo: rutas, geofencing, historiales de posición</li>
+          <li>Implementación de algoritmo Snapshot GNSS en servidor local — precisión y latencia</li>
+          <li>Inicio del proceso DIGEMID para registro de dispositivo médico de clase I</li>
+        </ul>
+      </div>
+
+      <div class="roadmap-phase">
+        <div class="phase-meta">
+          <div class="phase-time">Meses 7–12</div>
+          <div class="phase-tag">Fase 3 — Piloto Beta</div>
+        </div>
+        <div class="phase-title">Prueba Beta con Población Vulnerable</div>
+        <ul class="phase-hitos">
+          <li>Despliegue de 20 unidades en familias de 2 distritos periféricos de Cusco (Santiago y Poroy)</li>
+          <li>60 días de operación continua con monitoreo diario de métricas energéticas y de red</li>
+          <li>Talleres de inducción en quechua y español con familias participantes</li>
+          <li>Iteración de UX basada en retroalimentación de usuarios reales</li>
+          <li>Presentación de resultados al Municipio Provincial de Cusco y UGEL Cusco</li>
+          <li>Publicación de paper académico sobre Snapshot GNSS + LoRa en entorno altoandino</li>
+        </ul>
+      </div>
+
+      <div class="roadmap-phase">
+        <div class="phase-meta">
+          <div class="phase-time">Meses 13–24</div>
+          <div class="phase-tag">Fase 4 — Escalamiento</div>
+        </div>
+        <div class="phase-title">Comercialización y Expansión Regional</div>
+        <ul class="phase-hitos">
+          <li>Producción de 200 unidades (lote inicial de comercialización) con reducción de COGS</li>
+          <li>Lanzamiento de canal institucional: licitación con 3 municipalidades del Cusco</li>
+          <li>Expansión de red LoRa a Puno (Juliaca, Puno ciudad) con 4 nuevos gateways</li>
+          <li>Ronda de financiamiento semilla: postulación a Startup Perú y BID/FOMIN</li>
+          <li>Meta: 700 dispositivos activos, ARR > S/ 300,000</li>
+          <li>Exploración de mercado Bolivia (La Paz / altiplano) para expansión en año 3</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ RIESGOS ══════════════ -->
+<section id="riesgos">
+  <div class="container">
+    <div class="section-label">IX · Gestión de Riesgos</div>
+    <h2 class="section-title">Riesgos y <span>Mitigación</span></h2>
+
+    <div class="risk-card">
+      <div class="risk-badge alto">Alto</div>
+      <div>
+        <div class="risk-type">Técnico</div>
+        <div class="risk-title">Eficiencia real del TEG bajo condiciones de ropa gruesa andina</div>
+        <div class="risk-mitigation">El ΔT diseñado (~25°C) puede reducirse significativamente con indumentaria de lana o polar. <strong>Mitigación:</strong> Hibridación obligatoria con cosecha cinética (TENG) como fuente primaria de respaldo. Pruebas en campo con diferentes tipos de vestimenta antes del piloto. Diseño con zona de colocación en el cuello (mayor exposición térmica).</div>
+      </div>
+      <div></div>
+    </div>
+
+    <div class="risk-card">
+      <div class="risk-badge alto">Alto</div>
+      <div>
+        <div class="risk-type">Regulatorio</div>
+        <div class="risk-title">Retrasos en certificación DIGEMID para dispositivo cutáneo</div>
+        <div class="risk-mitigation">El proceso de registro como dispositivo médico clase I puede tardar 6–18 meses en Perú. <strong>Mitigación:</strong> Iniciar el proceso en el mes 1 del proyecto, en paralelo al desarrollo. Operar en fase piloto bajo consentimiento informado explícito (sin venta comercial) mientras se obtiene la certificación. Explorar certificación como "accesorio" no médico para la fase beta.</div>
+      </div>
+      <div></div>
+    </div>
+
+    <div class="risk-card">
+      <div class="risk-badge medio">Medio</div>
+      <div>
+        <div class="risk-type">De Red</div>
+        <div class="risk-title">Saturación de la banda ISM 915 MHz con expansión del IoT en Perú</div>
+        <div class="risk-mitigation">A medida que más dispositivos IoT usen la banda 915 MHz, el riesgo de colisiones aumenta. <strong>Mitigación:</strong> Implementar Adaptive Data Rate (ADR) y algoritmos de anti-colisión (ALOHA ranurado). Gestión inteligente de intervalos de transmisión. A largo plazo, explorar bandas alternativas (433 MHz o 868 MHz) si la regulación peruana lo permite.</div>
+      </div>
+      <div></div>
+    </div>
+
+    <div class="risk-card">
+      <div class="risk-badge medio">Medio</div>
+      <div>
+        <div class="risk-type">Cultural</div>
+        <div class="risk-title">Resistencia comunitaria por percepción de vigilancia o brujería tecnológica</div>
+        <div class="risk-mitigation">En comunidades indígenas, un dispositivo desconocido adherido al cuerpo puede generar desconfianza o interpretaciones culturales negativas. <strong>Mitigación:</strong> Talleres previos en quechua con líderes comunales. Participación de curanderos o chamanes locales en la presentación (enfoque intercultural). Campaña "KUSKAY = Juntos" que enfatiza el origen quechua y la misión de protección.</div>
+      </div>
+      <div></div>
+    </div>
+
+    <div class="risk-card">
+      <div class="risk-badge medio">Medio</div>
+      <div>
+        <div class="risk-type">Financiero</div>
+        <div class="risk-title">Dependencia de componentes importados ante variación del tipo de cambio</div>
+        <div class="risk-mitigation">Más del 70% del BOM (Bill of Materials) corresponde a componentes importados cotizados en USD. Una devaluación del sol encarece el COGS directamente. <strong>Mitigación:</strong> Stockear componentes críticos para 6 meses de producción. Explorar distribuidores locales en Lima. Negociar precios en soles con distribuidores para lotes medianos. Construir reserva de capital del 15% para cubrir fluctuaciones.</div>
+      </div>
+      <div></div>
+    </div>
+
+    <div class="risk-card">
+      <div class="risk-badge bajo">Bajo</div>
+      <div>
+        <div class="risk-type">Dermatológico</div>
+        <div class="risk-title">Irritación cutánea por uso prolongado del adhesivo médico</div>
+        <div class="risk-mitigation">Uso continuo del parche por >72h puede generar maceración o irritación en pieles sensibles. <strong>Mitigación:</strong> Uso de adhesivos 3M Tegaderm o equivalente de grado médico, probados clínicamente. Sustrato PDMS microporoso para transpiración. Recomendación de rotación de zona de colocación cada 48h. Protocolo de retirada y descanso en el manual de usuario.</div>
+      </div>
+      <div></div>
+    </div>
+
+    <div class="risk-card">
+      <div class="risk-badge bajo">Bajo</div>
+      <div>
+        <div class="risk-type">Competitivo</div>
+        <div class="risk-title">Entrada de competidores con mayor capital replicando la propuesta</div>
+        <div class="risk-mitigation">Una startup con mayor financiamiento podría replicar la arquitectura LoRa + cosecha energética. <strong>Mitigación:</strong> Registrar patentes de diseño de integración en Indecopi (año 1). Construir ventaja de red: cada nuevo usuario en la red LoRa hace la red más valiosa. Publicar papers académicos que establezcan autoría intelectual. El conocimiento del ecosistema local es la ventaja competitiva más difícil de replicar.</div>
+      </div>
+      <div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <div class="footer-logo">KUSKAY</div>
+  <div class="footer-meta">
+    Desarrollado por el equipo de Ingeniería de Sistemas<br>
+    Universidad Andina del Cusco (UAC) · 2025<br>
+    <span style="color:var(--text-muted); font-size:0.65rem; font-family:'IBM Plex Mono',monospace;">Sistema de Bio-Localización Auto-Sustentable para el Sur del Perú</span>
+  </div>
+</footer>
+
+</body>
+</html>
